@@ -1,0 +1,24 @@
+name: Continuous Integration
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/cache-and-install-pnpm
+      - name: Prettier
+        run: pnpm prettier:check
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/cache-and-install-pnpm
+      - name: Lint
+        run: pnpm lint
