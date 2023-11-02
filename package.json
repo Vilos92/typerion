@@ -22,7 +22,8 @@
     "prettier:check": "prettier --check --ignore-unknown '**/*'",
     "prettier:fix": "prettier --write --ignore-unknown '**/*'",
     "preview": "vite preview",
-    "sort-package-json": "sort-package-json"
+    "sort-package-json:check": "sort-package-json --check",
+    "sort-package-json:fix": "sort-package-json"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

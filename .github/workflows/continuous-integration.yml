@@ -5,6 +5,15 @@ on:
   - pull_request
 
 jobs:
+  package-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/cache-and-install-pnpm
+      - name: Package JSON
+        run: pnpm sort-package-json:check
+
   prettier:
     runs-on: ubuntu-latest
 
