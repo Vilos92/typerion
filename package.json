@@ -1,5 +1,5 @@
 {
-  "name": "react-component-library-template",
+  "name": "typerion",
   "author": {
     "name": "Gregory Linscheid",
     "email": "linscheid.greg@gmail.com",
@@ -31,8 +31,10 @@
     "@emotion/react": "^11.11.1",
     "@emotion/serialize": "^1.1.2",
     "@emotion/styled": "^11.11.0",
+    "esbuild-wasm": "^0.19.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "temp-react-app": "link:/Users/greg.linscheid/greg_projects/temp-react-app"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.22.15",

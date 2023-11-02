@@ -14,12 +14,18 @@ dependencies:
   '@emotion/styled':
     specifier: ^11.11.0
     version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.15)(react@18.2.0)
+  esbuild-wasm:
+    specifier: ^0.19.5
+    version: 0.19.5
   react:
     specifier: ^18.2.0
     version: 18.2.0
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  temp-react-app:
+    specifier: link:/Users/greg.linscheid/greg_projects/temp-react-app
+    version: link:../temp-react-app
 
 devDependencies:
   '@babel/plugin-transform-react-jsx':
@@ -2053,6 +2059,15 @@ packages:
       }
     dependencies:
       is-arrayish: 0.2.1
+
+  /esbuild-wasm@0.19.5:
+    resolution:
+      {
+        integrity: sha512-7zmLLn2QCj93XfMmHtzrDJ1UBuOHB2CZz1ghoCEZiRajxjUvHsF40PnbzFIY/pmesqPRaEtEWii0uzsTbnAgrA==
+      }
+    engines: {node: '>=12'}
+    hasBin: true
+    dev: false
 
   /esbuild@0.18.20:
     resolution:
