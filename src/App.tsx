@@ -1,9 +1,10 @@
 import {useState} from 'react';
 
-import {Button} from '../lib/main';
 import './App.css';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
+import {Pad} from '../lib/components/Pad';
+import {Button} from '../lib/components/Button';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -27,6 +28,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <Pad />
     </>
   );
 }

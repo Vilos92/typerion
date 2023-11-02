@@ -11,6 +11,17 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-    'react-refresh/only-export-components': ['warn', {allowConstantExport: true}]
+    'react-refresh/only-export-components': ['warn', {allowConstantExport: true}],
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: [
+          {
+            group: ['**/lib/main'],
+            message: 'Please import from individual modules as main.ts is intended for bundling purposes.'
+          }
+        ]
+      }
+    ]
   }
 };
