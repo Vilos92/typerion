@@ -1,4 +1,5 @@
 import tw from 'twin.macro';
+import Editor from '@monaco-editor/react';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
@@ -35,7 +36,7 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line`;
 export const Pad: FC = () => {
   const esbuild = useEsbuild();
 
-  const [code] = useState<string>('');
+  const [code, setCode] = useState<string>('');
   const [compiled, setCompiled] = useState('');
   const [output, setOutput] = useState('');
 
@@ -43,10 +44,10 @@ export const Pad: FC = () => {
     return null;
   }
 
-  //   const onChange = (value?: string) => {
-  //     if (!value) return;
-  //     setCode(value);
-  //   };
+  const onChange = (value?: string) => {
+    if (!value) return;
+    setCode(value);
+  };
 
   const logCb = (line: string) => {
     setOutput(prevOutput => {
@@ -65,8 +66,7 @@ export const Pad: FC = () => {
 
   return (
     <StyledMain>
-      Hello editor
-      {/* <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} /> */}
+      <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} />
       <StyledButton onClick={onInterpretClick}>Interpret</StyledButton>
       <StyledCompiledDiv>{compiled}</StyledCompiledDiv>
       <StyledOutputDiv>{output}</StyledOutputDiv>
