@@ -1,13 +1,12 @@
 {
   "name": "typerion",
+  "version": "0.0.0",
+  "private": true,
   "author": {
     "name": "Gregory Linscheid",
     "email": "linscheid.greg@gmail.com",
     "url": "https://greglinscheid.com"
   },
-  "private": true,
-  "version": "0.0.0",
-  "packageManager": "pnpm@8.10.2",
   "type": "module",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
@@ -15,31 +14,29 @@
     "dist"
   ],
   "scripts": {
-    "prepare": "husky install",
+    "build": "tsc --p ./tsconfig-build.json && vite build",
+    "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "prepare": "husky install",
+    "prepublishOnly": "pnpm run build",
     "prettier:check": "prettier --check --ignore-unknown '**/*'",
     "prettier:fix": "prettier --write --ignore-unknown '**/*'",
-    "dev": "vite",
-    "build": "tsc --p ./tsconfig-build.json && vite build",
     "preview": "vite preview",
-    "prepublishOnly": "pnpm run build"
+    "sort-package-json": "sort-package-json"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/serialize": "^1.1.2",
-    "@emotion/styled": "^11.11.0",
-    "esbuild-wasm": "^0.19.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "temp-react-app": "link:/Users/greg.linscheid/greg_projects/temp-react-app",
-    "vm-browserify": "^1.1.2"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.22.15",
     "@emotion/babel-plugin-jsx-pragmatic": "^0.2.1",
+    "@emotion/react": "^11.11.1",
+    "@emotion/serialize": "^1.1.2",
+    "@emotion/styled": "^11.11.0",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/node": "^20.8.10",
     "@types/react": "^18.2.15",
@@ -48,6 +45,7 @@
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react": "^4.0.3",
     "babel-plugin-macros": "^3.1.0",
+    "esbuild-wasm": "^0.19.5",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react-hooks": "^4.6.0",
@@ -57,17 +55,20 @@
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
     "prettier-plugin-twin.macro": "^1.0.14",
+    "sort-package-json": "^2.6.0",
     "tailwindcss": "^3.3.5",
     "twin.macro": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.6.3",
-    "vite-plugin-node-stdlib-browser": "^0.2.1"
+    "vite-plugin-node-stdlib-browser": "^0.2.1",
+    "vm-browserify": "^1.1.2"
   },
   "peerDependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
+  "packageManager": "pnpm@8.10.2",
   "babelMacros": {
     "twin": {
       "preset": "emotion"
