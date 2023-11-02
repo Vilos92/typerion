@@ -23,7 +23,8 @@
     "prettier:fix": "prettier --write --ignore-unknown '**/*'",
     "preview": "vite preview",
     "sort-package-json:check": "sort-package-json --check",
-    "sort-package-json:fix": "sort-package-json"
+    "sort-package-json:fix": "sort-package-json",
+    "unused-exports": "ts-unused-exports --ignore-unused --ignore-patterns lib/main.ts"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
@@ -59,6 +60,7 @@
     "prettier-plugin-twin.macro": "^1.0.14",
     "sort-package-json": "^2.6.0",
     "tailwindcss": "^3.3.5",
+    "ts-unused-exports": "^10.0.1",
     "twin.macro": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",

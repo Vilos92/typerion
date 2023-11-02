@@ -91,6 +91,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.3.5
     version: 3.3.5
+  ts-unused-exports:
+    specifier: ^10.0.1
+    version: 10.0.1(typescript@5.0.2)
   twin.macro:
     specifier: ^3.4.0
     version: 3.4.0(tailwindcss@3.3.5)
@@ -1284,6 +1287,13 @@ packages:
     resolution:
       {
         integrity: sha512-U3PUjAudAdJBeC2pgN8uTIKgxrb4nlDF3SF0++EldXQvQBGkpFZMSnwQiIoDU77tv45VgNkl/L4ouD+rEomujw==
+      }
+    dev: true
+
+  /@types/json5@0.0.29:
+    resolution:
+      {
+        integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
       }
     dev: true
 
@@ -3503,6 +3513,16 @@ packages:
       }
     dev: true
 
+  /json5@1.0.2:
+    resolution:
+      {
+        integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==
+      }
+    hasBin: true
+    dependencies:
+      minimist: 1.2.8
+    dev: true
+
   /json5@2.2.3:
     resolution:
       {
@@ -3785,6 +3805,13 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
+    dev: true
+
+  /minimist@1.2.8:
+    resolution:
+      {
+        integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
+      }
     dev: true
 
   /monaco-editor@0.44.0:
@@ -4898,6 +4925,14 @@ packages:
       ansi-regex: 6.0.1
     dev: true
 
+  /strip-bom@3.0.0:
+    resolution:
+      {
+        integrity: sha512-vavAMRXOgBVNF6nyEEmL3DBK19iRpDcoIwW+swQ+CbGiu7lju6t+JklA1MHweoWtadgt4ISVUsXLyDq34ddcwA==
+      }
+    engines: {node: '>=4'}
+    dev: true
+
   /strip-final-newline@3.0.0:
     resolution:
       {
@@ -5071,6 +5106,32 @@ packages:
       {
         integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
       }
+    dev: true
+
+  /ts-unused-exports@10.0.1(typescript@5.0.2):
+    resolution:
+      {
+        integrity: sha512-nWG8Y96pKem01Hw4j4+Mwuy+L0/9sKT7D61Q+OS3cii9ocQACuV6lu00B9qpiPhF4ReVWw3QYHDqV8+to2wbsg==
+      }
+    hasBin: true
+    peerDependencies:
+      typescript: '>=3.8.3'
+    dependencies:
+      chalk: 4.1.2
+      tsconfig-paths: 3.14.2
+      typescript: 5.0.2
+    dev: true
+
+  /tsconfig-paths@3.14.2:
+    resolution:
+      {
+        integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==
+      }
+    dependencies:
+      '@types/json5': 0.0.29
+      json5: 1.0.2
+      minimist: 1.2.8
+      strip-bom: 3.0.0
     dev: true
 
   /tty-browserify@0.0.1:

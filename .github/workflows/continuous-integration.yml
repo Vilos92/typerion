@@ -31,3 +31,12 @@ jobs:
       - uses: ./.github/actions/cache-and-install-pnpm
       - name: Lint
         run: pnpm lint
+
+  unused-exports:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/cache-and-install-pnpm
+      - name: Unused Exports
+        run: pnpm unused-exports
