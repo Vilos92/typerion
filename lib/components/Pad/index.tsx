@@ -1,6 +1,7 @@
 import tw from 'twin.macro';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useRef, useState} from 'react';
+import {type Context as VmContext, runInNewContext} from 'vm';
 
 /*
  * Types.
@@ -21,56 +22,54 @@ enum AsyncStatusesEnum {
 
 const StyledMain = tw.main`flex flex-col bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`;
 
-// const StyledButton2 = tw.button`w-full bg-red-300`;
+const StyledButton = tw.button`w-full bg-red-300`;
 
-// const StyledCompiledDiv = tw.div`container justify-start`;
+const StyledCompiledDiv = tw.div`container justify-start`;
 
-// const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line`;
+const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line`;
 
 /*
  * Component
  */
 
 export const Pad: FC = () => {
-  useEsbuild();
+  const esbuild = useEsbuild();
 
-  // const [code, setCode] = useState<string>(testCode);
-  // const [compiled, setCompiled] = useState('');
-  // const [output, setOutput] = useState('');
+  const [code] = useState<string>('');
+  const [compiled, setCompiled] = useState('');
+  const [output, setOutput] = useState('');
 
-  // if (!esbuild) {
-  //   return;
-  // }
+  if (!esbuild) {
+    return null;
+  }
 
-  // const onChange = (value?: string) => {
-  //   if (!value) return;
-  //   setCode(value);
-  // };
+  //   const onChange = (value?: string) => {
+  //     if (!value) return;
+  //     setCode(value);
+  //   };
 
-  // const logCb = (line: string) => {
-  //   setOutput(prevOutput => {
-  //     const newOutput = `${prevOutput}\n${line}`;
-  //     return newOutput;
-  //   });
-  // };
+  const logCb = (line: string) => {
+    setOutput(prevOutput => {
+      const newOutput = `${prevOutput}\n${line}`;
+      return newOutput;
+    });
+  };
 
-  // const onInterpretClick = async () => {
-  //   setOutput('');
-  //   const res = await esbuild.transform(code, {loader: 'ts'});
-  //   setCompiled(res.code);
-  //   const context = sandboxRun(res.code, logCb);
-  //   console.log(context);
-  // };
+  const onInterpretClick = async () => {
+    setOutput('');
+    const res = await esbuild.transform(code, {loader: 'ts'});
+    setCompiled(res.code);
+    const context = sandboxRun(res.code, logCb);
+    console.log(context);
+  };
 
   return (
     <StyledMain>
       Hello editor
       {/* <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} /> */}
-      {/* <StyledButton2 onClick={onInterpretClick}>Interpret</StyledButton2>
-
+      <StyledButton onClick={onInterpretClick}>Interpret</StyledButton>
       <StyledCompiledDiv>{compiled}</StyledCompiledDiv>
-
-      <StyledOutputDiv>{output}</StyledOutputDiv> */}
+      <StyledOutputDiv>{output}</StyledOutputDiv>
     </StyledMain>
   );
 };
@@ -135,4 +134,30 @@ function makeGetEsModule() {
 
     return esModule;
   };
+}
+
+function sandboxRun(code: string, logCb: (line: string) => void): VmContext {
+  const log = (...values: ReadonlyArray<unknown>) => {
+    console.log(...values);
+
+    const line = values
+      .map(value => {
+        if (typeof value === 'string') {
+          return value;
+        }
+
+        return JSON.stringify(value);
+      })
+      .join(' ');
+
+    logCb(line);
+  };
+
+  const context: VmContext = {
+    console: {log}
+  };
+
+  runInNewContext(code, context);
+
+  return context;
 }

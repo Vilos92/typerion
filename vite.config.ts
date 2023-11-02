@@ -3,12 +3,12 @@ import {resolve} from 'path';
 import tailwindcss from 'tailwindcss';
 import {defineConfig} from 'vite';
 import dts from 'vite-plugin-dts';
+import nodePolyFills from 'vite-plugin-node-stdlib-browser';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   optimizeDeps: {
     esbuildOptions: {
-      // target: "es2020",
       jsx: 'automatic'
     }
   },
@@ -18,6 +18,7 @@ export default defineConfig({
     jsxInject: `import React from 'react'`
   },
   plugins: [
+    nodePolyFills(),
     react({
       babel: {
         plugins: [

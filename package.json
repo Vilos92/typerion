@@ -34,7 +34,8 @@
     "esbuild-wasm": "^0.19.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "temp-react-app": "link:/Users/greg.linscheid/greg_projects/temp-react-app"
+    "temp-react-app": "link:/Users/greg.linscheid/greg_projects/temp-react-app",
+    "vm-browserify": "^1.1.2"
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.22.15",
@@ -60,7 +61,8 @@
     "twin.macro": "^3.4.0",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.6.3"
+    "vite-plugin-dts": "^3.6.3",
+    "vite-plugin-node-stdlib-browser": "^0.2.1"
   },
   "peerDependencies": {
     "react": "^18.2.0",
