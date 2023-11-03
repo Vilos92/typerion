@@ -1,12 +1,12 @@
 import {Button as ButtonCmp} from './components/Button';
 import {Pad as PadCmp} from './components/Pad';
-import {withGlobalStyles} from './helpers/twin';
+import {withBaseStyles} from './helpers/twin';
 
 export function helloAnything(thing: string): string {
   return `Hello ${thing}!`;
 }
 
-const Button = withGlobalStyles(ButtonCmp);
-const Pad = withGlobalStyles(PadCmp);
+const Button = withBaseStyles(ButtonCmp);
+const Pad = withBaseStyles(PadCmp);
 
 export {Button, Pad};

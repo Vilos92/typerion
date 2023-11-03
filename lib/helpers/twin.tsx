@@ -17,12 +17,20 @@ const customStyles = css({
  * Helpers.
  */
 
-export function withGlobalStyles<P>(Component?: ComponentType<P>) {
+export function withBaseStyles<P>(Component?: ComponentType<P>) {
   return (props: P) => (
     <>
       <BaseStyles />
+      {Component && <Component key="component-with-base-styles" {...props} />}
+    </>
+  );
+}
+
+export function withGlobalStyles<P>(Component?: ComponentType<P>) {
+  return (props: P) => (
+    <>
       <Global styles={customStyles} />
-      {Component && <Component key="component-with-global-styles" {...props} />}
+      {withBaseStyles(Component)(props)}
     </>
   );
 }
