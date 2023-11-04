@@ -7,9 +7,32 @@ import tw, {GlobalStyles as BaseStyles, theme} from 'twin.macro';
  */
 
 const customStyles = css({
+  ':root': {
+    fontFamily: 'Inter, system-ui, Avenir, Helvetica, Arial, sans-serif',
+    lineHeight: '1.5',
+    fontWeight: '400',
+
+    colorScheme: 'light dark',
+    color: 'rgba(255, 255, 255, 0.87)',
+    backgroundColor: '#242424',
+
+    fontSynthesis: 'none',
+    textRendering: 'optimizeLegibility',
+    '-webkit-font-smoothing': 'antialiased',
+    '-moz-osx-font-smoothing': 'grayscale',
+    '-webkit-text-size-adjust': '100%'
+  },
+
   body: {
     WebkitTapHighlightColor: theme`colors.purple.500`,
-    ...tw`antialiased`
+    ...tw`m-0 flex min-h-screen place-items-center antialiased min-w-[320px]`
+  },
+
+  '@media (prefers-color-scheme: light)': {
+    ':root': {
+      color: '#213547',
+      backgroundColor: '#ffffff'
+    }
   }
 });
 
