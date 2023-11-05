@@ -1,8 +1,9 @@
-import tw, {styled} from 'twin.macro';
+import tw from 'twin.macro';
 import Editor from '@monaco-editor/react';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
+import styled from '@emotion/styled';
 
 /*
  * Types.
@@ -27,7 +28,7 @@ type StyledMainProps = {
 const StyledMain = styled.main<StyledMainProps>`
   ${tw`flex flex-col border-x-2 bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`}
 
-  ${({$runStatus}) => {
+  ${({$runStatus}: StyledMainProps) => {
     switch ($runStatus) {
       case AsyncStatusesEnum.IDLE:
         return tw`border-gray-300`;
