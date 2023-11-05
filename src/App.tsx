@@ -1,4 +1,4 @@
-import {Pad} from '../lib/components/Pad';
+import {Notebook} from '../lib/components/Notebook';
 import tw from 'twin.macro';
 
 /*
@@ -7,8 +7,6 @@ import tw from 'twin.macro';
 
 const StyledColumnDiv = tw.div`mt-4 flex flex-col items-center`;
 
-const StyledNotebookDiv = tw.div`max-w-screen-lg min-w-[50%]`;
-
 /*
  * Component.
  */
@@ -16,9 +14,7 @@ const StyledNotebookDiv = tw.div`max-w-screen-lg min-w-[50%]`;
 function App() {
   return (
     <StyledColumnDiv>
-      <StyledNotebookDiv>
-        <Pad />
-      </StyledNotebookDiv>
+      <Notebook />
     </StyledColumnDiv>
   );
 }

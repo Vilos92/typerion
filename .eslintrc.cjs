@@ -17,7 +17,7 @@ module.exports = {
       {
         patterns: [
           {
-            group: ['**/lib/main'],
+            group: ['**/main'],
             message: 'Please import from individual modules as main.ts is intended for bundling purposes.'
           }
         ]
