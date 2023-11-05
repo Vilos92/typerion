@@ -27,7 +27,7 @@ type StyledMainProps = {
 const StyledMain = styled.main<StyledMainProps>`
   ${tw`flex flex-col border-x-2 bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`}
 
-  ${({$runStatus}: StyledMainProps) => {
+  ${({$runStatus}) => {
     switch ($runStatus) {
       case AsyncStatusesEnum.IDLE:
         return tw`border-gray-300`;
