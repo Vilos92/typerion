@@ -1,21 +1,13 @@
-import viteLogo from '/vite.svg';
 import {Pad} from '../lib/components/Pad';
-import {styled} from 'twin.macro';
+import tw from 'twin.macro';
 
 /*
  * Styles.
  */
 
-const StyledLogoImg = styled.img`
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+const StyledColumnDiv = tw.div`flex flex-col items-center`;
 
-  &:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-`;
+const StyledNotebookDiv = tw.div`max-w-screen-lg min-w-[50%]`;
 
 /*
  * Component.
@@ -23,12 +15,11 @@ const StyledLogoImg = styled.img`
 
 function App() {
   return (
-    <>
-      <a href="https://vitejs.dev" target="_blank">
-        <StyledLogoImg src={viteLogo} alt="Vite logo" />
-      </a>
-      <Pad />
-    </>
+    <StyledColumnDiv>
+      <StyledNotebookDiv>
+        <Pad />
+      </StyledNotebookDiv>
+    </StyledColumnDiv>
   );
 }
 

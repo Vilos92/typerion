@@ -1,4 +1,4 @@
-import tw from 'twin.macro';
+import tw, {styled} from 'twin.macro';
 import Editor from '@monaco-editor/react';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useRef, useState} from 'react';
@@ -21,7 +21,25 @@ enum AsyncStatusesEnum {
  * Styles.
  */
 
-const StyledMain = tw.main`flex flex-col bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`;
+type StyledMainProps = {
+  $runStatus: AsyncStatusesEnum;
+};
+const StyledMain = styled.main<StyledMainProps>`
+  ${tw`flex flex-col border-x-2 bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`}
+
+  ${({$runStatus}) => {
+    switch ($runStatus) {
+      case AsyncStatusesEnum.IDLE:
+        return tw`border-gray-300`;
+      case AsyncStatusesEnum.LOADING:
+        return tw`border-yellow-300`;
+      case AsyncStatusesEnum.SUCCESS:
+        return tw`border-green-300`;
+      case AsyncStatusesEnum.ERROR:
+        return tw`border-red-300`;
+    }
+  }}
+`;
 
 const StyledButton = tw.button`w-full bg-red-300`;
 
@@ -40,6 +58,8 @@ export const Pad: FC = () => {
   const [compiled, setCompiled] = useState('');
   const [output, setOutput] = useState('');
 
+  const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
+
   if (!esbuild) {
     return null;
   }
@@ -57,15 +77,24 @@ export const Pad: FC = () => {
   };
 
   const onInterpretClick = async () => {
-    setOutput('');
-    const res = await esbuild.transform(code, {loader: 'ts'});
-    setCompiled(res.code);
-    const context = sandboxRun(res.code, logCb);
-    console.log(context);
+    try {
+      setRunStatus(AsyncStatusesEnum.LOADING);
+      setOutput('');
+
+      const res = await esbuild.transform(code, {loader: 'ts'});
+      setCompiled(res.code);
+
+      const context = sandboxRun(res.code, logCb);
+      console.log(context);
+      setRunStatus(AsyncStatusesEnum.SUCCESS);
+    } catch (error) {
+      console.error(error);
+      setRunStatus(AsyncStatusesEnum.ERROR);
+    }
   };
 
   return (
-    <StyledMain>
+    <StyledMain $runStatus={runStatus}>
       <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} />
       <StyledButton onClick={onInterpretClick}>Interpret</StyledButton>
       <StyledCompiledDiv>{compiled}</StyledCompiledDiv>

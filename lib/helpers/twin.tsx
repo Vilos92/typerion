@@ -18,14 +18,14 @@ const customStyles = css({
 
     fontSynthesis: 'none',
     textRendering: 'optimizeLegibility',
-    '-webkit-font-smoothing': 'antialiased',
-    '-moz-osx-font-smoothing': 'grayscale',
-    '-webkit-text-size-adjust': '100%'
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+    WebkitTextSizeAdjust: '100%'
   },
 
   body: {
     WebkitTapHighlightColor: theme`colors.purple.500`,
-    ...tw`m-0 flex min-h-screen place-items-center antialiased min-w-[320px]`
+    ...tw`m-0 antialiased`
   },
 
   '@media (prefers-color-scheme: light)': {
