@@ -1,9 +1,8 @@
-import tw from 'twin.macro';
+import tw, {styled} from 'twin.macro';
 import Editor from '@monaco-editor/react';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
-import styled from '@emotion/styled';
 
 /*
  * Types.
