@@ -25,7 +25,7 @@ type StyledMainProps = {
   $runStatus: AsyncStatusesEnum;
 };
 const StyledMain = styled.main<StyledMainProps>`
-  ${tw`flex flex-col border-x-2 bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`}
+  ${tw`flex flex-col rounded-md border-2 border-l-8 bg-white pt-1 text-black`}
 
   ${({$runStatus}) => {
     switch ($runStatus) {
@@ -45,7 +45,7 @@ const StyledButton = tw.button`w-full bg-red-300`;
 
 const StyledCompiledDiv = tw.div`container justify-start`;
 
-const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line`;
+const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`;
 
 /*
  * Component

@@ -5,7 +5,7 @@ import tw from 'twin.macro';
  * Styles.
  */
 
-const StyledColumnDiv = tw.div`flex flex-col items-center`;
+const StyledColumnDiv = tw.div`mt-4 flex flex-col items-center`;
 
 const StyledNotebookDiv = tw.div`max-w-screen-lg min-w-[50%]`;
 
