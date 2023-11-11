@@ -41,9 +41,11 @@ const StyledMain = styled.main<StyledMainProps>`
   }}
 `;
 
-const StyledButton = tw.button`w-full bg-red-300`;
+const StyledHeaderMenu = tw.menu`flex flex-row justify-between px-2 pb-2`;
 
-const StyledCompiledDiv = tw.div`container justify-start`;
+const StyledPlayButton = tw.button`rounded bg-green-500 py-2 px-4 font-bold text-white hover:bg-green-700`;
+
+const StyledResetButton = tw.button`rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700`;
 
 const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`;
 
@@ -55,7 +57,6 @@ export const Pad: FC = () => {
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
-  const [compiled, setCompiled] = useState('');
   const [output, setOutput] = useState('');
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
@@ -76,13 +77,17 @@ export const Pad: FC = () => {
     });
   };
 
-  const onInterpretClick = async () => {
+  const onResetClick = () => {
+    setRunStatus(AsyncStatusesEnum.IDLE);
+    setOutput('');
+  };
+
+  const onRunClick = async () => {
     try {
       setRunStatus(AsyncStatusesEnum.LOADING);
       setOutput('');
 
       const res = await esbuild.transform(code, {loader: 'ts'});
-      setCompiled(res.code);
 
       const context = sandboxRun(res.code, logCb);
       console.log(context);
@@ -95,9 +100,15 @@ export const Pad: FC = () => {
 
   return (
     <StyledMain $runStatus={runStatus}>
+      <StyledHeaderMenu>
+        <li>
+          <StyledPlayButton onClick={onRunClick}>Run</StyledPlayButton>
+        </li>
+        <li>
+          <StyledResetButton onClick={onResetClick}>Reset</StyledResetButton>
+        </li>
+      </StyledHeaderMenu>
       <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} />
-      <StyledButton onClick={onInterpretClick}>Interpret</StyledButton>
-      <StyledCompiledDiv>{compiled}</StyledCompiledDiv>
       <StyledOutputDiv>{output}</StyledOutputDiv>
     </StyledMain>
   );
