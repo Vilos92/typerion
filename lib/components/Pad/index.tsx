@@ -1,8 +1,12 @@
 import tw, {styled} from 'twin.macro';
 import Editor from '@monaco-editor/react';
 import * as esbuildModule from 'esbuild-wasm';
-import {FC, useRef, useState} from 'react';
+import {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
+
+import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+
+type IStandaloneCodeEditor = monacoEditor.editor.IStandaloneCodeEditor;
 
 /*
  * Types.
@@ -61,10 +65,6 @@ export const Pad: FC = () => {
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
 
-  if (!esbuild) {
-    return null;
-  }
-
   const onChange = (value?: string) => {
     if (!value) return;
     setCode(value);
@@ -82,7 +82,11 @@ export const Pad: FC = () => {
     setOutput('');
   };
 
-  const onRunClick = async () => {
+  const run = useCallback(async () => {
+    if (!esbuild) {
+      throw new Error('Cannot run code without esbuild');
+    }
+
     try {
       setRunStatus(AsyncStatusesEnum.LOADING);
       setOutput('');
@@ -96,6 +100,41 @@ export const Pad: FC = () => {
       console.error(error);
       setRunStatus(AsyncStatusesEnum.ERROR);
     }
+  }, [code, esbuild]);
+
+  const onRunClick = run;
+
+  const runRef = useRef(run);
+  useEffect(() => {
+    runRef.current = run;
+  }, [run]);
+
+  const hasFocusRef = useRef(false);
+  const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
+    editor.onDidFocusEditorText(() => {
+      hasFocusRef.current = true;
+    });
+
+    editor.onDidBlurEditorText(() => {
+      hasFocusRef.current = false;
+    });
+
+    editor.onKeyDown(event => {
+      if (!hasFocusRef.current) {
+        return;
+      }
+
+      // CMD + Enter
+      if (!event.metaKey || event.keyCode !== 3) {
+        return;
+      }
+
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+
+      runRef.current();
+    });
   };
 
   return (
@@ -108,7 +147,13 @@ export const Pad: FC = () => {
           <StyledResetButton onClick={onResetClick}>Reset</StyledResetButton>
         </li>
       </StyledHeaderMenu>
-      <Editor height="300px" defaultLanguage="typescript" defaultValue={code} onChange={onChange} />
+      <Editor
+        height="300px"
+        defaultLanguage="typescript"
+        defaultValue={code}
+        onMount={onEditorDidMount}
+        onChange={onChange}
+      />
       <StyledOutputDiv>{output}</StyledOutputDiv>
     </StyledMain>
   );
