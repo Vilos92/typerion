@@ -1,14 +1,10 @@
 import {Play, ArrowCounterClockwise} from 'phosphor-react';
 import {FC} from 'react';
+import {IconTypesEnum} from './types';
 
 /*
  * Types.
  */
-
-export enum IconTypesEnum {
-  PLAY = 'play',
-  RESET = 'reset'
-}
 
 type IconProps = {
   type: IconTypesEnum;

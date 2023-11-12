@@ -3,7 +3,8 @@ import * as esbuildModule from 'esbuild-wasm';
 import {FC, useCallback, useMemo, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
 import {PadEditor} from '../PadEditor';
-import {Icon, IconTypesEnum} from '../Icon';
+import {Icon} from '../Icon';
+import {IconTypesEnum} from '../Icon/types';
 
 /*
  * Types.
