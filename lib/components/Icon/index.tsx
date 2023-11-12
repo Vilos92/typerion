@@ -20,5 +20,7 @@ export const Icon: FC<IconProps> = ({type}) => {
       return <Play />;
     case 'reset':
       return <ArrowCounterClockwise />;
+    default:
+      throw new Error(`Unknown icon type: ${type}`);
   }
 };
