@@ -2,7 +2,7 @@ import tw, {styled} from 'twin.macro';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useCallback, useMemo, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
-
+import {Play, ArrowCounterClockwise} from 'phosphor-react';
 import {PadEditor} from '../PadEditor';
 
 /*
@@ -104,10 +104,14 @@ export const Pad: FC = () => {
     <StyledMain $runStatus={runStatus}>
       <StyledHeaderMenu>
         <li>
-          <StyledPlayButton onClick={onRunClick}>Run</StyledPlayButton>
+          <StyledPlayButton onClick={onRunClick}>
+            <Play />
+          </StyledPlayButton>
         </li>
         <li>
-          <StyledResetButton onClick={onResetClick}>Reset</StyledResetButton>
+          <StyledResetButton onClick={onResetClick}>
+            <ArrowCounterClockwise />
+          </StyledResetButton>
         </li>
       </StyledHeaderMenu>
       <PadEditor defaultValue={code} onChange={onChange} onCmdEnter={run} />
@@ -196,7 +200,7 @@ function sandboxRun(code: string, logCb: (line: string) => void): VmContext {
   };
 
   const context: VmContext = {
-    console: {log}
+    console: {log, info: log, warn: log, error: log}
   };
 
   runInNewContext(code, context);
