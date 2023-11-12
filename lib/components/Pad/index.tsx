@@ -2,8 +2,8 @@ import tw, {styled} from 'twin.macro';
 import * as esbuildModule from 'esbuild-wasm';
 import {FC, useCallback, useMemo, useRef, useState} from 'react';
 import {type Context as VmContext, runInNewContext} from 'vm';
-import {Play, ArrowCounterClockwise} from 'phosphor-react';
 import {PadEditor} from '../PadEditor';
+import {Icon, IconTypesEnum} from '../Icon';
 
 /*
  * Types.
@@ -105,12 +105,12 @@ export const Pad: FC = () => {
       <StyledHeaderMenu>
         <li>
           <StyledPlayButton onClick={onRunClick}>
-            <Play />
+            <Icon type={IconTypesEnum.PLAY} />
           </StyledPlayButton>
         </li>
         <li>
           <StyledResetButton onClick={onResetClick}>
-            <ArrowCounterClockwise />
+            <Icon type={IconTypesEnum.RESET} />
           </StyledResetButton>
         </li>
       </StyledHeaderMenu>
