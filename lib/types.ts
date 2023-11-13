@@ -8,3 +8,9 @@ export enum AsyncStatusesEnum {
   SUCCESS = 'success',
   ERROR = 'error'
 }
+
+/*
+ * Types.
+ */
+
+export type Handler = () => void;

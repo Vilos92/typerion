@@ -5,7 +5,7 @@ import {useReducer} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
-import {AsyncStatusesEnum} from '../../types';
+import {AsyncStatusesEnum, Handler} from '../../types';
 
 /*
  * Styles.
@@ -38,6 +38,7 @@ type Pad = {
 
 type NotebookState = {
   runStatus: AsyncStatusesEnum;
+  focusedPadId: string | undefined;
   pads: readonly Pad[];
 };
 
@@ -47,6 +48,7 @@ type NotebookState = {
 
 const initialNotebookState: NotebookState = Object.freeze({
   runStatus: AsyncStatusesEnum.IDLE,
+  focusedPadId: undefined,
   pads: [
     {
       id: uuidv4()
@@ -63,6 +65,14 @@ const notebookSlice = createSlice({
     },
     stop: state => {
       state.runStatus = AsyncStatusesEnum.IDLE;
+    },
+    focusPad: (state, action: PayloadAction<string>) => {
+      state.focusedPadId = action.payload;
+    },
+    blurPad: (state, action: PayloadAction<string>) => {
+      if (state.focusedPadId === action.payload) {
+        state.focusedPadId = undefined;
+      }
     },
     pushPad: (state, action: PayloadAction<Pad>) => {
       state.pads.push(action.payload);
@@ -85,7 +95,7 @@ export const Notebook = () => {
   // Pads can auto-run because the above pad has passed context, and current pad is empty, and "should run" is true.
   // - Derive state, don't run a bunch of useEffects.
 
-  const [{runStatus, pads}, dispatch] = useReducer(notebookReducer, initialNotebookState);
+  const [{runStatus, focusedPadId, pads}, dispatch] = useReducer(notebookReducer, initialNotebookState);
 
   const onAddClick = () => {
     dispatch(notebookActions.pushPad({id: uuidv4()}));
@@ -100,6 +110,14 @@ export const Notebook = () => {
     dispatch(notebookActions.stop());
   };
 
+  const onPadFocus = (id: string) => {
+    dispatch(notebookActions.focusPad(id));
+  };
+
+  const onPadBlur = (id: string) => {
+    dispatch(notebookActions.blurPad(id));
+  };
+
   return (
     <StyledMain>
       <StyledTopDiv>
@@ -108,7 +126,13 @@ export const Notebook = () => {
       </StyledTopDiv>
       <StyledNotebookDiv>
         {pads.map((pad, index) => (
-          <Pad key={pad.id} title={renderPadTitle(index)} />
+          <Pad
+            key={pad.id}
+            title={renderPadTitle(index)}
+            hasFocus={focusedPadId === pad.id}
+            onFocus={() => onPadFocus(pad.id)}
+            onBlur={() => onPadBlur(pad.id)}
+          />
         ))}
       </StyledNotebookDiv>
     </StyledMain>
@@ -119,7 +143,7 @@ export const Notebook = () => {
  * Helpers.
  */
 
-function renderAddButtons(onAddClick: () => void) {
+function renderAddButtons(onAddClick: Handler) {
   return (
     <StyledButtonGroup>
       <StyledIconButton onClick={onAddClick}>
@@ -133,7 +157,7 @@ function renderAddButtons(onAddClick: () => void) {
   );
 }
 
-function renderPlayPauseButton(runStatus: AsyncStatusesEnum, onClick: () => void) {
+function renderPlayPauseButton(runStatus: AsyncStatusesEnum, onClick: Handler) {
   switch (runStatus) {
     case AsyncStatusesEnum.IDLE:
       return (

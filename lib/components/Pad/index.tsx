@@ -5,7 +5,7 @@ import {type Context as VmContext, runInNewContext} from 'vm';
 import {PadEditor} from '../PadEditor';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
-import {AsyncStatusesEnum} from '../../types';
+import {AsyncStatusesEnum, Handler} from '../../types';
 
 /*
  * Types.
@@ -15,19 +15,28 @@ type Esbuild = typeof esbuildModule;
 
 type PadProps = {
   title?: string;
+  hasFocus?: boolean;
+  onFocus?: Handler;
+  onBlur?: Handler;
+};
+
+type StyledMainProps = {
+  $runStatus: AsyncStatusesEnum;
+  $hasFocus?: boolean;
 };
 
 /*
  * Styles.
  */
 
-type StyledMainProps = {
-  $runStatus: AsyncStatusesEnum;
-};
 const StyledMain = styled.main<StyledMainProps>`
   ${tw`flex flex-col rounded-md border-2 border-l-8 bg-white pt-1 text-black`}
 
-  ${({$runStatus}) => {
+  ${({$runStatus, $hasFocus}) => {
+    if ($hasFocus) {
+      return tw`border-blue-500`;
+    }
+
     switch ($runStatus) {
       case AsyncStatusesEnum.IDLE:
         return tw`border-gray-300`;
@@ -53,7 +62,7 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gr
  * Component
  */
 
-export const Pad: FC<PadProps> = ({title}) => {
+export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
@@ -100,7 +109,7 @@ export const Pad: FC<PadProps> = ({title}) => {
   const output = useMemo(() => lines.join('\n'), [lines]);
 
   return (
-    <StyledMain $runStatus={runStatus}>
+    <StyledMain $runStatus={runStatus} $hasFocus={hasFocus}>
       <StyledHeaderMenu>
         <li>
           <StyledPlayButton onClick={onRunClick}>
@@ -114,7 +123,7 @@ export const Pad: FC<PadProps> = ({title}) => {
           </StyledResetButton>
         </li>
       </StyledHeaderMenu>
-      <PadEditor defaultValue={code} onChange={onChange} onCmdEnter={run} />
+      <PadEditor defaultValue={code} onChange={onChange} onCmdEnter={run} onFocus={onFocus} onBlur={onBlur} />
       <StyledOutputDiv>{output}</StyledOutputDiv>
     </StyledMain>
   );

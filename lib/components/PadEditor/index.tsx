@@ -1,6 +1,7 @@
 import Editor from '@monaco-editor/react';
 import {FC, useEffect, useRef} from 'react';
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import {Handler} from '../../types';
 
 /*
  * Types.
@@ -11,14 +12,16 @@ type IStandaloneCodeEditor = monacoEditor.editor.IStandaloneCodeEditor;
 type PadEditorProps = {
   defaultValue: string;
   onChange: (value?: string) => void;
-  onCmdEnter: () => void;
+  onCmdEnter: Handler;
+  onFocus: Handler | undefined;
+  onBlur: Handler | undefined;
 };
 
 /*
  * Component.
  */
 
-export const PadEditor: FC<PadEditorProps> = ({defaultValue, onChange, onCmdEnter}) => {
+export const PadEditor: FC<PadEditorProps> = ({defaultValue, onChange, onCmdEnter, onFocus, onBlur}) => {
   const hasFocusRef = useRef(false);
 
   // Need to use a ref to ensure the handler bound to onKeyDown always has the latest value of onCmdEnter.
@@ -30,10 +33,12 @@ export const PadEditor: FC<PadEditorProps> = ({defaultValue, onChange, onCmdEnte
   const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
     editor.onDidFocusEditorText(() => {
       hasFocusRef.current = true;
+      onFocus?.();
     });
 
     editor.onDidBlurEditorText(() => {
       hasFocusRef.current = false;
+      onBlur?.();
     });
 
     editor.onKeyDown(event => {
