@@ -5,7 +5,7 @@ import tw from 'twin.macro';
  * Styles.
  */
 
-const StyledColumnDiv = tw.div`mt-4 flex flex-col items-center`;
+const StyledColumnDiv = tw.div`my-4 flex flex-col items-center`;
 
 /*
  * Component.

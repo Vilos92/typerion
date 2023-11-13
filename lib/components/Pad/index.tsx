@@ -5,6 +5,7 @@ import {type Context as VmContext, runInNewContext} from 'vm';
 import {PadEditor} from '../PadEditor';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
+import {AsyncStatusesEnum} from '../../types';
 
 /*
  * Types.
@@ -12,12 +13,9 @@ import {IconTypesEnum} from '../Icon/types';
 
 type Esbuild = typeof esbuildModule;
 
-enum AsyncStatusesEnum {
-  IDLE = 'idle',
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error'
-}
+type PadProps = {
+  title?: string;
+};
 
 /*
  * Styles.
@@ -55,7 +53,7 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gr
  * Component
  */
 
-export const Pad: FC = () => {
+export const Pad: FC<PadProps> = ({title}) => {
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
@@ -109,6 +107,7 @@ export const Pad: FC = () => {
             <Icon type={IconTypesEnum.PLAY} />
           </StyledPlayButton>
         </li>
+        {title && <li>{title}</li>}
         <li>
           <StyledResetButton onClick={onResetClick}>
             <Icon type={IconTypesEnum.RESET} />
