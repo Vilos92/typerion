@@ -1,11 +1,11 @@
 import tw, {styled} from 'twin.macro';
 import * as esbuildModule from 'esbuild-wasm';
-import {FC, useCallback, useMemo, useRef, useState} from 'react';
-import {type Context as VmContext, runInNewContext} from 'vm';
+import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {runInNewContext} from 'vm';
 import {PadEditor} from '../PadEditor';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
-import {AsyncStatusesEnum, Handler} from '../../types';
+import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
 
 /*
  * Types.
@@ -15,9 +15,12 @@ type Esbuild = typeof esbuildModule;
 
 type PadProps = {
   title?: string;
+  context?: VmContext;
+  shouldAutoRun?: boolean;
   hasFocus?: boolean;
   onFocus?: Handler;
   onBlur?: Handler;
+  onPadRunComplete?: (context: VmContext) => void;
 };
 
 type StyledMainProps = {
@@ -62,7 +65,7 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gr
  * Component
  */
 
-export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
+export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBlur, onPadRunComplete}) => {
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
@@ -73,6 +76,7 @@ export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
   const onChange = (value?: string) => {
     if (!value) return;
     setCode(value);
+    setRunStatus(AsyncStatusesEnum.IDLE);
   };
 
   const logCb = (line: string) => {
@@ -93,13 +97,16 @@ export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
       const context = sandboxRun(res.code, logCb);
       console.log(context);
       setRunStatus(AsyncStatusesEnum.SUCCESS);
+
+      onPadRunComplete?.(context);
     } catch (error) {
       console.error(error);
       setRunStatus(AsyncStatusesEnum.ERROR);
     }
-  }, [code, esbuild]);
+  }, [code, esbuild, onPadRunComplete]);
 
   const onRunClick = run;
+  const onCmdEnter = run;
 
   const onResetClick = () => {
     setRunStatus(AsyncStatusesEnum.IDLE);
@@ -107,6 +114,12 @@ export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
   };
 
   const output = useMemo(() => lines.join('\n'), [lines]);
+
+  useEffect(() => {
+    if (shouldAutoRun && runStatus === AsyncStatusesEnum.IDLE && code) {
+      run();
+    }
+  }, [code, run, runStatus, shouldAutoRun]);
 
   return (
     <StyledMain $runStatus={runStatus} $hasFocus={hasFocus}>
@@ -123,7 +136,13 @@ export const Pad: FC<PadProps> = ({title, hasFocus, onFocus, onBlur}) => {
           </StyledResetButton>
         </li>
       </StyledHeaderMenu>
-      <PadEditor defaultValue={code} onChange={onChange} onCmdEnter={run} onFocus={onFocus} onBlur={onBlur} />
+      <PadEditor
+        defaultValue={code}
+        onChange={onChange}
+        onCmdEnter={onCmdEnter}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
       <StyledOutputDiv>{output}</StyledOutputDiv>
     </StyledMain>
   );

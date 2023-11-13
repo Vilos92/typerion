@@ -5,7 +5,7 @@ import {MouseEventHandler, useReducer} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
-import {AsyncStatusesEnum, Handler} from '../../types';
+import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
 
 /*
  * Types.
@@ -21,7 +21,6 @@ type StyledButtonGroupProps = {
 
 const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320px]`;
 
-// Top bar that is fixed to the top of the screen
 const StyledTopDiv = tw.div`fixed z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4 w-[50%] min-w-[320px]`;
 
 const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
@@ -50,11 +49,12 @@ const StyledNotebookDiv = tw.div`mt-16 flex flex-col gap-4`;
 
 type Pad = {
   id: string;
+  context?: VmContext;
 };
 
 type NotebookState = {
   runStatus: AsyncStatusesEnum;
-  focusedPadId: string | undefined;
+  focusedPadId?: string;
   pads: readonly Pad[];
 };
 
@@ -81,6 +81,15 @@ const notebookSlice = createSlice({
     },
     stop: state => {
       state.runStatus = AsyncStatusesEnum.IDLE;
+    },
+    updatePad: (state, action: PayloadAction<{id: string; pad: Pad}>) => {
+      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
+
+      if (index === -1) {
+        throw new Error(`Could not find pad with id ${action.payload.id}`);
+      }
+
+      state.pads[index] = action.payload.pad;
     },
     focusPad: (state, action: PayloadAction<string>) => {
       state.focusedPadId = action.payload;
@@ -171,6 +180,10 @@ export const Notebook = () => {
     dispatch(notebookActions.blurPad(id));
   };
 
+  const onPadRunComplete = (id: string, context: VmContext) => {
+    dispatch(notebookActions.updatePad({id, pad: {id, context}}));
+  };
+
   const isAddButtonsDisabled = !focusedPadId;
 
   return (
@@ -184,9 +197,15 @@ export const Notebook = () => {
           <Pad
             key={pad.id}
             title={renderPadTitle(index)}
+            context={getPreviousPadContext(pads, index)}
+            shouldAutoRun={
+              runStatus === AsyncStatusesEnum.LOADING &&
+              (index === 0 || Boolean(getPreviousPadContext(pads, index)))
+            }
             hasFocus={focusedPadId === pad.id}
             onFocus={() => onPadFocus(pad.id)}
             onBlur={() => onPadBlur(pad.id)}
+            onPadRunComplete={context => onPadRunComplete(pad.id, context)}
           />
         ))}
       </StyledNotebookDiv>
@@ -197,6 +216,14 @@ export const Notebook = () => {
 /*
  * Helpers.
  */
+
+function getPreviousPadContext(pads: readonly Pad[], index: number) {
+  if (index === 0) {
+    return undefined;
+  }
+
+  return pads[index - 1].context;
+}
 
 function renderAddButtons(
   isDisabled: boolean,

@@ -1,3 +1,5 @@
+export {type Context as VmContext} from 'vm';
+
 /*
  * Enums.
  */
