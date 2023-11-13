@@ -1,11 +1,19 @@
-import tw from 'twin.macro';
+import tw, {styled} from 'twin.macro';
 import {Pad} from '../Pad';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {useReducer} from 'react';
+import {MouseEventHandler, useReducer} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
 import {AsyncStatusesEnum, Handler} from '../../types';
+
+/*
+ * Types.
+ */
+
+type StyledButtonGroupProps = {
+  $isDisabled?: boolean;
+};
 
 /*
  * Styles.
@@ -16,7 +24,15 @@ const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320
 // Top bar that is fixed to the top of the screen
 const StyledTopDiv = tw.div`fixed z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4 w-[50%] min-w-[320px]`;
 
-const StyledButtonGroup = tw.div`flex flex-row items-center`;
+const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
+  ${({$isDisabled}) => {
+    if ($isDisabled) {
+      return tw`opacity-50`;
+    }
+  }}
+
+  ${tw`flex flex-row items-center`}
+`;
 
 const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 hover:bg-stone-500`;
 
@@ -74,8 +90,23 @@ const notebookSlice = createSlice({
         state.focusedPadId = undefined;
       }
     },
-    pushPad: (state, action: PayloadAction<Pad>) => {
-      state.pads.push(action.payload);
+    insertPadBefore: (state, action: PayloadAction<{id: string; pad: Pad}>) => {
+      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
+
+      if (index === -1) {
+        throw new Error(`Could not find pad with id ${action.payload.id}`);
+      }
+
+      state.pads.splice(index, 0, action.payload.pad);
+    },
+    insertPadAfter(state, action: PayloadAction<{id: string; pad: Pad}>) {
+      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
+
+      if (index === -1) {
+        throw new Error(`Could not find pad with id ${action.payload.id}`);
+      }
+
+      state.pads.splice(index + 1, 0, action.payload.pad);
     }
   }
 });
@@ -97,8 +128,30 @@ export const Notebook = () => {
 
   const [{runStatus, focusedPadId, pads}, dispatch] = useReducer(notebookReducer, initialNotebookState);
 
-  const onAddClick = () => {
-    dispatch(notebookActions.pushPad({id: uuidv4()}));
+  const onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
+    if (!focusedPadId) {
+      return;
+    }
+
+    event.preventDefault();
+
+    dispatch(notebookActions.insertPadBefore({id: focusedPadId, pad: {id: uuidv4()}}));
+
+    event.currentTarget.focus();
+    event.currentTarget.blur();
+  };
+
+  const onInsertPadAfterMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
+    if (!focusedPadId) {
+      return;
+    }
+
+    event.preventDefault();
+
+    dispatch(notebookActions.insertPadAfter({id: focusedPadId, pad: {id: uuidv4()}}));
+
+    event.currentTarget.focus();
+    event.currentTarget.blur();
   };
 
   const onRunPauseClick = () => {
@@ -118,10 +171,12 @@ export const Notebook = () => {
     dispatch(notebookActions.blurPad(id));
   };
 
+  const isAddButtonsDisabled = !focusedPadId;
+
   return (
     <StyledMain>
       <StyledTopDiv>
-        {renderAddButtons(onAddClick)}
+        {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
         {renderPlayPauseButton(runStatus, onRunPauseClick)}
       </StyledTopDiv>
       <StyledNotebookDiv>
@@ -143,14 +198,18 @@ export const Notebook = () => {
  * Helpers.
  */
 
-function renderAddButtons(onAddClick: Handler) {
+function renderAddButtons(
+  isDisabled: boolean,
+  onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement>,
+  onInsertPadAfterMouseDown: MouseEventHandler<HTMLButtonElement>
+) {
   return (
-    <StyledButtonGroup>
-      <StyledIconButton onClick={onAddClick}>
+    <StyledButtonGroup $isDisabled={isDisabled}>
+      <StyledIconButton onMouseDown={onInsertPadBeforeMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_LEFT_UP} size={32} />
       </StyledIconButton>
       <StyledPlusIcon type={IconTypesEnum.PLUS} size={32} />
-      <StyledIconButton onClick={onAddClick}>
+      <StyledIconButton onMouseDown={onInsertPadAfterMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_RIGHT_DOWN} size={32} />
       </StyledIconButton>
     </StyledButtonGroup>
