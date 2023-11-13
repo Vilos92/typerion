@@ -69,6 +69,7 @@ export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBl
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
+
   const [lines, setLines] = useState<readonly string[]>([]);
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
@@ -113,13 +114,15 @@ export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBl
     setLines([]);
   };
 
-  const output = useMemo(() => lines.join('\n'), [lines]);
-
   useEffect(() => {
-    if (shouldAutoRun && runStatus === AsyncStatusesEnum.IDLE && code) {
-      run();
-    }
+    (async () => {
+      if (shouldAutoRun && runStatus === AsyncStatusesEnum.IDLE && code) {
+        await run();
+      }
+    })().catch(console.error);
   }, [code, run, runStatus, shouldAutoRun]);
+
+  const output = useMemo(() => lines.join('\n'), [lines]);
 
   return (
     <StyledMain $runStatus={runStatus} $hasFocus={hasFocus}>
@@ -143,7 +146,7 @@ export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBl
         onFocus={onFocus}
         onBlur={onBlur}
       />
-      <StyledOutputDiv>{output}</StyledOutputDiv>
+      {output && <StyledOutputDiv>{output}</StyledOutputDiv>}
     </StyledMain>
   );
 };
