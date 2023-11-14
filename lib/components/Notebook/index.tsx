@@ -33,11 +33,11 @@ const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
   ${tw`flex flex-row items-center`}
 `;
 
-const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 hover:bg-stone-500`;
+const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 text-white hover:bg-stone-500`;
 
 const StyledPlusIcon = tw(Icon)`text-stone-500`;
 
-const StyledPlayButton = tw(StyledIconButton)`hover:text-emerald-600`;
+const StyledPlayButton = tw(StyledIconButton)`text-white hover:text-emerald-600`;
 
 const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchsia-600`;
 
