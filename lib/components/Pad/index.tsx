@@ -65,7 +65,15 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gr
  * Component
  */
 
-export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBlur, onPadRunComplete}) => {
+export const Pad: FC<PadProps> = ({
+  title,
+  context,
+  shouldAutoRun,
+  hasFocus,
+  onFocus,
+  onBlur,
+  onPadRunComplete
+}) => {
   const esbuild = useEsbuild();
 
   const [code, setCode] = useState<string>('');
@@ -95,16 +103,16 @@ export const Pad: FC<PadProps> = ({title, shouldAutoRun, hasFocus, onFocus, onBl
 
       const res = await esbuild.transform(code, {loader: 'ts'});
 
-      const context = sandboxRun(res.code, logCb);
-      console.log(context);
+      const runContext = sandboxRun(res.code, logCb, context);
+      console.log(runContext);
       setRunStatus(AsyncStatusesEnum.SUCCESS);
 
-      onPadRunComplete?.(context);
+      onPadRunComplete?.(runContext);
     } catch (error) {
       console.error(error);
       setRunStatus(AsyncStatusesEnum.ERROR);
     }
-  }, [code, esbuild, onPadRunComplete]);
+  }, [code, context, esbuild, onPadRunComplete]);
 
   const onRunClick = run;
   const onCmdEnter = run;
@@ -213,7 +221,7 @@ function makeGetEsModule() {
   };
 }
 
-function sandboxRun(code: string, logCb: (line: string) => void): VmContext {
+function sandboxRun(code: string, logCb: (line: string) => void, context?: VmContext): VmContext {
   const log = (...values: ReadonlyArray<unknown>) => {
     console.log(...values);
 
@@ -230,11 +238,17 @@ function sandboxRun(code: string, logCb: (line: string) => void): VmContext {
     logCb(line);
   };
 
-  const context: VmContext = {
+  const baseContext: VmContext = {
     console: {log, info: log, warn: log, error: log}
   };
 
-  runInNewContext(code, context);
+  console.log('context', context);
 
-  return context;
+  const runContext = context ? {...context, ...baseContext} : baseContext;
+
+  console.log('your runContext', runContext);
+
+  runInNewContext(code, runContext);
+
+  return runContext;
 }
