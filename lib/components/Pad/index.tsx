@@ -222,9 +222,21 @@ function makeGetEsModule() {
 }
 
 function sandboxRun(code: string, logCb: (line: string) => void, context?: VmContext): VmContext {
-  const log = (...values: ReadonlyArray<unknown>) => {
-    console.log(...values);
+  const logContext = makeLogContext(logCb);
 
+  const baseContext: VmContext = {
+    ...logContext
+  };
+
+  const runContext = context ? {...context, ...baseContext} : baseContext;
+
+  runInNewContext(code, runContext);
+
+  return runContext;
+}
+
+function makeLogContext(logCb: (line: string) => void) {
+  const logLine = (...values: ReadonlyArray<unknown>) => {
     const line = values
       .map(value => {
         if (typeof value === 'string') {
@@ -238,17 +250,22 @@ function sandboxRun(code: string, logCb: (line: string) => void, context?: VmCon
     logCb(line);
   };
 
-  const baseContext: VmContext = {
-    console: {log, info: log, warn: log, error: log}
+  return {
+    console: {
+      log: makeLog(logLine, console.log),
+      info: makeLog(logLine, console.info),
+      warn: makeLog(logLine, console.warn),
+      error: makeLog(logLine, console.error)
+    }
   };
+}
 
-  console.log('context', context);
-
-  const runContext = context ? {...context, ...baseContext} : baseContext;
-
-  console.log('your runContext', runContext);
-
-  runInNewContext(code, runContext);
-
-  return runContext;
+function makeLog(
+  logLine: (...values: ReadonlyArray<unknown>) => void,
+  log: (...values: ReadonlyArray<unknown>) => void
+) {
+  return (...values: ReadonlyArray<unknown>) => {
+    log(...values);
+    logLine(...values);
+  };
 }
