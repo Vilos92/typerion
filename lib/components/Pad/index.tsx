@@ -59,7 +59,7 @@ const StyledPlayButton = tw.button`rounded bg-green-500 py-2 px-4 font-bold text
 
 const StyledResetButton = tw.button`rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700`;
 
-const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-gradient-to-b text-white from-[#2e026d] to-[#15162c]`;
+const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-stone-700 text-white`;
 
 /*
  * Component
