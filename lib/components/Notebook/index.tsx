@@ -21,7 +21,7 @@ type StyledButtonGroupProps = {
 
 const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320px]`;
 
-const StyledTopDiv = tw.div`fixed z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4 w-[50%] min-w-[320px]`;
+const StyledTopDiv = tw.div`sticky z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4`;
 
 const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
   ${({$isDisabled}) => {
@@ -41,7 +41,7 @@ const StyledPlayButton = tw(StyledIconButton)`text-white hover:text-emerald-600`
 
 const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchsia-600`;
 
-const StyledNotebookDiv = tw.div`mt-16 flex flex-col gap-4`;
+const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
 
 /*
  * Types.
