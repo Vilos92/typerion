@@ -1,9 +1,9 @@
-import {FC} from 'react';
+import {type FC} from 'react';
 import {v4 as uuidv4} from 'uuid';
 
 import {useNotebookStore} from '../../../store/store';
 import type {PadState} from '../../../store/types';
-import {AsyncStatusesEnum, IStandaloneCodeEditor, VmContext} from '../../../types';
+import {AsyncStatusesEnum, type IStandaloneCodeEditor, type VmContext} from '../../../types';
 import {Pad} from '../../Pad';
 
 /*

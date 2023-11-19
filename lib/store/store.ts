@@ -1,8 +1,8 @@
 import {v4 as uuidv4} from 'uuid';
 import {create} from 'zustand';
 
-import {AsyncStatusesEnum, IStandaloneCodeEditor} from '../types';
-import {NotebookState} from './types';
+import {AsyncStatusesEnum, type IStandaloneCodeEditor} from '../types';
+import {type NotebookState} from './types';
 
 /*
  * Store.

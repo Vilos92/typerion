@@ -1,6 +1,6 @@
 import {runInNewContext} from 'vm';
 
-import {VmContext} from '../types';
+import {type VmContext} from '../types';
 
 /*
  * Helpers.

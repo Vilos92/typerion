@@ -1,6 +1,6 @@
-import {Context as VmContext} from 'vm';
+import {type Context as VmContext} from 'vm';
 
-import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor} from '../types';
+import {type AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor} from '../types';
 
 /*
  * Types.

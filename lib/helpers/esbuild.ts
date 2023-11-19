@@ -1,7 +1,7 @@
 import * as esbuildModule from 'esbuild-wasm';
 import {useRef, useState} from 'react';
 
-import {Esbuild} from '../components/Pad';
+import {type Esbuild} from '../components/Pad';
 import {AsyncStatusesEnum} from '../types';
 
 /*

@@ -16,6 +16,7 @@
     "build": "tsc --p ./tsconfig-build.json && vite build",
     "dev": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "prepare": "husky install",
     "prepublishOnly": "pnpm run build",
     "prettier:check": "prettier --check --ignore-unknown '**/*'",

@@ -3,12 +3,12 @@ import {
   ArrowElbowLeftUp,
   ArrowElbowRightDown,
   PauseCircle,
-  Icon as PhosphorIcon,
+  type Icon as PhosphorIcon,
   Play,
   PlayCircle,
   Plus
 } from 'phosphor-react';
-import {FC} from 'react';
+import {type FC} from 'react';
 
 import {IconTypesEnum} from './types';
 

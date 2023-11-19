@@ -1,5 +1,5 @@
 import {Global, css} from '@emotion/react';
-import {ComponentType} from 'react';
+import {type ComponentType} from 'react';
 import tw, {GlobalStyles as BaseStyles, theme} from 'twin.macro';
 
 /*

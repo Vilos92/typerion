@@ -1,10 +1,10 @@
-import * as esbuildModule from 'esbuild-wasm';
-import {FC, useCallback, useEffect, useMemo, useState} from 'react';
+import type * as esbuildModule from 'esbuild-wasm';
+import {type FC, useCallback, useEffect, useMemo, useState} from 'react';
 import tw, {styled} from 'twin.macro';
 
 import {useEsbuild} from '../../helpers/esbuild';
 import {runVm} from '../../helpers/vm';
-import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
+import {AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor, type VmContext} from '../../types';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
 import {PadEditor} from './PadEditor';

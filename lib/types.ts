@@ -1,10 +1,10 @@
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import type * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
 
 /*
  * Package types.
  */
 
-export {type Context as VmContext} from 'vm';
+export type {Context as VmContext} from 'vm';
 
 export type IStandaloneCodeEditor = monacoEditor.editor.IStandaloneCodeEditor;
 
