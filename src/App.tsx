@@ -1,5 +1,6 @@
-import {Notebook} from '../lib/components/Notebook';
 import tw from 'twin.macro';
+
+import {Notebook} from '../lib/components/Notebook';
 
 /*
  * Styles.

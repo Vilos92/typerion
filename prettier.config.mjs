@@ -10,12 +10,8 @@ export default {
   tabWidth: 2,
   semi: true,
   singleQuote: true,
+  plugins: [require.resolve('@trivago/prettier-plugin-sort-imports'), 'prettier-plugin-tailwindcss'],
   importOrder: ['^@core/(.*)$', '^@server/(.*)$', '^@ui/(.*)$', '^[./]'],
   importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
-  plugins: [
-    require.resolve('@trivago/prettier-plugin-sort-imports'),
-    'prettier-plugin-tailwindcss',
-    require.resolve('prettier-plugin-twin.macro')
-  ]
+  importOrderSortSpecifiers: true
 };

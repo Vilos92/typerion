@@ -1,14 +1,15 @@
 import {
-  Play,
-  PlayCircle,
-  PauseCircle,
-  Plus,
   ArrowCounterClockwise,
   ArrowElbowLeftUp,
   ArrowElbowRightDown,
-  Icon as PhosphorIcon
+  PauseCircle,
+  Icon as PhosphorIcon,
+  Play,
+  PlayCircle,
+  Plus
 } from 'phosphor-react';
 import {FC} from 'react';
+
 import {IconTypesEnum} from './types';
 
 /*

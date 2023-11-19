@@ -61,7 +61,6 @@
     "lint-staged": "^15.0.2",
     "prettier": "3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.6",
-    "prettier-plugin-twin.macro": "^1.0.14",
     "sort-package-json": "^2.6.0",
     "tailwindcss": "^3.3.5",
     "ts-unused-exports": "^10.0.1",

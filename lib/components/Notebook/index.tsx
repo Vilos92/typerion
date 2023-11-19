@@ -1,11 +1,12 @@
-import tw, {styled} from 'twin.macro';
-import {Pad} from '../Pad';
 import {FC, MouseEventHandler} from 'react';
+import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
-import {IconTypesEnum} from '../Icon/types';
-import {Icon} from '../Icon';
-import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
 import {create} from 'zustand';
+
+import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
+import {Icon} from '../Icon';
+import {IconTypesEnum} from '../Icon/types';
+import {Pad} from '../Pad';
 
 /*
  * Types.
