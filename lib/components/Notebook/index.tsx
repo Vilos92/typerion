@@ -1,11 +1,12 @@
 import tw, {styled} from 'twin.macro';
 import {Pad} from '../Pad';
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {MouseEventHandler, useReducer} from 'react';
+import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {FC, MouseEventHandler} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
 import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
+import {useDispatch, useSelector, TypedUseSelectorHook, Provider} from 'react-redux';
 
 /*
  * Types.
@@ -123,19 +124,43 @@ const notebookSlice = createSlice({
 const notebookReducer = notebookSlice.reducer;
 const notebookActions = notebookSlice.actions;
 
+const store = configureStore({
+  reducer: notebookReducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Allow VmContext to have non-serializable values passed through.
+        ignoredActionPaths: ['payload.pad.context']
+      }
+    })
+});
+
+type RootState = ReturnType<typeof store.getState>;
+type AppDispatch = typeof store.dispatch;
+
+const useAppDispatch: () => AppDispatch = useDispatch;
+const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+const getRunStatus = (state: RootState) => state.runStatus;
+const getFocusedPadId = (state: RootState) => state.focusedPadId;
+const getPads = (state: RootState) => state.pads;
+
 /*
  * Component.
  */
 
-export const Notebook = () => {
-  // Pass context through to each next pad.
-  // For each Pad, pass a ref through to the next Pad.
-  // - Can use one useRef, pass to both in different props, one assigns next one reads
-  // If running whole notebook, only run one pad at a time.
-  // Pads can auto-run because the above pad has passed context, and current pad is empty, and "should run" is true.
-  // - Derive state, don't run a bunch of useEffects.
+export const Notebook: FC = () => (
+  <Provider store={store}>
+    <NotebookInternal />
+  </Provider>
+);
 
-  const [{runStatus, focusedPadId, pads}, dispatch] = useReducer(notebookReducer, initialNotebookState);
+const NotebookInternal = () => {
+  const dispatch = useAppDispatch();
+
+  const runStatus = useAppSelector(getRunStatus);
+  const focusedPadId = useAppSelector(getFocusedPadId);
+  const pads = useAppSelector(getPads);
 
   const onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
     if (!focusedPadId) {
@@ -172,6 +197,34 @@ export const Notebook = () => {
     dispatch(notebookActions.stop());
   };
 
+  const isAddButtonsDisabled = !focusedPadId;
+
+  return (
+    <StyledMain>
+      <StyledTopDiv>
+        {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
+        {renderPlayPauseButton(runStatus, onRunPauseClick)}
+      </StyledTopDiv>
+      <StyledNotebookDiv>
+        {pads.map((pad, index) => (
+          <NotebookPad key={pad.id} index={index} />
+        ))}
+      </StyledNotebookDiv>
+    </StyledMain>
+  );
+};
+
+const NotebookPad: FC<{
+  index: number;
+}> = ({index}) => {
+  const dispatch = useAppDispatch();
+
+  const runStatus = useAppSelector(getRunStatus);
+  const focusedPadId = useAppSelector(getFocusedPadId);
+  const pads = useAppSelector(getPads);
+
+  const pad = pads[index];
+
   const onPadFocus = (id: string) => {
     dispatch(notebookActions.focusPad(id));
   };
@@ -184,32 +237,20 @@ export const Notebook = () => {
     dispatch(notebookActions.updatePad({id, pad: {id, context}}));
   };
 
-  const isAddButtonsDisabled = !focusedPadId;
-
   return (
-    <StyledMain>
-      <StyledTopDiv>
-        {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
-        {renderPlayPauseButton(runStatus, onRunPauseClick)}
-      </StyledTopDiv>
-      <StyledNotebookDiv>
-        {pads.map((pad, index) => (
-          <Pad
-            key={pad.id}
-            title={renderPadTitle(index)}
-            context={getPreviousPadContext(pads, index)}
-            shouldAutoRun={
-              runStatus === AsyncStatusesEnum.LOADING &&
-              (index === 0 || Boolean(getPreviousPadContext(pads, index)))
-            }
-            hasFocus={focusedPadId === pad.id}
-            onFocus={() => onPadFocus(pad.id)}
-            onBlur={() => onPadBlur(pad.id)}
-            onPadRunComplete={context => onPadRunComplete(pad.id, context)}
-          />
-        ))}
-      </StyledNotebookDiv>
-    </StyledMain>
+    <Pad
+      key={pad.id}
+      title={renderPadTitle(index)}
+      context={getPreviousPadContext(pads, index)}
+      shouldAutoRun={
+        runStatus === AsyncStatusesEnum.LOADING &&
+        (index === 0 || Boolean(getPreviousPadContext(pads, index)))
+      }
+      hasFocus={focusedPadId === pad.id}
+      onFocus={() => onPadFocus(pad.id)}
+      onBlur={() => onPadBlur(pad.id)}
+      onPadRunComplete={context => onPadRunComplete(pad.id, context)}
+    />
   );
 };
 
