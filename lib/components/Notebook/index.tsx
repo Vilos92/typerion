@@ -1,12 +1,11 @@
 import tw, {styled} from 'twin.macro';
 import {Pad} from '../Pad';
-import {configureStore, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {FC, MouseEventHandler} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
 import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
-import {useDispatch, useSelector, TypedUseSelectorHook, Provider} from 'react-redux';
+import {create} from 'zustand';
 
 /*
  * Types.
@@ -53,114 +52,104 @@ type Pad = {
   context?: VmContext;
 };
 
-type NotebookState = {
+/*
+ * State.
+ */
+
+type NotebookStateAttributes = {
   runStatus: AsyncStatusesEnum;
   focusedPadId?: string;
   pads: readonly Pad[];
 };
 
-/*
- * State.
- */
+type NotebookStateHandlers = {
+  run: Handler;
+  stop: Handler;
+  updatePad: (id: string, pad: Pad) => void;
+  focusPad: (id: string) => void;
+  blurPad: (id: string) => void;
+  insertPadBefore: (id: string, pad: Pad) => void;
+  insertPadAfter: (id: string, pad: Pad) => void;
+};
 
-const initialNotebookState: NotebookState = Object.freeze({
+type NotebookState = NotebookStateAttributes & NotebookStateHandlers;
+
+const useNotebookStore = create<NotebookState>(set => ({
   runStatus: AsyncStatusesEnum.IDLE,
   focusedPadId: undefined,
   pads: [
     {
       id: uuidv4()
     }
-  ]
-});
-
-const notebookSlice = createSlice({
-  name: 'notebook',
-  initialState: initialNotebookState,
-  reducers: {
-    run: state => {
-      state.runStatus = AsyncStatusesEnum.LOADING;
-    },
-    stop: state => {
-      state.runStatus = AsyncStatusesEnum.IDLE;
-    },
-    updatePad: (state, action: PayloadAction<{id: string; pad: Pad}>) => {
-      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
-
-      if (index === -1) {
-        throw new Error(`Could not find pad with id ${action.payload.id}`);
-      }
-
-      state.pads[index] = action.payload.pad;
-    },
-    focusPad: (state, action: PayloadAction<string>) => {
-      state.focusedPadId = action.payload;
-    },
-    blurPad: (state, action: PayloadAction<string>) => {
-      if (state.focusedPadId === action.payload) {
-        state.focusedPadId = undefined;
-      }
-    },
-    insertPadBefore: (state, action: PayloadAction<{id: string; pad: Pad}>) => {
-      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
+  ],
+  run: () => {
+    set(state => {
+      return {...state, runStatus: AsyncStatusesEnum.LOADING};
+    });
+  },
+  stop: () => {
+    set(state => {
+      return {...state, runStatus: AsyncStatusesEnum.IDLE};
+    });
+  },
+  updatePad: (id, pad) => {
+    set(state => {
+      const index = state.pads.findIndex(pad => pad.id === id);
 
       if (index === -1) {
-        throw new Error(`Could not find pad with id ${action.payload.id}`);
+        throw new Error(`Could not find pad with id ${id}`);
       }
 
-      state.pads.splice(index, 0, action.payload.pad);
-    },
-    insertPadAfter(state, action: PayloadAction<{id: string; pad: Pad}>) {
-      const index = state.pads.findIndex(pad => pad.id === action.payload.id);
+      const updatedPads = [...state.pads.slice(0, index), pad, ...state.pads.slice(index + 1)];
+      return {...state, pads: updatedPads};
+    });
+  },
+  focusPad: id => {
+    set(state => {
+      return {...state, focusedPadId: id};
+    });
+  },
+  blurPad: id => {
+    set(state => {
+      if (state.focusedPadId !== id) {
+        return state;
+      }
+
+      return {...state, focusedPadId: undefined};
+    });
+  },
+  insertPadBefore: (id, pad) => {
+    set(state => {
+      const index = state.pads.findIndex(pad => pad.id === id);
 
       if (index === -1) {
-        throw new Error(`Could not find pad with id ${action.payload.id}`);
+        throw new Error(`Could not find pad with id ${id}`);
       }
 
-      state.pads.splice(index + 1, 0, action.payload.pad);
-    }
+      const updatedPads = [...state.pads.slice(0, index), pad, ...state.pads.slice(index)];
+      return {...state, pads: updatedPads};
+    });
+  },
+  insertPadAfter: (id, pad) => {
+    set(state => {
+      const index = state.pads.findIndex(pad => pad.id === id);
+
+      if (index === -1) {
+        throw new Error(`Could not find pad with id ${id}`);
+      }
+
+      const updatedPads = [...state.pads.slice(0, index + 1), pad, ...state.pads.slice(index + 1)];
+      return {...state, pads: updatedPads};
+    });
   }
-});
-
-const notebookReducer = notebookSlice.reducer;
-const notebookActions = notebookSlice.actions;
-
-const store = configureStore({
-  reducer: notebookReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        // Allow VmContext to have non-serializable values passed through.
-        ignoredActionPaths: ['payload.pad.context']
-      }
-    })
-});
-
-type RootState = ReturnType<typeof store.getState>;
-type AppDispatch = typeof store.dispatch;
-
-const useAppDispatch: () => AppDispatch = useDispatch;
-const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-
-const getRunStatus = (state: RootState) => state.runStatus;
-const getFocusedPadId = (state: RootState) => state.focusedPadId;
-const getPads = (state: RootState) => state.pads;
+}));
 
 /*
  * Component.
  */
 
-export const Notebook: FC = () => (
-  <Provider store={store}>
-    <NotebookInternal />
-  </Provider>
-);
-
-const NotebookInternal = () => {
-  const dispatch = useAppDispatch();
-
-  const runStatus = useAppSelector(getRunStatus);
-  const focusedPadId = useAppSelector(getFocusedPadId);
-  const pads = useAppSelector(getPads);
+export const Notebook = () => {
+  const {runStatus, focusedPadId, pads, run, stop, insertPadBefore, insertPadAfter} = useNotebookStore();
 
   const onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
     if (!focusedPadId) {
@@ -169,7 +158,7 @@ const NotebookInternal = () => {
 
     event.preventDefault();
 
-    dispatch(notebookActions.insertPadBefore({id: focusedPadId, pad: {id: uuidv4()}}));
+    insertPadBefore(focusedPadId, {id: uuidv4()});
 
     event.currentTarget.focus();
     event.currentTarget.blur();
@@ -182,7 +171,7 @@ const NotebookInternal = () => {
 
     event.preventDefault();
 
-    dispatch(notebookActions.insertPadAfter({id: focusedPadId, pad: {id: uuidv4()}}));
+    insertPadAfter(focusedPadId, {id: uuidv4()});
 
     event.currentTarget.focus();
     event.currentTarget.blur();
@@ -190,11 +179,11 @@ const NotebookInternal = () => {
 
   const onRunPauseClick = () => {
     if (runStatus === AsyncStatusesEnum.IDLE) {
-      dispatch(notebookActions.run());
+      run();
       return;
     }
 
-    dispatch(notebookActions.stop());
+    stop();
   };
 
   const isAddButtonsDisabled = !focusedPadId;
@@ -217,24 +206,20 @@ const NotebookInternal = () => {
 const NotebookPad: FC<{
   index: number;
 }> = ({index}) => {
-  const dispatch = useAppDispatch();
-
-  const runStatus = useAppSelector(getRunStatus);
-  const focusedPadId = useAppSelector(getFocusedPadId);
-  const pads = useAppSelector(getPads);
+  const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad} = useNotebookStore();
 
   const pad = pads[index];
 
   const onPadFocus = (id: string) => {
-    dispatch(notebookActions.focusPad(id));
+    focusPad(id);
   };
 
   const onPadBlur = (id: string) => {
-    dispatch(notebookActions.blurPad(id));
+    blurPad(id);
   };
 
   const onPadRunComplete = (id: string, context: VmContext) => {
-    dispatch(notebookActions.updatePad({id, pad: {id, context}}));
+    updatePad(id, {id, context});
   };
 
   return (
