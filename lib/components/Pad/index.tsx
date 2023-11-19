@@ -21,6 +21,7 @@ type PadProps = {
   onFocus?: Handler;
   onBlur?: Handler;
   onPadRunComplete?: (context: VmContext) => void;
+  setEditorHTML?: (editorHTML: HTMLElement) => void;
 };
 
 type StyledMainProps = {
@@ -72,7 +73,8 @@ export const Pad: FC<PadProps> = ({
   hasFocus,
   onFocus,
   onBlur,
-  onPadRunComplete
+  onPadRunComplete,
+  setEditorHTML
 }) => {
   const esbuild = useEsbuild();
 
@@ -153,6 +155,7 @@ export const Pad: FC<PadProps> = ({
         onCmdEnter={onCmdEnter}
         onFocus={onFocus}
         onBlur={onBlur}
+        setEditorHTML={setEditorHTML}
       />
       {output && <StyledOutputDiv>{output}</StyledOutputDiv>}
     </StyledMain>

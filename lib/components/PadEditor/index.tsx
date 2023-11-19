@@ -15,13 +15,21 @@ type PadEditorProps = {
   onCmdEnter: Handler;
   onFocus: Handler | undefined;
   onBlur: Handler | undefined;
+  setEditorHTML: ((editorHTML: HTMLElement) => void) | undefined;
 };
 
 /*
  * Component.
  */
 
-export const PadEditor: FC<PadEditorProps> = ({defaultValue, onChange, onCmdEnter, onFocus, onBlur}) => {
+export const PadEditor: FC<PadEditorProps> = ({
+  defaultValue,
+  onChange,
+  onCmdEnter,
+  onFocus,
+  onBlur,
+  setEditorHTML
+}) => {
   const hasFocusRef = useRef(false);
 
   // Need to use a ref to ensure the handler bound to onKeyDown always has the latest value of onCmdEnter.
@@ -31,6 +39,11 @@ export const PadEditor: FC<PadEditorProps> = ({defaultValue, onChange, onCmdEnte
   }, [onCmdEnter]);
 
   const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
+    if (setEditorHTML) {
+      const editorHTML = editor.getDomNode();
+      editorHTML && setEditorHTML(editorHTML);
+    }
+
     editor.onDidFocusEditorText(() => {
       hasFocusRef.current = true;
       onFocus?.();
