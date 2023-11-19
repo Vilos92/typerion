@@ -40,6 +40,11 @@ export const PadEditor: FC<PadEditorProps> = ({
   }, [onCmdEnter, onShiftEnter]);
 
   const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
+    // New pads should always have immediate focus.
+    hasFocusRef.current = true;
+    editor.focus();
+    onFocus?.();
+
     if (setEditor) {
       setEditor(editor);
     }

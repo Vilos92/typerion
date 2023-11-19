@@ -18,10 +18,10 @@ type PadProps = {
   context?: VmContext;
   shouldAutoRun?: boolean;
   hasFocus?: boolean;
-  nextPadEditor?: IStandaloneCodeEditor;
   onFocus?: Handler;
   onBlur?: Handler;
-  onPadRunComplete?: (context: VmContext) => void;
+  onRunComplete?: (context: VmContext) => void;
+  onShiftEnterComplete?: Handler;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
 
@@ -72,10 +72,10 @@ export const Pad: FC<PadProps> = ({
   context,
   shouldAutoRun,
   hasFocus,
-  nextPadEditor,
   onFocus,
   onBlur,
-  onPadRunComplete,
+  onRunComplete,
+  onShiftEnterComplete,
   setEditor
 }) => {
   const esbuild = useEsbuild();
@@ -111,18 +111,18 @@ export const Pad: FC<PadProps> = ({
       console.log(runContext);
       setRunStatus(AsyncStatusesEnum.SUCCESS);
 
-      onPadRunComplete?.(runContext);
+      onRunComplete?.(runContext);
     } catch (error) {
       console.error(error);
       setRunStatus(AsyncStatusesEnum.ERROR);
     }
-  }, [code, context, esbuild, onPadRunComplete]);
+  }, [code, context, esbuild, onRunComplete]);
 
   const onRunClick = run;
   const onCmdEnter = run;
   const onShiftEnter = async () => {
     await run();
-    nextPadEditor?.focus();
+    onShiftEnterComplete?.();
   };
 
   const onResetClick = () => {

@@ -216,7 +216,7 @@ export const Notebook = () => {
       </StyledTopDiv>
       <StyledNotebookDiv>
         {pads.map((pad, index) => (
-          <NotebookPad key={pad.id} index={index} />
+          <NotebookPad key={pad.id} index={index} insertPadAfter={insertPadAfter} />
         ))}
       </StyledNotebookDiv>
     </StyledMain>
@@ -225,7 +225,8 @@ export const Notebook = () => {
 
 const NotebookPad: FC<{
   index: number;
-}> = ({index}) => {
+  insertPadAfter: (id: string, pad: Pad) => void;
+}> = ({index, insertPadAfter}) => {
   const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad, setEditor} = useNotebookStore();
 
   const pad = pads[index];
@@ -238,8 +239,16 @@ const NotebookPad: FC<{
     blurPad(id);
   };
 
-  const onPadRunComplete = (id: string, context: VmContext) => {
-    updatePad(id, {id, context});
+  const onRunComplete = (context: VmContext) => {
+    updatePad(pad.id, {id: pad.id, context});
+  };
+
+  const onShiftEnterComplete = () => {
+    if (index === pads.length - 1) {
+      insertPadAfter(pad.id, {id: uuidv4()});
+    }
+
+    pads[index + 1]?.editor?.focus();
   };
 
   return (
@@ -252,10 +261,10 @@ const NotebookPad: FC<{
         (index === 0 || Boolean(getPreviousPadContext(pads, index)))
       }
       hasFocus={focusedPadId === pad.id}
-      nextPadEditor={pads[index + 1]?.editor}
       onFocus={() => onPadFocus(pad.id)}
       onBlur={() => onPadBlur(pad.id)}
-      onPadRunComplete={context => onPadRunComplete(pad.id, context)}
+      onRunComplete={onRunComplete}
+      onShiftEnterComplete={onShiftEnterComplete}
       setEditor={(editor: IStandaloneCodeEditor) => setEditor(pad.id, editor)}
     />
   );
