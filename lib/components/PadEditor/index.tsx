@@ -1,21 +1,19 @@
 import Editor from '@monaco-editor/react';
 import {FC, useEffect, useRef} from 'react';
-import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
-import {Handler} from '../../types';
+import {Handler, IStandaloneCodeEditor} from '../../types';
 
 /*
  * Types.
  */
 
-type IStandaloneCodeEditor = monacoEditor.editor.IStandaloneCodeEditor;
-
 type PadEditorProps = {
   defaultValue: string;
   onChange: (value?: string) => void;
   onCmdEnter: Handler;
+  onShiftEnter: Handler;
   onFocus: Handler | undefined;
   onBlur: Handler | undefined;
-  setEditorHTML: ((editorHTML: HTMLElement) => void) | undefined;
+  setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
 
 /*
@@ -26,22 +24,24 @@ export const PadEditor: FC<PadEditorProps> = ({
   defaultValue,
   onChange,
   onCmdEnter,
+  onShiftEnter,
   onFocus,
   onBlur,
-  setEditorHTML
+  setEditor
 }) => {
   const hasFocusRef = useRef(false);
 
-  // Need to use a ref to ensure the handler bound to onKeyDown always has the latest value of onCmdEnter.
+  // Need to use a ref to ensure that onKeyDown has access to the latest handlers.
   const onCmdEnterRef = useRef(onCmdEnter);
+  const onShiftEnterRef = useRef(onShiftEnter);
   useEffect(() => {
     onCmdEnterRef.current = onCmdEnter;
-  }, [onCmdEnter]);
+    onShiftEnterRef.current = onShiftEnter;
+  }, [onCmdEnter, onShiftEnter]);
 
   const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
-    if (setEditorHTML) {
-      const editorHTML = editor.getDomNode();
-      editorHTML && setEditorHTML(editorHTML);
+    if (setEditor) {
+      setEditor(editor);
     }
 
     editor.onDidFocusEditorText(() => {
@@ -59,8 +59,8 @@ export const PadEditor: FC<PadEditorProps> = ({
         return;
       }
 
-      // CMD + Enter
-      if (!event.metaKey || event.keyCode !== 3) {
+      // (CMD or Shift) + Enter
+      if (!(event.metaKey || event.shiftKey) || event.keyCode !== 3) {
         return;
       }
 
@@ -68,7 +68,15 @@ export const PadEditor: FC<PadEditorProps> = ({
         document.activeElement.blur();
       }
 
-      onCmdEnterRef.current();
+      if (event.metaKey) {
+        onCmdEnterRef.current();
+        return;
+      }
+
+      if (event.shiftKey) {
+        onShiftEnterRef.current();
+        return;
+      }
     });
   };
 

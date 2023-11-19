@@ -4,7 +4,7 @@ import {FC, MouseEventHandler} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {IconTypesEnum} from '../Icon/types';
 import {Icon} from '../Icon';
-import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
+import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
 import {create} from 'zustand';
 
 /*
@@ -50,7 +50,7 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
 type Pad = {
   id: string;
   context?: VmContext;
-  editorHTML?: HTMLElement;
+  editor?: IStandaloneCodeEditor;
 };
 
 /*
@@ -71,7 +71,7 @@ type NotebookStateHandlers = {
   blurPad: (id: string) => void;
   insertPadBefore: (id: string, pad: Pad) => void;
   insertPadAfter: (id: string, pad: Pad) => void;
-  setEditorHTML: (id: string, editorHTML: HTMLElement) => void;
+  setEditor: (id: string, editor: IStandaloneCodeEditor) => void;
 };
 
 type NotebookState = NotebookStateAttributes & NotebookStateHandlers;
@@ -147,7 +147,7 @@ const useNotebookStore = create<NotebookState>(set => ({
       return {...state, pads: updatedPads};
     });
   },
-  setEditorHTML: (id, editorHTML: HTMLElement) => {
+  setEditor: (id, editor: IStandaloneCodeEditor) => {
     set(state => {
       const index = state.pads.findIndex(pad => pad.id === id);
 
@@ -155,7 +155,7 @@ const useNotebookStore = create<NotebookState>(set => ({
         throw new Error(`Could not find pad with id ${id}`);
       }
 
-      const updatedPad = {...state.pads[index], editorHTML};
+      const updatedPad = {...state.pads[index], editor};
 
       const updatedPads = [...state.pads.slice(0, index), updatedPad, ...state.pads.slice(index + 1)];
 
@@ -226,7 +226,7 @@ export const Notebook = () => {
 const NotebookPad: FC<{
   index: number;
 }> = ({index}) => {
-  const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad, setEditorHTML} = useNotebookStore();
+  const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad, setEditor} = useNotebookStore();
 
   const pad = pads[index];
 
@@ -252,10 +252,11 @@ const NotebookPad: FC<{
         (index === 0 || Boolean(getPreviousPadContext(pads, index)))
       }
       hasFocus={focusedPadId === pad.id}
+      nextPadEditor={pads[index + 1]?.editor}
       onFocus={() => onPadFocus(pad.id)}
       onBlur={() => onPadBlur(pad.id)}
       onPadRunComplete={context => onPadRunComplete(pad.id, context)}
-      setEditorHTML={(editorHTML: HTMLElement) => setEditorHTML(pad.id, editorHTML)}
+      setEditor={(editor: IStandaloneCodeEditor) => setEditor(pad.id, editor)}
     />
   );
 };

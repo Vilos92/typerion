@@ -5,7 +5,7 @@ import {runInNewContext} from 'vm';
 import {PadEditor} from '../PadEditor';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
-import {AsyncStatusesEnum, Handler, VmContext} from '../../types';
+import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
 
 /*
  * Types.
@@ -18,10 +18,11 @@ type PadProps = {
   context?: VmContext;
   shouldAutoRun?: boolean;
   hasFocus?: boolean;
+  nextPadEditor?: IStandaloneCodeEditor;
   onFocus?: Handler;
   onBlur?: Handler;
   onPadRunComplete?: (context: VmContext) => void;
-  setEditorHTML?: (editorHTML: HTMLElement) => void;
+  setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
 
 type StyledMainProps = {
@@ -71,10 +72,11 @@ export const Pad: FC<PadProps> = ({
   context,
   shouldAutoRun,
   hasFocus,
+  nextPadEditor,
   onFocus,
   onBlur,
   onPadRunComplete,
-  setEditorHTML
+  setEditor
 }) => {
   const esbuild = useEsbuild();
 
@@ -118,6 +120,10 @@ export const Pad: FC<PadProps> = ({
 
   const onRunClick = run;
   const onCmdEnter = run;
+  const onShiftEnter = async () => {
+    await run();
+    nextPadEditor?.focus();
+  };
 
   const onResetClick = () => {
     setRunStatus(AsyncStatusesEnum.IDLE);
@@ -153,9 +159,10 @@ export const Pad: FC<PadProps> = ({
         defaultValue={code}
         onChange={onChange}
         onCmdEnter={onCmdEnter}
+        onShiftEnter={onShiftEnter}
         onFocus={onFocus}
         onBlur={onBlur}
-        setEditorHTML={setEditorHTML}
+        setEditor={setEditor}
       />
       {output && <StyledOutputDiv>{output}</StyledOutputDiv>}
     </StyledMain>
