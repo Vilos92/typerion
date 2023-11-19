@@ -6,7 +6,7 @@ import {runInNewContext} from 'vm';
 import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
-import {PadEditor} from '../PadEditor';
+import {PadEditor} from './PadEditor';
 
 /*
  * Types.

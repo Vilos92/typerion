@@ -1,7 +1,7 @@
 import Editor from '@monaco-editor/react';
 import {FC, useEffect, useRef} from 'react';
 
-import {Handler, IStandaloneCodeEditor} from '../../types';
+import {Handler, IStandaloneCodeEditor} from '../../../types';
 
 /*
  * Types.

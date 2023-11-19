@@ -1,4 +1,5 @@
 import * as monacoEditor from 'monaco-editor/esm/vs/editor/editor.api';
+import {Context as VmContext} from 'vm';
 
 /*
  * Package types.
@@ -24,3 +25,9 @@ export enum AsyncStatusesEnum {
  */
 
 export type Handler = () => void;
+
+export type PadState = {
+  id: string;
+  context?: VmContext;
+  editor?: IStandaloneCodeEditor;
+};
