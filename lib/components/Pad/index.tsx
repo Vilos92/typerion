@@ -1,8 +1,9 @@
 import * as esbuildModule from 'esbuild-wasm';
-import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import tw, {styled} from 'twin.macro';
-import {runInNewContext} from 'vm';
 
+import {useEsbuild} from '../../helpers/esbuild';
+import {runVm} from '../../helpers/vm';
 import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, VmContext} from '../../types';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
@@ -12,7 +13,7 @@ import {PadEditor} from './PadEditor';
  * Types.
  */
 
-type Esbuild = typeof esbuildModule;
+export type Esbuild = typeof esbuildModule;
 
 type PadProps = {
   title?: string;
@@ -108,7 +109,7 @@ export const Pad: FC<PadProps> = ({
 
       const res = await esbuild.transform(code, {loader: 'ts'});
 
-      const runContext = sandboxRun(res.code, logCb, context);
+      const runContext = runVm(res.code, logCb, context);
       console.log(runContext);
       setRunStatus(AsyncStatusesEnum.SUCCESS);
 
@@ -169,114 +170,3 @@ export const Pad: FC<PadProps> = ({
     </StyledMain>
   );
 };
-
-/*
- * Hooks.
- */
-
-function useEsbuild(): Esbuild | undefined {
-  const asyncStatusRef = useRef(AsyncStatusesEnum.IDLE);
-  const [esModule, setEsModule] = useState<Esbuild | undefined>(undefined);
-
-  if (asyncStatusRef.current === AsyncStatusesEnum.IDLE) {
-    (async () => {
-      asyncStatusRef.current = AsyncStatusesEnum.LOADING;
-      const esModule = await getEsModule();
-      setEsModule(() => esModule);
-    })()
-      .catch(error => {
-        asyncStatusRef.current = AsyncStatusesEnum.ERROR;
-        console.error(error);
-      })
-      .finally(() => {
-        asyncStatusRef.current = AsyncStatusesEnum.SUCCESS;
-      });
-  }
-
-  return esModule;
-}
-
-/*
- * Helpers.
- */
-
-const getEsModule = makeGetEsModule();
-
-function makeGetEsModule() {
-  let esModule: Esbuild | undefined;
-
-  return async () => {
-    if (!esModule) {
-      esModule = esbuildModule;
-      try {
-        await esbuildModule.initialize({
-          wasmURL: './esbuild.wasm'
-        });
-
-        // Do not want to attempt initializing again.
-        return;
-      } catch {
-        console.error('Failed to load esbuild.wasm from ./esbuild.wasm - falling back to unpkg.com');
-      }
-
-      try {
-        await esbuildModule.initialize({
-          wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm'
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    return esModule;
-  };
-}
-
-function sandboxRun(code: string, logCb: (line: string) => void, context?: VmContext): VmContext {
-  const logContext = makeLogContext(logCb);
-
-  const baseContext: VmContext = {
-    ...logContext
-  };
-
-  const runContext = context ? {...context, ...baseContext} : baseContext;
-
-  runInNewContext(code, runContext);
-
-  return runContext;
-}
-
-function makeLogContext(logCb: (line: string) => void) {
-  const logLine = (...values: ReadonlyArray<unknown>) => {
-    const line = values
-      .map(value => {
-        if (typeof value === 'string') {
-          return value;
-        }
-
-        return JSON.stringify(value);
-      })
-      .join(' ');
-
-    logCb(line);
-  };
-
-  return {
-    console: {
-      log: makeLog(logLine, console.log),
-      info: makeLog(logLine, console.info),
-      warn: makeLog(logLine, console.warn),
-      error: makeLog(logLine, console.error)
-    }
-  };
-}
-
-function makeLog(
-  logLine: (...values: ReadonlyArray<unknown>) => void,
-  log: (...values: ReadonlyArray<unknown>) => void
-) {
-  return (...values: ReadonlyArray<unknown>) => {
-    log(...values);
-    logLine(...values);
-  };
-}

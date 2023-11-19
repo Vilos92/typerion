@@ -2,7 +2,7 @@ import {MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
-import {useNotebookStore} from '../../store';
+import {useNotebookStore} from '../../store/store';
 import {AsyncStatusesEnum, Handler} from '../../types';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';

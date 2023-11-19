@@ -1,30 +1,8 @@
 import {v4 as uuidv4} from 'uuid';
 import {create} from 'zustand';
 
-import {AsyncStatusesEnum, Handler, IStandaloneCodeEditor, PadState} from './types';
-
-/*
- * Types.
- */
-
-type NotebookStateAttributes = {
-  runStatus: AsyncStatusesEnum;
-  focusedPadId?: string;
-  pads: readonly PadState[];
-};
-
-type NotebookStateHandlers = {
-  run: Handler;
-  stop: Handler;
-  updatePad: (id: string, pad: PadState) => void;
-  focusPad: (id: string) => void;
-  blurPad: (id: string) => void;
-  insertPadBefore: (id: string, pad: PadState) => void;
-  insertPadAfter: (id: string, pad: PadState) => void;
-  setEditor: (id: string, editor: IStandaloneCodeEditor) => void;
-};
-
-type NotebookState = NotebookStateAttributes & NotebookStateHandlers;
+import {AsyncStatusesEnum, IStandaloneCodeEditor} from '../types';
+import {NotebookState} from './types';
 
 /*
  * Store.
