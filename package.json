@@ -24,7 +24,7 @@
     "preview": "vite preview",
     "sort-package-json:check": "sort-package-json --check",
     "sort-package-json:fix": "sort-package-json",
-    "unused-exports": "ts-unused-exports ./tsconfig.json --excludePathsFromReport='lib/main.ts;vite.config.ts'"
+    "unused-exports": "ts-unused-exports ./tsconfig.json --excludePathsFromReport='vite.config.ts;lib/main.ts'"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
