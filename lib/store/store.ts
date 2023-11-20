@@ -14,7 +14,7 @@ export const useNotebookStore = create<NotebookState>(set => ({
   pads: [
     {
       id: uuidv4(),
-      defaultCode: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']))"
+      defaultCode: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));"
     }
   ],
   run: () => {
