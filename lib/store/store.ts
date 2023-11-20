@@ -13,7 +13,8 @@ export const useNotebookStore = create<NotebookState>(set => ({
   focusedPadId: undefined,
   pads: [
     {
-      id: uuidv4()
+      id: uuidv4(),
+      defaultCode: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']))"
     }
   ],
   run: () => {

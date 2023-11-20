@@ -1,4 +1,3 @@
-import type * as esbuildModule from 'esbuild-wasm';
 import {type FC, useCallback, useEffect, useMemo, useState} from 'react';
 import tw, {styled} from 'twin.macro';
 
@@ -13,10 +12,9 @@ import {PadEditor} from './PadEditor';
  * Types.
  */
 
-export type Esbuild = typeof esbuildModule;
-
 type PadProps = {
   title?: string;
+  defaultCode?: string;
   context?: VmContext;
   shouldAutoRun?: boolean;
   hasFocus?: boolean;
@@ -71,6 +69,7 @@ const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-st
 
 export const Pad: FC<PadProps> = ({
   title,
+  defaultCode,
   context,
   shouldAutoRun,
   hasFocus,
@@ -82,7 +81,7 @@ export const Pad: FC<PadProps> = ({
 }) => {
   const esbuild = useEsbuild();
 
-  const [code, setCode] = useState<string>('');
+  const [code, setCode] = useState<string>(defaultCode ?? '');
 
   const [lines, setLines] = useState<readonly string[]>([]);
 
@@ -107,9 +106,9 @@ export const Pad: FC<PadProps> = ({
       setRunStatus(AsyncStatusesEnum.LOADING);
       setLines([]);
 
-      const res = await esbuild.transform(code, {loader: 'ts'});
+      const builtCode = await esbuild(code);
 
-      const runContext = runVm(res.code, logCb, context);
+      const runContext = runVm(builtCode, logCb, context);
       console.log(runContext);
       setRunStatus(AsyncStatusesEnum.SUCCESS);
 

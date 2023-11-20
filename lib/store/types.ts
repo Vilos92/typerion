@@ -8,6 +8,7 @@ import {type AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor} from '
 
 export type PadState = {
   id: string;
+  defaultCode?: string;
   context?: VmContext;
   editor?: IStandaloneCodeEditor;
 };
