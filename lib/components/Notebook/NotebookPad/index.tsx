@@ -26,13 +26,17 @@ export const NotebookPad: FC<{
     blurPad(id);
   };
 
+  const onChange = (value: string) => {
+    updatePad(pad.id, {...pad, code: value});
+  };
+
   const onRunComplete = (context: VmContext) => {
-    updatePad(pad.id, {id: pad.id, context});
+    updatePad(pad.id, {...pad, context});
   };
 
   const onShiftEnterComplete = () => {
     if (index === pads.length - 1) {
-      insertPadAfter(pad.id, {id: uuidv4()});
+      insertPadAfter(pad.id, {id: uuidv4(), code: ''});
     }
 
     pads[index + 1]?.editor?.focus();
@@ -51,6 +55,7 @@ export const NotebookPad: FC<{
       hasFocus={focusedPadId === pad.id}
       onFocus={() => onPadFocus(pad.id)}
       onBlur={() => onPadBlur(pad.id)}
+      onChange={onChange}
       onRunComplete={onRunComplete}
       onShiftEnterComplete={onShiftEnterComplete}
       setEditor={(editor: IStandaloneCodeEditor) => setEditor(pad.id, editor)}

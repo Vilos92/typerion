@@ -2,6 +2,7 @@ import {type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
+import {getTypnb} from '../../store/selectors';
 import {useNotebookStore} from '../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../types';
 import {Icon} from '../Icon';
@@ -49,7 +50,8 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
  */
 
 export const Notebook = () => {
-  const {runStatus, focusedPadId, pads, run, stop, insertPadBefore, insertPadAfter} = useNotebookStore();
+  const state = useNotebookStore();
+  const {runStatus, focusedPadId, pads, run, stop, insertPadBefore, insertPadAfter} = state;
 
   const onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
     if (!focusedPadId) {
@@ -58,7 +60,7 @@ export const Notebook = () => {
 
     event.preventDefault();
 
-    insertPadBefore(focusedPadId, {id: uuidv4()});
+    insertPadBefore(focusedPadId, {id: uuidv4(), code: ''});
 
     event.currentTarget.focus();
     event.currentTarget.blur();
@@ -71,7 +73,7 @@ export const Notebook = () => {
 
     event.preventDefault();
 
-    insertPadAfter(focusedPadId, {id: uuidv4()});
+    insertPadAfter(focusedPadId, {id: uuidv4(), code: ''});
 
     event.currentTarget.focus();
     event.currentTarget.blur();
@@ -86,13 +88,18 @@ export const Notebook = () => {
     stop();
   };
 
+  const onSaveClick = () => {
+    const typnb = getTypnb(state);
+    console.log('typnb', typnb);
+  };
+
   const isAddButtonsDisabled = !focusedPadId;
 
   return (
     <StyledMain>
       <StyledTopDiv>
         {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
-        {renderPlayPauseButton(runStatus, onRunPauseClick)}
+        {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick)}
       </StyledTopDiv>
       <StyledNotebookDiv>
         {pads.map((pad, index) => (
@@ -121,6 +128,21 @@ function renderAddButtons(
       <StyledIconButton onMouseDown={onInsertPadAfterMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_RIGHT_DOWN} size={32} />
       </StyledIconButton>
+    </StyledButtonGroup>
+  );
+}
+
+function renderRightButtonGroup(
+  runStatus: AsyncStatusesEnum,
+  onPlayPauseClick: Handler,
+  onSaveClick: Handler
+) {
+  return (
+    <StyledButtonGroup>
+      <StyledIconButton onClick={onSaveClick}>
+        <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
+      </StyledIconButton>
+      {renderPlayPauseButton(runStatus, onPlayPauseClick)}
     </StyledButtonGroup>
   );
 }

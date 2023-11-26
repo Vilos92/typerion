@@ -8,6 +8,7 @@ import {type AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor} from '
 
 export type PadState = {
   id: string;
+  code: string;
   defaultCode?: string;
   context?: VmContext;
   editor?: IStandaloneCodeEditor;
@@ -16,7 +17,7 @@ export type PadState = {
 type NotebookStateAttributes = {
   runStatus: AsyncStatusesEnum;
   focusedPadId?: string;
-  pads: readonly PadState[];
+  pads: ReadonlyArray<PadState>;
 };
 
 type NotebookStateHandlers = {

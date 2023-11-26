@@ -2,6 +2,7 @@ import {
   ArrowCounterClockwise,
   ArrowElbowLeftUp,
   ArrowElbowRightDown,
+  FloppyDisk,
   PauseCircle,
   type Icon as PhosphorIcon,
   Play,
@@ -37,10 +38,14 @@ export const Icon: FC<IconProps> = ({className, type, size}) => {
 
 function computePhosphorIcon(type: IconTypesEnum): PhosphorIcon {
   switch (type) {
+    case IconTypesEnum.ARROW_COUNTER_CLOCKWISE:
+      return ArrowCounterClockwise;
     case IconTypesEnum.ARROW_ELBOW_LEFT_UP:
       return ArrowElbowLeftUp;
     case IconTypesEnum.ARROW_ELBOW_RIGHT_DOWN:
       return ArrowElbowRightDown;
+    case IconTypesEnum.FLOPPY_DISK:
+      return FloppyDisk;
     case IconTypesEnum.PAUSE_CIRCLE:
       return PauseCircle;
     case IconTypesEnum.PLAY:
@@ -49,8 +54,7 @@ function computePhosphorIcon(type: IconTypesEnum): PhosphorIcon {
       return PlayCircle;
     case IconTypesEnum.PLUS:
       return Plus;
-    case IconTypesEnum.RESET:
-      return ArrowCounterClockwise;
+
     default:
       throw new Error(`Unknown icon type: ${type}`);
   }

@@ -20,6 +20,7 @@ type PadProps = {
   hasFocus?: boolean;
   onFocus?: Handler;
   onBlur?: Handler;
+  onChange?: (value: string) => void;
   onRunComplete?: (context: VmContext) => void;
   onShiftEnterComplete?: Handler;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
@@ -75,6 +76,7 @@ export const Pad: FC<PadProps> = ({
   hasFocus,
   onFocus,
   onBlur,
+  onChange,
   onRunComplete,
   onShiftEnterComplete,
   setEditor
@@ -87,10 +89,12 @@ export const Pad: FC<PadProps> = ({
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
 
-  const onChange = (value?: string) => {
+  const onEditorChange = (value?: string) => {
     if (!value) return;
     setCode(value);
     setRunStatus(AsyncStatusesEnum.IDLE);
+
+    onChange?.(value);
   };
 
   const logCb = (line: string) => {
@@ -152,13 +156,13 @@ export const Pad: FC<PadProps> = ({
         {title && <li>{title}</li>}
         <li>
           <StyledResetButton onClick={onResetClick}>
-            <Icon type={IconTypesEnum.RESET} />
+            <Icon type={IconTypesEnum.ARROW_COUNTER_CLOCKWISE} />
           </StyledResetButton>
         </li>
       </StyledHeaderMenu>
       <PadEditor
         defaultValue={code}
-        onChange={onChange}
+        onChange={onEditorChange}
         onCmdEnter={onCmdEnter}
         onShiftEnter={onShiftEnter}
         onFocus={onFocus}
