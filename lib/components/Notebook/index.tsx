@@ -3,6 +3,7 @@ import {type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
+import typerionLogoMarkDark from '../../assets/typerionLogoMarkDark.svg';
 import {getTypnb} from '../../store/selectors';
 import {useNotebookStore} from '../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../types';
@@ -27,6 +28,8 @@ type StyledButtonGroupProps = {
 const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320px]`;
 
 const StyledTopDiv = tw.div`sticky z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4`;
+
+const StyledLogoImg = tw.img`h-10`;
 
 const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
   ${({$isDisabled}) => {
@@ -108,6 +111,7 @@ export const Notebook = () => {
     <StyledMain>
       <StyledTopDiv>
         {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
+        <StyledLogoImg src={typerionLogoMarkDark} alt="Typerion" />
         {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
       </StyledTopDiv>
       <StyledNotebookDiv>
