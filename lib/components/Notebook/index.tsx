@@ -9,6 +9,7 @@ import {AsyncStatusesEnum, type Handler} from '../../types';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
 import {NotebookPad} from './NotebookPad';
+import {TypnbOpenButton} from './TypnbOpenButton';
 
 /*
  * Types.
@@ -146,16 +147,7 @@ function renderRightButtonGroup(
 ) {
   return (
     <StyledButtonGroup>
-      <StyledIconButton>
-        <Icon type={IconTypesEnum.FOLDER_OPEN} size={32} />
-        <input
-          type="file"
-          accept="application/json"
-          onChange={event =>
-            handleFileInputEvent(event as unknown as ChangeEvent<HTMLInputElement>, onTypnbFileLoad)
-          }
-        />
-      </StyledIconButton>
+      <TypnbOpenButton onTypnbFileLoad={onTypnbFileLoad} />
       <StyledIconButton onClick={onSaveClick}>
         <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
       </StyledIconButton>
@@ -187,27 +179,4 @@ function saveTypnbFile(typnb: TypnbState) {
   const json = JSON.stringify(typnb);
   const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
   saveAs(blob, 'typnb.json');
-}
-
-function handleFileInputEvent(
-  event: ChangeEvent<HTMLInputElement>,
-  onFileLoad: (fileString: string) => void
-) {
-  const file = event.currentTarget.files?.[0];
-  if (!file) {
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = event => {
-    const file = event?.target?.result;
-    if (!file) {
-      return;
-    }
-
-    const fileString: string = typeof file === 'string' ? file : Buffer.from(file).toString();
-
-    onFileLoad(fileString);
-  };
-  reader.readAsText(file);
 }
