@@ -3,7 +3,9 @@ import {type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
+import typerionIcon from '../../assets/typerionIcon.svg';
 import typerionIconDark from '../../assets/typerionIconDark.svg';
+import typerionLogoMark from '../../assets/typerionLogoMark.svg';
 import typerionLogoMarkDark from '../../assets/typerionLogoMarkDark.svg';
 import {getTypnb} from '../../store/selectors';
 import {useNotebookStore} from '../../store/store';
@@ -28,20 +30,58 @@ type StyledButtonGroupProps = {
 
 const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320px]`;
 
-const StyledTopDiv = tw.div`sticky z-10 flex h-12 flex-row items-center justify-between bg-stone-700 px-4`;
+const StyledTopDiv = styled.div`
+  ${tw`sticky z-10 flex h-12 flex-row items-center justify-between bg-stone-300 px-4`};
+
+  @media (prefers-color-scheme: dark) {
+    ${tw`bg-stone-700`};
+  }
+`;
 
 const StyledLogoImg = styled.img`
-  ${tw`h-10`}
+  ${tw`h-10`};
 
-  @media screen and (min-width: 1024px) {
-    &.logo {
-      ${tw`hidden`}
+  @media (prefers-color-scheme: light) {
+    &.logo-dark {
+      ${tw`hidden`};
+    }
+
+    &.logo-mark-dark {
+      ${tw`hidden`};
+    }
+
+    @media screen and (min-width: 1024px) {
+      &.logo {
+        ${tw`hidden`};
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      &.logo-mark {
+        ${tw`hidden`};
+      }
     }
   }
 
-  @media screen and (max-width: 1024px) {
+  @media (prefers-color-scheme: dark) {
+    &.logo {
+      ${tw`hidden`};
+    }
+
     &.logo-mark {
-      ${tw`hidden`}
+      ${tw`hidden`};
+    }
+
+    @media screen and (min-width: 1024px) {
+      &.logo-dark {
+        ${tw`hidden`};
+      }
+    }
+
+    @media screen and (max-width: 1024px) {
+      &.logo-mark-dark {
+        ${tw`hidden`};
+      }
     }
   }
 `;
@@ -56,11 +96,11 @@ const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
   ${tw`flex flex-row items-center`}
 `;
 
-const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 text-white hover:bg-stone-500`;
+const StyledIconButton = tw.button`flex items-center justify-center rounded p-2  text-black hover:text-white dark:text-white hover:bg-stone-500`;
 
 const StyledPlusIcon = tw(Icon)`text-stone-500`;
 
-const StyledPlayButton = tw(StyledIconButton)`text-white hover:text-emerald-600`;
+const StyledPlayButton = tw(StyledIconButton)`text-black dark:text-white hover:text-emerald-600`;
 
 const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchsia-600`;
 
@@ -126,8 +166,10 @@ export const Notebook = () => {
     <StyledMain>
       <StyledTopDiv>
         {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
-        <StyledLogoImg className="logo" src={typerionIconDark} alt="Typerion" />
-        <StyledLogoImg className="logo-mark" src={typerionLogoMarkDark} alt="Typerion" />
+        <StyledLogoImg className="logo" src={typerionIcon} alt="Typerion" />
+        <StyledLogoImg className="logo-mark" src={typerionLogoMark} alt="Typerion" />
+        <StyledLogoImg className="logo-dark" src={typerionIconDark} alt="Typerion" />
+        <StyledLogoImg className="logo-mark-dark" src={typerionLogoMarkDark} alt="Typerion" />
         {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
       </StyledTopDiv>
       <StyledNotebookDiv>

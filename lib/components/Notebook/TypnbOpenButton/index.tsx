@@ -16,7 +16,7 @@ type TypnbOpenButtonProps = {
  * Styles.
  */
 
-const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 text-white hover:bg-stone-500`;
+const StyledIconButton = tw.button`flex items-center justify-center rounded p-2 text-black hover:text-white dark:text-white hover:bg-stone-500`;
 
 const StyledFileInput = tw.input`hidden`;
 
