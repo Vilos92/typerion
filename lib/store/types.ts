@@ -10,7 +10,6 @@ import {type TypnbState} from './selectors';
 export type PadState = {
   id: string;
   code: string;
-  defaultCode?: string;
   context?: VmContext;
   editor?: IStandaloneCodeEditor;
 };

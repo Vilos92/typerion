@@ -14,16 +14,14 @@ export const useNotebookStore = create<NotebookState>(set => ({
   pads: [
     {
       id: uuidv4(),
-      code: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));",
-      defaultCode: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));"
+      code: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));"
     }
   ],
   load: typnb => {
     set(state => {
       const pads = typnb.cells.map(cell => ({
         id: uuidv4(),
-        code: cell.source,
-        defaultCode: cell.source
+        code: cell.source
       }));
 
       return {...state, pads};

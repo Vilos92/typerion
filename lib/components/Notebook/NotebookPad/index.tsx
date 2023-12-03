@@ -46,7 +46,7 @@ export const NotebookPad: FC<{
     <Pad
       key={pad.id}
       title={renderPadTitle(index)}
-      defaultCode={pad.defaultCode}
+      defaultCode={pad.code}
       context={getPreviousPadContext(pads, index)}
       shouldAutoRun={
         runStatus === AsyncStatusesEnum.LOADING &&
