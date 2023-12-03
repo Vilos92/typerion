@@ -36,7 +36,7 @@ type StyledMainProps = {
  */
 
 const StyledMain = styled.main<StyledMainProps>`
-  ${tw`flex flex-col rounded-md border-2 border-l-8 bg-white pt-1 text-black`}
+  ${tw`flex flex-col rounded-md border-2 border-l-8 bg-stone-300 dark:bg-stone-700 pt-1 text-black dark:text-white`}
 
   ${({$runStatus, $hasFocus}) => {
     if ($hasFocus) {

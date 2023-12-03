@@ -1,6 +1,7 @@
 import Editor from '@monaco-editor/react';
 import {type FC, useEffect, useRef} from 'react';
 
+import {ColorSchemesEnum, usePrefersColorScheme} from '../../../hooks';
 import {type Handler, type IStandaloneCodeEditor} from '../../../types';
 
 /*
@@ -30,6 +31,10 @@ export const PadEditor: FC<PadEditorProps> = ({
   onBlur,
   setEditor
 }) => {
+  const colorScheme = usePrefersColorScheme();
+
+  const theme = colorScheme === ColorSchemesEnum.DARK ? 'vs-dark' : 'vs-light';
+
   const hasFocusRef = useRef(false);
 
   // Need to use a ref to ensure that onKeyDown has access to the latest handlers.
@@ -88,6 +93,7 @@ export const PadEditor: FC<PadEditorProps> = ({
 
   return (
     <Editor
+      theme={theme}
       height="300px"
       defaultLanguage="typescript"
       defaultValue={defaultValue}
