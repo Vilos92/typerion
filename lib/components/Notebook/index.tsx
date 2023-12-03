@@ -1,5 +1,5 @@
 import {saveAs} from 'file-saver';
-import {type ChangeEvent, type MouseEventHandler, type RefObject, useEffect, useRef} from 'react';
+import {type ChangeEvent, type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
