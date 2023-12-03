@@ -3,9 +3,10 @@ import {type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
-import {type TypnbState, getTypnb} from '../../store/selectors';
+import {getTypnb} from '../../store/selectors';
 import {useNotebookStore} from '../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../types';
+import {type TypnbState, decodeTypnbState} from '../../typnb';
 import {Icon} from '../Icon';
 import {IconTypesEnum} from '../Icon/types';
 import {NotebookPad} from './NotebookPad';
@@ -96,8 +97,9 @@ export const Notebook = () => {
   };
 
   function onTypnbFileLoad(fileString: string) {
-    const typnb = JSON.parse(fileString);
-    load(typnb);
+    const typnbJson = JSON.parse(fileString);
+    const typnbState = decodeTypnbState(typnbJson);
+    load(typnbState);
   }
 
   const isAddButtonsDisabled = !focusedPadId;

@@ -1,35 +1,14 @@
+import {type TypnbCellSchema, TypnbCellTypesEnum} from '../typnb';
+import {type TypnbState} from '../typnb';
 import {type NotebookState} from './types';
-
-/*
- * Enums.
- */
-
-enum CellTypesEnum {
-  CODE = 'code'
-}
-
-/*
- * Types.
- */
-
-type TypnbCodeCell = {
-  cell_type: CellTypesEnum.CODE;
-  source: string;
-};
-
-type TypnbCell = TypnbCodeCell;
-
-export type TypnbState = {
-  cells: ReadonlyArray<TypnbCell>;
-};
 
 /*
  * Selectors.
  */
 
 export const getTypnb = (state: NotebookState): TypnbState => {
-  const cells: ReadonlyArray<TypnbCell> = state.pads.map(pad => ({
-    cell_type: CellTypesEnum.CODE,
+  const cells: ReadonlyArray<TypnbCellSchema> = state.pads.map(pad => ({
+    cell_type: TypnbCellTypesEnum.CODE,
     source: pad.code
   }));
   return {cells};

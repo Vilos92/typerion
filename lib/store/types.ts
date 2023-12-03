@@ -1,7 +1,7 @@
 import {type Context as VmContext} from 'vm';
 
 import {type AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor} from '../types';
-import {type TypnbState} from './selectors';
+import {type TypnbState} from '../typnb';
 
 /*
  * Types.

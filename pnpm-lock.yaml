@@ -29,6 +29,9 @@ dependencies:
   uuid:
     specifier: ^9.0.1
     version: 9.0.1
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
   zustand:
     specifier: ^4.4.6
     version: 4.4.6(@types/react@18.2.15)(react@18.2.0)
@@ -5550,6 +5553,13 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
+
+  /zod@3.22.4:
+    resolution:
+      {
+        integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==
+      }
+    dev: false
 
   /zustand@4.4.6(@types/react@18.2.15)(react@18.2.0):
     resolution:
