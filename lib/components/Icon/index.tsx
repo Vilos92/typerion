@@ -3,6 +3,7 @@ import {
   ArrowElbowLeftUp,
   ArrowElbowRightDown,
   FloppyDisk,
+  FolderOpen,
   PauseCircle,
   type Icon as PhosphorIcon,
   Play,
@@ -46,6 +47,8 @@ function computePhosphorIcon(type: IconTypesEnum): PhosphorIcon {
       return ArrowElbowRightDown;
     case IconTypesEnum.FLOPPY_DISK:
       return FloppyDisk;
+    case IconTypesEnum.FOLDER_OPEN:
+      return FolderOpen;
     case IconTypesEnum.PAUSE_CIRCLE:
       return PauseCircle;
     case IconTypesEnum.PLAY:

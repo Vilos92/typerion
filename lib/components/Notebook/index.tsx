@@ -1,5 +1,5 @@
 import {saveAs} from 'file-saver';
-import {type MouseEventHandler} from 'react';
+import {type ChangeEvent, type MouseEventHandler, type RefObject, useEffect, useRef} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
@@ -52,7 +52,7 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
 
 export const Notebook = () => {
   const state = useNotebookStore();
-  const {runStatus, focusedPadId, pads, run, stop, insertPadBefore, insertPadAfter} = state;
+  const {runStatus, focusedPadId, pads, load, run, stop, insertPadBefore, insertPadAfter} = state;
 
   const onInsertPadBeforeMouseDown: MouseEventHandler<HTMLButtonElement> = event => {
     if (!focusedPadId) {
@@ -94,13 +94,18 @@ export const Notebook = () => {
     saveTypnbFile(typnb);
   };
 
+  function onTypnbFileLoad(fileString: string) {
+    const typnb = JSON.parse(fileString);
+    load(typnb);
+  }
+
   const isAddButtonsDisabled = !focusedPadId;
 
   return (
     <StyledMain>
       <StyledTopDiv>
         {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
-        {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick)}
+        {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
       </StyledTopDiv>
       <StyledNotebookDiv>
         {pads.map((pad, index) => (
@@ -136,10 +141,21 @@ function renderAddButtons(
 function renderRightButtonGroup(
   runStatus: AsyncStatusesEnum,
   onPlayPauseClick: Handler,
-  onSaveClick: Handler
+  onSaveClick: Handler,
+  onTypnbFileLoad: (fileString: string) => void
 ) {
   return (
     <StyledButtonGroup>
+      <StyledIconButton>
+        <Icon type={IconTypesEnum.FOLDER_OPEN} size={32} />
+        <input
+          type="file"
+          accept="application/json"
+          onChange={event =>
+            handleFileInputEvent(event as unknown as ChangeEvent<HTMLInputElement>, onTypnbFileLoad)
+          }
+        />
+      </StyledIconButton>
       <StyledIconButton onClick={onSaveClick}>
         <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
       </StyledIconButton>
@@ -171,4 +187,27 @@ function saveTypnbFile(typnb: TypnbState) {
   const json = JSON.stringify(typnb);
   const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
   saveAs(blob, 'typnb.json');
+}
+
+function handleFileInputEvent(
+  event: ChangeEvent<HTMLInputElement>,
+  onFileLoad: (fileString: string) => void
+) {
+  const file = event.currentTarget.files?.[0];
+  if (!file) {
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = event => {
+    const file = event?.target?.result;
+    if (!file) {
+      return;
+    }
+
+    const fileString: string = typeof file === 'string' ? file : Buffer.from(file).toString();
+
+    onFileLoad(fileString);
+  };
+  reader.readAsText(file);
 }

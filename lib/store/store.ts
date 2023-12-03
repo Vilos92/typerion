@@ -18,6 +18,17 @@ export const useNotebookStore = create<NotebookState>(set => ({
       defaultCode: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));"
     }
   ],
+  load: typnb => {
+    set(state => {
+      const pads = typnb.cells.map(cell => ({
+        id: uuidv4(),
+        code: cell.source,
+        defaultCode: cell.source
+      }));
+
+      return {...state, pads};
+    });
+  },
   run: () => {
     set(state => {
       return {...state, runStatus: AsyncStatusesEnum.LOADING};
