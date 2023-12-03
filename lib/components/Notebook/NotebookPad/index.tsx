@@ -7,14 +7,20 @@ import {AsyncStatusesEnum, type IStandaloneCodeEditor, type VmContext} from '../
 import {Pad} from '../../Pad';
 
 /*
- * Components.
+ * Types.
  */
 
-export const NotebookPad: FC<{
+type NotebookPadProps = {
   index: number;
-  insertPadAfter: (id: string, pad: PadState) => void;
-}> = ({index, insertPadAfter}) => {
-  const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad, setEditor} = useNotebookStore();
+};
+
+/*
+ * Component.
+ */
+
+export const NotebookPad: FC<NotebookPadProps> = ({index}) => {
+  const {runStatus, focusedPadId, pads, updatePad, focusPad, blurPad, insertPadAfter, setEditor} =
+    useNotebookStore();
 
   const pad = pads[index];
 
