@@ -19,7 +19,7 @@ type TypnbCodeCell = {
 
 type TypnbCell = TypnbCodeCell;
 
-type TypnbState = {
+export type TypnbState = {
   cells: ReadonlyArray<TypnbCell>;
 };
 

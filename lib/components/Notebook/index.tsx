@@ -1,8 +1,9 @@
+import {saveAs} from 'file-saver';
 import {type MouseEventHandler} from 'react';
 import tw, {styled} from 'twin.macro';
 import {v4 as uuidv4} from 'uuid';
 
-import {getTypnb} from '../../store/selectors';
+import {type TypnbState, getTypnb} from '../../store/selectors';
 import {useNotebookStore} from '../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../types';
 import {Icon} from '../Icon';
@@ -90,7 +91,7 @@ export const Notebook = () => {
 
   const onSaveClick = () => {
     const typnb = getTypnb(state);
-    console.log('typnb', typnb);
+    saveTypnbFile(typnb);
   };
 
   const isAddButtonsDisabled = !focusedPadId;
@@ -164,4 +165,10 @@ function renderPlayPauseButton(runStatus: AsyncStatusesEnum, onClick: Handler) {
     default:
       throw new Error(`Not a run status: ${runStatus}`);
   }
+}
+
+function saveTypnbFile(typnb: TypnbState) {
+  const json = JSON.stringify(typnb);
+  const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
+  saveAs(blob, 'typnb.json');
 }
