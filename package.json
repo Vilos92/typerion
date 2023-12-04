@@ -4,7 +4,11 @@
   "description": "Monorepo for typerion",
   "keywords": [],
   "license": "ISC",
-  "author": "",
+  "author": {
+    "name": "Gregory Linscheid",
+    "email": "linscheid.greg@gmail.com",
+    "url": "https://greglinscheid.com"
+  },
   "main": "index.js",
   "scripts": {
     "prepare": "husky install",
