@@ -9,7 +9,9 @@
       "persistent": true
     },
     "lint": {},
+    "prettier:check": {},
     "prettier:fix": {},
-    "sort-package-json:fix": {}
+    "sort-package-json:fix": {},
+    "unused-exports": {}
   }
 }
