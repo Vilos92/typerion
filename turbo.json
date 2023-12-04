@@ -11,6 +11,7 @@
     "lint": {},
     "prettier:check": {},
     "prettier:fix": {},
+    "sort-package-json:check": {},
     "sort-package-json:fix": {},
     "unused-exports": {}
   }
