@@ -1,12 +1,21 @@
+import FastifyStatic from '@fastify/static';
 import Fastify from 'fastify';
+import * as path from 'path';
+
+const isDev = process.env.NODE_ENV === 'development';
+const staticRoot = isDev ? '../dist/public' : 'public';
 
 const fastify = Fastify({
   logger: true
 });
 
+fastify.register(FastifyStatic, {
+  root: path.join(__dirname, staticRoot),
+  prefix: '/public/'
+});
+
 fastify.get('/', async (_request, reply) => {
-  reply.type('application/json').code(200);
-  return {hello: 'world'};
+  return reply.sendFile('index.html');
 });
 
 fastify.listen({port: 3000}, err => {

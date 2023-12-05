@@ -11,8 +11,10 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist; esbuild src/app.tsx --bundle --outdir=dist; cp src/index.html dist/; esbuild src/index.ts --bundle --platform=node --outdir=dist",
-    "dev": "nodemon src/index.ts",
+    "build:app": "esbuild src/app.tsx --bundle --outdir=dist/public && cp src/index.html dist/public",
+    "build:server": "esbuild src/index.ts --bundle --platform=node --outdir=dist",
+    "build": "rm -rf dist; pnpm build:app && pnpm build:server",
+    "dev": "export NODE_ENV=development && pnpm build:app && nodemon src/index.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "prettier:check": "prettier --check --ignore-unknown '**/*'",
@@ -22,6 +24,7 @@
     "unused-exports": "ts-unused-exports ./tsconfig.json --excludePathsFromReport='vite.config.ts;lib/main.ts'"
   },
   "dependencies": {
+    "@fastify/static": "^6.12.0",
     "fastify": "^4.24.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
