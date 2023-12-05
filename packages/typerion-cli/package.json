@@ -1,6 +1,7 @@
 {
   "name": "typerion-cli",
   "version": "1.0.0",
+  "bin": "./dist/index.js",
   "description": "typerion client",
   "keywords": [],
   "license": "ISC",
@@ -11,12 +12,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf dist; pnpm build:app && pnpm build:server",
+    "build": "rm -rf dist; pnpm build:app && pnpm build:server && pnpm build:add-shebang",
     "build:app": "esbuild src/app.tsx --bundle --outdir=dist/public && cp src/index.html dist/public",
     "build:server": "esbuild src/index.ts --bundle --platform=node --outdir=dist",
+    "build:add-shebang": "echo '#!/usr/bin/env node' | cat - dist/index.js > dist/temp && mv dist/temp dist/index.js && chmod +x dist/index.js",
     "dev": "export NODE_ENV=development && pnpm build:app && nodemon src/index.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "prepublishOnly": "pnpm run build",
     "prettier:check": "prettier --check --ignore-unknown '**/*'",
     "prettier:fix": "prettier --write --ignore-unknown '**/*'",
     "sort-package-json:check": "sort-package-json --check",

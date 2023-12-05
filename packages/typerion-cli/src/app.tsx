@@ -1,9 +1,10 @@
 import {type FC} from 'react';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import {Notebook} from 'typerion';
 
 const App: FC = () => {
   return <Notebook />;
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const root = createRoot(document.getElementById('root')!);
+root.render(<App />);
