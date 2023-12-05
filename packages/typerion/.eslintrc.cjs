@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   root: true,
   env: {browser: true, es2020: true},
@@ -10,7 +12,7 @@ module.exports = {
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json'
+    project: path.join(__dirname, 'tsconfig.json')
   },
   plugins: ['react-refresh'],
   rules: {

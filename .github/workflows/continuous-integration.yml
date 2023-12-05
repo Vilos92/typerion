@@ -11,8 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cache-and-install-pnpm
-      - name: Package JSON
+      - name: Package JSON - monorepo
         run: pnpm sort-package-json:check
+      - name: Package JSON
+        run: turbo run sort-package-json:check
 
   prettier:
     runs-on: ubuntu-latest
@@ -20,8 +22,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cache-and-install-pnpm
-      - name: Prettier
+      - name: Prettier - monorepo
         run: pnpm prettier:check
+      - name: Prettier
+        run: turbo run prettier:check
 
   lint:
     runs-on: ubuntu-latest
@@ -30,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cache-and-install-pnpm
       - name: Lint
-        run: pnpm lint
+        run: turbo run lint
 
   unused-exports:
     runs-on: ubuntu-latest
@@ -39,4 +43,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cache-and-install-pnpm
       - name: Unused Exports
-        run: pnpm unused-exports
+        run: turbo run unused-exports

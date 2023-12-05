@@ -29,6 +29,10 @@ runs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
+    - name: Install Turbo
+      shell: bash
+      run: pnpm add -g turbo
+
     - name: Install dependencies
       shell: bash
       run: pnpm install

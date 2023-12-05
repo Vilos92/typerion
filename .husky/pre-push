@@ -2,5 +2,8 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm sort-package-json:fix
+turbo run sort-package-json:fix
+
+turbo run lint
+
 pnpm lint-staged
-pnpm lint
