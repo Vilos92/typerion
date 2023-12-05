@@ -9,7 +9,7 @@ fastify.get('/', async (_request, reply) => {
   return {hello: 'world'};
 });
 
-fastify.listen({port: 3000}, (err, _address) => {
+fastify.listen({port: 3000}, err => {
   if (err) throw err;
 });
 
