@@ -1,6 +1,8 @@
 {
   "name": "typerion",
   "version": "0.0.4",
+  "description": "typerion library",
+  "keywords": [],
   "author": {
     "name": "Gregory Linscheid",
     "email": "linscheid.greg@gmail.com",
