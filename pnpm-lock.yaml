@@ -153,12 +153,27 @@ importers:
       "@swc/core":
         specifier: ^1.3.100
         version: 1.3.100
+      "@typescript-eslint/eslint-plugin":
+        specifier: ^6.0.0
+        version: 6.13.1(@typescript-eslint/parser@6.13.1)(eslint@8.55.0)(typescript@5.3.2)
+      "@typescript-eslint/parser":
+        specifier: ^6.0.0
+        version: 6.13.1(eslint@8.55.0)(typescript@5.3.2)
       esbuild:
         specifier: ^0.19.8
         version: 0.19.8
+      eslint:
+        specifier: ^8.45.0
+        version: 8.55.0
+      eslint-config-prettier:
+        specifier: ^9.0.0
+        version: 9.1.0(eslint@8.55.0)
       nodemon:
         specifier: ^3.0.2
         version: 3.0.2
+      prettier:
+        specifier: 3.0.3
+        version: 3.0.3
       sort-package-json:
         specifier: ^2.6.0
         version: 2.6.0
