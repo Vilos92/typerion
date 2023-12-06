@@ -37,50 +37,6 @@ const StyledTopDiv = styled.div`
 
 const StyledLogoImg = styled.img`
   ${tw`h-10`};
-
-  @media (prefers-color-scheme: light) {
-    &.logo-dark {
-      ${tw`hidden`};
-    }
-
-    &.logo-mark-dark {
-      ${tw`hidden`};
-    }
-
-    @media screen and (min-width: 1024px) {
-      &.logo {
-        ${tw`hidden`};
-      }
-    }
-
-    @media screen and (max-width: 1024px) {
-      &.logo-mark {
-        ${tw`hidden`};
-      }
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    &.logo {
-      ${tw`hidden`};
-    }
-
-    &.logo-mark {
-      ${tw`hidden`};
-    }
-
-    @media screen and (min-width: 1024px) {
-      &.logo-dark {
-        ${tw`hidden`};
-      }
-    }
-
-    @media screen and (max-width: 1024px) {
-      &.logo-mark-dark {
-        ${tw`hidden`};
-      }
-    }
-  }
 `;
 
 const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
@@ -160,10 +116,20 @@ export const NotebookTop: FC = () => {
   return (
     <StyledTopDiv>
       {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
-      <StyledLogoImg className="logo" src={typerionIcon} alt="Typerion" />
-      <StyledLogoImg className="logo-mark" src={typerionLogoMark} alt="Typerion" />
-      <StyledLogoImg className="logo-dark" src={typerionIconDark} alt="Typerion" />
-      <StyledLogoImg className="logo-mark-dark" src={typerionLogoMarkDark} alt="Typerion" />
+
+      <picture>
+        <source srcSet={typerionIcon} media="screen and (max-width: 1024px)" />
+        <source srcSet={typerionLogoMark} media="screen and (min-width: 1024px)" />
+        <source
+          srcSet={typerionIconDark}
+          media="(prefers-color-scheme: dark) and screen and (max-width: 1024px)"
+        />
+        <source
+          srcSet={typerionLogoMarkDark}
+          media="(prefers-color-scheme: dark) and screen and (min-width: 1024px)"
+        />
+        <StyledLogoImg src={typerionIcon} />
+      </picture>
       {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
     </StyledTopDiv>
   );
