@@ -1,13 +1,6 @@
 <a name="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -15,11 +8,28 @@
 [![Issues][issues-shield]][issues-url]
 [![Apache 2.0 License][license-shield]][license-url]
 
+<!-- NPM BADGES -->
+
+`typerion`
+
+<ul>
+  <li><a href="https://badge.fury.io/js/typerion"><img src="https://badge.fury.io/js/typerion.svg" alt="npm version" height="18"></a></li>
+</ul>
+
+`typerion-cli`
+
+<ul>
+  <li><a href="https://badge.fury.io/js/typerion-cli"><img src="https://badge.fury.io/js/typerion-cli.svg" alt="npm version" height="18"></a></li>
+</ul>
+
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/vilos92/typerion">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="images/typerionLogoMarkDark.svg">
+      <img src="images/typerionLogoMarkDark.svg" alt="Logo" height="100">
+    </picture>
   </a>
 
   <h3 align="center">Typerion</h3>
@@ -30,7 +40,7 @@
     <a href="https://github.com/vilos92/typerion"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/vilos92/typerion">View Demo</a>
+    <a href="https://typerion.dev">Web App</a>
     ·
     <a href="https://github.com/vilos92/typerion/issues">Report Bug</a>
     ·
@@ -44,23 +54,20 @@
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#pre-requisites">Pre-requisites</a></li>
+        <li><a href="#install-and-run">Install and Run</a></li>
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#license">License</a></li>
   </ol>
 </details>
 
@@ -68,7 +75,12 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://typerion.dev)
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="images/screenshotDark.png">
+    <img src="images/screenshot.png" alt="Typerion Screen Shot" height="480">
+  </picture>
+</div>
 
 This is an interactive TypeScript notebook that can be used to develop, prototype, and share software. Typerion is entirely open-source, with a focus on low-barrier-to-use and ease-of-sharing results with other developers.
 
@@ -82,6 +94,8 @@ The Typerion notebook:
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED -->
+
+## Getting Started
 
 ### Quick Start
 
@@ -122,7 +136,7 @@ After the last command, Typerion app can be accessed at http://localhost:5173/
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+### Usage
 
 The header Notebook header contains controls to:
 
@@ -188,7 +202,7 @@ Project Link: [https://github.com/vilos92/typerion](https://github.com/vilos92/t
 
 ## License
 
-Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information.
+Distributed under the Apache 2.0 License. See [`LICENSE`][license-url] for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -204,5 +218,4 @@ Distributed under the Apache 2.0 License. See `LICENSE.txt` for more information
 [issues-shield]: https://img.shields.io/github/issues/vilos92/typerion.svg?style=for-the-badge
 [issues-url]: https://github.com/vilos92/typerion/issues
 [license-shield]: https://img.shields.io/github/license/vilos92/typerion.svg?style=for-the-badge
-[license-url]: https://github.com/vilos92/typerion/blob/master/LICENSE.txt
-[product-screenshot]: images/screenshot.png
+[license-url]: https://github.com/vilos92/typerion/blob/master/LICENSE
