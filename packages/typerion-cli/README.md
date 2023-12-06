@@ -10,10 +10,10 @@
 
 <!-- NPM BADGES -->
 
-`typerion`
+`typerion-cli`
 
 <ul>
-  <li><a href="https://badge.fury.io/js/typerion"><img src="https://badge.fury.io/js/typerion.svg" alt="npm version" height="18"></a></li>
+  <li><a href="https://badge.fury.io/js/typerion-cli"><img src="https://badge.fury.io/js/typerion-cli.svg" alt="npm version" height="18"></a></li>
 </ul>
 
 <!-- PROJECT LOGO -->
@@ -110,9 +110,9 @@ Install pnpm
    ```sh
    git clone https://github.com/vilos92/typerion.git
    ```
-2. Navigate to the `typerion` package.
+2. Navigate to the `typerion-cli` package.
    ```sh
-   cd packages/typerion
+   cd packages/typerion-cli
    ```
 3. Install packages
    ```sh
@@ -123,7 +123,7 @@ Install pnpm
    pnpm dev
    ```
 
-After the last command, the Typerion app can be accessed at http://localhost:5173/
+After the last command, the Typerion app can be accessed at http://localhost:3000/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
