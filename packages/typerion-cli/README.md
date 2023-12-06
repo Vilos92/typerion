@@ -10,12 +10,6 @@
 
 <!-- NPM BADGES -->
 
-`typerion`
-
-<ul>
-  <li><a href="https://badge.fury.io/js/typerion"><img src="https://badge.fury.io/js/typerion.svg" alt="npm version" height="18"></a></li>
-</ul>
-
 `typerion-cli`
 
 <ul>
@@ -27,8 +21,8 @@
 <div align="center">
   <a href="https://github.com/vilos92/typerion">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="images/typerionLogoMarkDark.svg">
-      <img src="images/typerionLogoMarkDark.svg" alt="Logo" height="100">
+      <source media="(prefers-color-scheme: dark)" srcset="../../images/typerionLogoMarkDark.svg">
+      <img src="../../images/typerionLogoMarkDark.svg" alt="Logo" height="100">
     </picture>
   </a>
 
@@ -63,7 +57,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -77,8 +70,8 @@
 
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/screenshotDark.png">
-    <img src="images/screenshot.png" alt="Typerion Screen Shot" height="480">
+    <source media="(prefers-color-scheme: dark)" srcset="../../images/screenshotDark.png">
+    <img src="../../images/screenshot.png" alt="Typerion Screen Shot" height="480">
   </picture>
 </div>
 
@@ -107,13 +100,9 @@ npx typerion-cli
 
 ### Pre-Requisites
 
-1. Install pnpm
-   - https://pnpm.io/installation
-2. Install turborepo
+Install pnpm
 
-```sh
-pnpm install turbo --global
-```
+- https://pnpm.io/installation
 
 ### Install and Run
 
@@ -121,16 +110,20 @@ pnpm install turbo --global
    ```sh
    git clone https://github.com/vilos92/typerion.git
    ```
-2. Install packages
+2. Navigate to the `typerion-cli` package.
+   ```sh
+   cd packages/typerion-cli
+   ```
+3. Install packages
    ```sh
    pnpm install
    ```
-3. Run in development mode
+4. Run in development mode
    ```sh
-   turbo run dev
+   pnpm dev
    ```
 
-After the last command, the Typerion app can be accessed at http://localhost:5173/
+After the last command, the Typerion app can be accessed at http://localhost:3000/
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -154,21 +147,6 @@ Some keyboard shortcuts include:
   - If the last cell is currently selected, a new cell is created.
 - `CMD` + `Up` / `Down`
   - Move focus up and down the cells in the Notebook.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- ROADMAP -->
-
-## Roadmap
-
-- [ ] Improved README.
-- [ ] Better dynamic imports of packages.
-- [ ] Simpler passing of global context between cells.
-- [ ] Improved output logging for cells.
-- [ ] Web application hosted on typerion.dev
-- [ ] The ability for each cell to interact with its own DOM.
-
-See the [open issues](https://github.com/vilos92/typerion/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
