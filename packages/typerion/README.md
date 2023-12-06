@@ -18,29 +18,29 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<p align="center">
   <a href="https://github.com/vilos92/typerion">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="../../images/typerionLogoMarkDark.svg">
       <img src="../../images/typerionLogoMarkDark.svg" alt="Logo" height="100">
     </picture>
   </a>
+</p>
 
-  <h3 align="center">Typerion</h3>
+<h3 align="center">Typerion</h3>
 
-  <p align="center">
-    A Typescript notebook for developing, prototyping, and sharing software.
-    <br />
-    <a href="https://github.com/vilos92/typerion"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://typerion.dev">Web App</a>
-    ·
-    <a href="https://github.com/vilos92/typerion/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/vilos92/typerion/issues">Request Feature</a>
-  </p>
-</div>
+<p align="center">
+  A Typescript notebook for developing, prototyping, and sharing software.
+  <br />
+  <a href="https://github.com/vilos92/typerion"><strong>Explore the docs »</strong></a>
+  <br />
+  <br />
+  <a href="https://typerion.dev">Web App</a>
+  ·
+  <a href="https://github.com/vilos92/typerion/issues">Report Bug</a>
+  ·
+  <a href="https://github.com/vilos92/typerion/issues">Request Feature</a>
+</p>
 
 <!-- TABLE OF CONTENTS -->
 <details>
@@ -68,12 +68,12 @@
 
 ## About The Project
 
-<div align="center">
+<p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="../../images/screenshotDark.png">
     <img src="../../images/screenshot.png" alt="Typerion Screen Shot" height="480">
   </picture>
-</div>
+</p>
 
 This is an interactive TypeScript notebook that can be used to develop, prototype, and share software. Typerion is entirely open-source, with a focus on low-barrier-to-use and ease-of-sharing results with other developers.
 
