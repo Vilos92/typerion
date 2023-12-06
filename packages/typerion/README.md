@@ -125,13 +125,21 @@ Install pnpm
 
 After the last command, the Typerion app can be accessed at http://localhost:5173/
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+### Imports
+
+There are two components that can be imported from `typerion`.
+
+```js
+import {Notebook, Pad} from 'typerion';
+```
+
+Type definitions are included in the `typerion` package.
 
 <!-- USAGE EXAMPLES -->
 
 ### Usage
 
-The header Notebook header contains controls to:
+The Notebook header contains controls to:
 
 - Create cells above and below the current cell.
 - Run all cells in the Notebook.

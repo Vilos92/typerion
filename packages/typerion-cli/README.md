@@ -16,6 +16,10 @@
   <li><a href="https://badge.fury.io/js/typerion-cli"><img src="https://badge.fury.io/js/typerion-cli.svg" alt="npm version" height="18"></a></li>
 </ul>
 
+<!-- CLIENT DISCLAIMER -->
+
+##### **This is only a client, not the main Typerion package. The main Typerion package can be accessed here: https://www.npmjs.com/package/typerion**
+
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -125,13 +129,11 @@ Install pnpm
 
 After the last command, the Typerion app can be accessed at http://localhost:3000/
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- USAGE EXAMPLES -->
 
 ### Usage
 
-The header Notebook header contains controls to:
+The Notebook header contains controls to:
 
 - Create cells above and below the current cell.
 - Run all cells in the Notebook.

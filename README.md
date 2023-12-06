@@ -132,13 +132,11 @@ pnpm install turbo --global
 
 After the last command, the Typerion app can be accessed at http://localhost:5173/
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- USAGE EXAMPLES -->
 
 ### Usage
 
-The header Notebook header contains controls to:
+The Notebook header contains controls to:
 
 - Create cells above and below the current cell.
 - Run all cells in the Notebook.
