@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Monorepo for typerion",
   "keywords": [],
-  "license": "ISC",
+  "license": "Apache-2.0",
   "author": {
     "name": "Gregory Linscheid",
     "email": "linscheid.greg@gmail.com",
