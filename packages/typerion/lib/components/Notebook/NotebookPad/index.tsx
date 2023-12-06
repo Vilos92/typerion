@@ -48,6 +48,24 @@ export const NotebookPad: FC<NotebookPadProps> = ({index}) => {
     pads[index + 1]?.editor?.focus();
   };
 
+  const onCmdUp = () => {
+    if (index === 0) {
+      return;
+    }
+
+    pads[index - 1]?.editor?.focus();
+    pads[index + 1]?.editor?.getDomNode()?.scrollIntoView();
+  };
+
+  const onCmdDown = () => {
+    if (index === pads.length - 1) {
+      return;
+    }
+
+    pads[index + 1]?.editor?.focus();
+    pads[index + 1]?.editor?.getDomNode()?.scrollIntoView();
+  };
+
   return (
     <Pad
       key={pad.id}
@@ -64,6 +82,8 @@ export const NotebookPad: FC<NotebookPadProps> = ({index}) => {
       onChange={onChange}
       onRunComplete={onRunComplete}
       onShiftEnterComplete={onShiftEnterComplete}
+      onCmdUp={onCmdUp}
+      onCmdDown={onCmdDown}
       setEditor={(editor: IStandaloneCodeEditor) => setEditor(pad.id, editor)}
     />
   );

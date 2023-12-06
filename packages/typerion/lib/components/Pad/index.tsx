@@ -23,6 +23,8 @@ type PadProps = {
   onChange?: (value: string) => void;
   onRunComplete?: (context: VmContext) => void;
   onShiftEnterComplete?: Handler;
+  onCmdUp?: Handler;
+  onCmdDown?: Handler;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
 
@@ -79,6 +81,8 @@ export const Pad: FC<PadProps> = ({
   onChange,
   onRunComplete,
   onShiftEnterComplete,
+  onCmdUp,
+  onCmdDown,
   setEditor
 }) => {
   const esbuild = useEsbuild();
@@ -165,6 +169,8 @@ export const Pad: FC<PadProps> = ({
         onChange={onEditorChange}
         onCmdEnter={onCmdEnter}
         onShiftEnter={onShiftEnter}
+        onCmdUp={onCmdUp}
+        onCmdDown={onCmdDown}
         onFocus={onFocus}
         onBlur={onBlur}
         setEditor={setEditor}
