@@ -27,8 +27,8 @@
 <p align="center">
   <a href="https://github.com/Vilos92/typerion">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="images/typerionLogoMarkDark.svg">
-      <img src="images/typerionLogoMarkDark.svg" alt="Logo" height="100">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/typerionLogoMarkDark.svg">
+      <img src="https://github.com/Vilos92/typerion/raw/main/images/typerionLogoMark.svg" alt="Logo" height="100">
     </picture>
   </a>
 </p>
@@ -77,8 +77,8 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/screenshotDark.png">
-    <img src="images/screenshot.png" alt="Typerion Screen Shot" height="480">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/screenshotDark.png">
+    <img src="https://github.com/Vilos92/typerion/raw/main/images/screenshot.png" alt="Typerion Screen Shot" height="480">
   </picture>
 </p>
 
