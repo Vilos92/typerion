@@ -25,7 +25,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/vilos92/typerion">
+  <a href="https://github.com/Vilos92/typerion">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="images/typerionLogoMarkDark.svg">
       <img src="images/typerionLogoMarkDark.svg" alt="Logo" height="100">
@@ -38,14 +38,14 @@
 <p align="center">
   A Typescript notebook for developing, prototyping, and sharing software.
   <br />
-  <a href="https://github.com/vilos92/typerion"><strong>Explore the docs »</strong></a>
+  <a href="https://github.com/Vilos92/typerion"><strong>Explore the docs »</strong></a>
   <br />
   <br />
   <a href="https://typerion.dev">Web App</a>
   ·
-  <a href="https://github.com/vilos92/typerion/issues">Report Bug</a>
+  <a href="https://github.com/Vilos92/typerion/issues">Report Bug</a>
   ·
-  <a href="https://github.com/vilos92/typerion/issues">Request Feature</a>
+  <a href="https://github.com/Vilos92/typerion/issues">Request Feature</a>
 </p>
 
 <!-- TABLE OF CONTENTS -->
@@ -119,7 +119,7 @@ pnpm install turbo --global
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/vilos92/typerion.git
+   git clone https://github.com/Vilos92/typerion.git
    ```
 2. Install packages
    ```sh
@@ -168,7 +168,7 @@ Some keyboard shortcuts include:
 - [ ] Web application hosted on typerion.dev
 - [ ] The ability for each cell to interact with its own DOM.
 
-See the [open issues](https://github.com/vilos92/typerion/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/Vilos92/typerion/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -186,7 +186,7 @@ Contributions are **greatly appreciated**. This project is intended to be fully 
 
 Gregory Linscheid - [Website](https://greglinscheid.com) - linscheid.greg@gmail.com
 
-Project Link: [https://github.com/vilos92/typerion](https://github.com/vilos92/typerion)
+Project Link: [https://github.com/Vilos92/typerion](https://github.com/Vilos92/typerion)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -209,13 +209,13 @@ Distributed under the Apache 2.0 License. See [`LICENSE`][license-url] for more 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/vilos92/typerion.svg?style=for-the-badge
-[contributors-url]: https://github.com/vilos92/typerion/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/vilos92/typerion.svg?style=for-the-badge
-[forks-url]: https://github.com/vilos92/typerion/network/members
-[stars-shield]: https://img.shields.io/github/stars/vilos92/typerion.svg?style=for-the-badge
-[stars-url]: https://github.com/vilos92/typerion/stargazers
-[issues-shield]: https://img.shields.io/github/issues/vilos92/typerion.svg?style=for-the-badge
-[issues-url]: https://github.com/vilos92/typerion/issues
-[license-shield]: https://img.shields.io/github/license/vilos92/typerion.svg?style=for-the-badge
-[license-url]: https://github.com/vilos92/typerion/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/Vilos92/typerion.svg?style=for-the-badge
+[contributors-url]: https://github.com/Vilos92/typerion/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Vilos92/typerion.svg?style=for-the-badge
+[forks-url]: https://github.com/Vilos92/typerion/network/members
+[stars-shield]: https://img.shields.io/github/stars/Vilos92/typerion.svg?style=for-the-badge
+[stars-url]: https://github.com/Vilos92/typerion/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Vilos92/typerion.svg?style=for-the-badge
+[issues-url]: https://github.com/Vilos92/typerion/issues
+[license-shield]: https://img.shields.io/github/license/Vilos92/typerion.svg?style=for-the-badge
+[license-url]: https://github.com/Vilos92/typerion/blob/master/LICENSE
