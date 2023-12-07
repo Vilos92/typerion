@@ -1,5 +1,3 @@
-<a name="readme-top"></a>
-
 <!-- PROJECT SHIELDS -->
 
 [![Contributors][contributors-shield]][contributors-url]
@@ -88,8 +86,6 @@ The Typerion notebook:
 - Allows passing context forward between code cells.
 - Provides saving and loading behavior so that results can be persisted and shared.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- GETTING STARTED -->
 
 ## Getting Started
@@ -104,7 +100,7 @@ npx typerion-cli
 
 ### Pre-Requisites
 
-Install pnpm
+Install `pnpm`
 
 - https://pnpm.io/installation
 
@@ -150,15 +146,11 @@ Some keyboard shortcuts include:
 - `CMD` + `Up` / `Down`
   - Move focus up and down the cells in the Notebook.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- CONTRIBUTING -->
 
 ## Contributing
 
 Contributions are **greatly appreciated**. This project is intended to be fully open-source, and the support and feedback from other developers are fully welcome.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- CONTACT -->
 
@@ -168,23 +160,17 @@ Gregory Linscheid - [Website](https://greglinscheid.com) - linscheid.greg@gmail.
 
 Project Link: [https://github.com/Vilos92/typerion](https://github.com/Vilos92/typerion)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- ACKNOWLEDGMENTS -->
 
 ## Acknowledgments
 
 - Byron Barmby - Design contributions for the logo.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- LICENSE -->
 
 ## License
 
 Distributed under the Apache 2.0 License. See [`LICENSE`][license-url] for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

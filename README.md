@@ -107,7 +107,7 @@ npx typerion-cli
 
 ### Pre-Requisites
 
-1. Install pnpm
+1. Install `pnpm`
    - https://pnpm.io/installation
 2. Install turborepo
 
