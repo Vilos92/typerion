@@ -1,6 +1,7 @@
 {
   "name": "typerion-monorepo",
   "version": "0.0.1",
+  "private": true,
   "description": "Monorepo for typerion",
   "keywords": [],
   "license": "Apache-2.0",
