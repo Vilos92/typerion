@@ -2,7 +2,7 @@
   "name": "typerion-monorepo",
   "version": "0.0.1",
   "private": true,
-  "description": "Monorepo for typerion",
+  "description": "Monorepo for Typerion",
   "license": "Apache-2.0",
   "author": {
     "name": "Gregory Linscheid",
