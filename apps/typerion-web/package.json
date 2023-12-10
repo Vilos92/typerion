@@ -2,6 +2,13 @@
   "name": "typerion-web",
   "private": true,
   "sideEffects": false,
+  "description": "Typerion web application",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Gregory Linscheid",
+    "email": "linscheid.greg@gmail.com",
+    "url": "https://greglinscheid.com"
+  },
   "type": "module",
   "scripts": {
     "build": "vite build && vite build --ssr",
@@ -30,5 +37,6 @@
   },
   "engines": {
     "node": ">=18.0.0"
-  }
+  },
+  "packageManager": "pnpm@8.10.2"
 }
