@@ -1,5 +1,4 @@
-import { FC } from "react";
-
-import { Notebook as NotebookComponent } from "typerion";
+import type {FC} from 'react';
+import {Notebook as NotebookComponent} from 'typerion';
 
 export const Notebook: FC = () => <NotebookComponent />;

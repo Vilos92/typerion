@@ -1,17 +1,10 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import { Analytics } from "@vercel/analytics/react";
-import type { LinksFunction } from "@vercel/remix";
+import {cssBundleHref} from '@remix-run/css-bundle';
+import {Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration} from '@remix-run/react';
+import {Analytics} from '@vercel/analytics/react';
+import type {LinksFunction} from '@vercel/remix';
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  ...(cssBundleHref ? [{rel: 'stylesheet', href: cssBundleHref}] : [])
 ];
 
 export default function App() {

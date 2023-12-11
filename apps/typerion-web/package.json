@@ -13,6 +13,10 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "prettier:check": "prettier --check --ignore-unknown '**/*'",
+    "prettier:fix": "prettier --write --ignore-unknown '**/*'",
     "sort-package-json:check": "sort-package-json --check",
     "sort-package-json:fix": "sort-package-json",
     "start": "remix-serve ./build/index.js",
@@ -34,9 +38,12 @@
   "devDependencies": {
     "@remix-run/dev": "^2.0.0",
     "@remix-run/eslint-config": "^2.0.0",
+    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "eslint": "^8.38.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "3.0.3",
     "sort-package-json": "^2.6.0",
     "ts-unused-exports": "^10.0.1",
     "typescript": "^5.1.6"
