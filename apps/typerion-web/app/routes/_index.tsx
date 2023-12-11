@@ -4,8 +4,11 @@ import { useIsMounted } from "~/hooks/hooks";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Typerion" },
+    {
+      name: "A TypeScript notebook for prototyping, development, and sharing",
+      content: "Welcome to Typerion!",
+    },
   ];
 };
 
