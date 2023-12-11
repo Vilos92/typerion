@@ -1,8 +1,17 @@
 {
   "name": "typerion-cli",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Typerion client",
-  "keywords": [],
+  "keywords": [
+    "notebook",
+    "repl",
+    "interactive",
+    "editor",
+    "playground",
+    "sandbox",
+    "workspace",
+    "environment"
+  ],
   "license": "Apache-2.0",
   "author": {
     "name": "Gregory Linscheid",

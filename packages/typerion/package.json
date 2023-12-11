@@ -1,8 +1,17 @@
 {
   "name": "typerion",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Typerion library",
-  "keywords": [],
+  "keywords": [
+    "notebook",
+    "repl",
+    "interactive",
+    "editor",
+    "playground",
+    "sandbox",
+    "workspace",
+    "environment"
+  ],
   "license": "Apache-2.0",
   "author": {
     "name": "Gregory Linscheid",
