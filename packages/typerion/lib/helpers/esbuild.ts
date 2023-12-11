@@ -117,8 +117,7 @@ function makeGetEsModule() {
           wasmURL: './esbuild.wasm'
         });
 
-        // Do not want to attempt initializing again.
-        return;
+        return esModule;
       } catch {
         console.error('Failed to load esbuild.wasm from ./esbuild.wasm - falling back to unpkg.com');
       }
