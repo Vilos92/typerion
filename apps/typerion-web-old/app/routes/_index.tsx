@@ -1,11 +1,14 @@
-import type { MetaFunction } from "@vercel/remix";
+import type { MetaFunction } from "@remix-run/node";
 import { Notebook } from "~/components/Notebook.client";
 import { useIsMounted } from "~/hooks/hooks";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { title: "Typerion" },
+    {
+      name: "A TypeScript notebook for prototyping, development, and sharing",
+      content: "Welcome to Typerion!",
+    },
   ];
 };
 

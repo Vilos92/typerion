@@ -1,28 +1,38 @@
-# templates/unstable-vite
+# Remix
 
-⚠️ Remix support for Vite is unstable and not recommended for production.
+This directory is a brief example of a [Remix](https://remix.run/docs) site that can be deployed to Vercel with zero configuration.
 
-📖 See the [Remix Vite docs][remix-vite-docs] for details on supported features.
+To get started, run the Remix cli with this template
 
-## Setup
-
-```shellscript
-npx create-remix@latest --template remix-run/remix/templates/unstable-vite
+```sh
+npx create-remix@latest --template vercel/vercel/examples/remix
 ```
 
-## Run
+## Deploy Your Own
 
-Spin up the Vite dev server:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/remix&template=remix)
 
-```shellscript
+_Live Example: https://remix-run-template.vercel.app_
+
+You can also deploy using the [Vercel CLI](https://vercel.com/cli):
+
+```sh
+npm i -g vercel
+vercel
+```
+
+## Development
+
+To run your Remix app locally, make sure your project's local dependencies are installed:
+
+```sh
+npm install
+```
+
+Afterwards, start the Remix development server like so:
+
+```sh
 npm run dev
 ```
 
-Or build your app for production and run it:
-
-```shellscript
-npm run build
-npm run start
-```
-
-[remix-vite-docs]: https://remix.run/docs/en/main/future/vite
+Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!

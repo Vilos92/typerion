@@ -1,6 +1,4 @@
 import type { MetaFunction } from "@vercel/remix";
-import { Notebook } from "~/components/Notebook.client";
-import { useIsMounted } from "~/hooks/hooks";
 
 export const meta: MetaFunction = () => {
   return [
@@ -10,8 +8,6 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
-  const isMounted = useIsMounted();
-
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <h1>Welcome to Remix</h1>
@@ -40,7 +36,6 @@ export default function Index() {
           </a>
         </li>
       </ul>
-      {isMounted ? <Notebook /> : null}
     </div>
   );
 }
