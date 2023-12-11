@@ -11,7 +11,7 @@ const fastify = Fastify({
 
 fastify.register(FastifyStatic, {
   root: path.join(__dirname, staticRoot),
-  prefix: '/public/'
+  prefix: '/'
 });
 
 fastify.get('/', async (_request, reply) => {
