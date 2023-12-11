@@ -118,16 +118,10 @@ export const NotebookTop: FC = () => {
       {renderAddButtons(isAddButtonsDisabled, onInsertPadBeforeMouseDown, onInsertPadAfterMouseDown)}
 
       <picture>
-        <source srcSet={typerionIcon} media="screen and (max-width: 1024px)" />
-        <source srcSet={typerionLogoMark} media="screen and (min-width: 1024px)" />
-        <source
-          srcSet={typerionIconDark}
-          media="(prefers-color-scheme: dark) and screen and (max-width: 1024px)"
-        />
-        <source
-          srcSet={typerionLogoMarkDark}
-          media="(prefers-color-scheme: dark) and screen and (min-width: 1024px)"
-        />
+        <source srcSet={typerionIcon} media="(prefers-color-scheme: light) and (max-width: 1024px)" />
+        <source srcSet={typerionLogoMark} media="(prefers-color-scheme: light) and (min-width: 1024px)" />
+        <source srcSet={typerionIconDark} media="(prefers-color-scheme: dark) and (max-width: 1024px)" />
+        <source srcSet={typerionLogoMarkDark} media="(prefers-color-scheme: dark) and (min-width: 1024px)" />
         <StyledLogoImg src={typerionIcon} />
       </picture>
       {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
