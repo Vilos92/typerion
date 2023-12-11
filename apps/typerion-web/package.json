@@ -1,13 +1,23 @@
 {
   "name": "typerion-web",
   "private": true,
+  "description": "Typerion web application",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Gregory Linscheid",
+    "email": "linscheid.greg@gmail.com",
+    "url": "https://greglinscheid.com"
+  },
   "sideEffects": false,
   "type": "module",
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual",
+    "sort-package-json:check": "sort-package-json --check",
+    "sort-package-json:fix": "sort-package-json",
     "start": "remix-serve ./build/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "unused-exports": "ts-unused-exports ./tsconfig.json --excludePathsFromReport='vite.config.ts;app/root.tsx;app/routes/_index.tsx;app/routes/edge.tsx'"
   },
   "dependencies": {
     "@remix-run/css-bundle": "^2.0.0",
@@ -27,8 +37,11 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "eslint": "^8.38.0",
+    "sort-package-json": "^2.6.0",
+    "ts-unused-exports": "^10.0.1",
     "typescript": "^5.1.6"
   },
+  "packageManager": "pnpm@8.10.2",
   "engines": {
     "node": ">=18.0.0"
   }
