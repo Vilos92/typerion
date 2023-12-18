@@ -13,7 +13,6 @@
     "lint:fix": {},
     "prettier:check": {},
     "prettier:fix": {},
-    "publish": {},
     "sort-package-json:check": {},
     "sort-package-json:fix": {},
     "unused-exports": {}
