@@ -1,7 +1,7 @@
 import Editor from '@monaco-editor/react';
 import {type FC, useEffect, useRef} from 'react';
 
-import {KeyCode, type Monaco, initializeMonaco} from '../../../helpers/monaco';
+import {KeyCode, type Monaco} from '../../../helpers/monaco';
 import {ColorSchemesEnum, usePrefersColorScheme} from '../../../hooks';
 import {type Handler, type IStandaloneCodeEditor} from '../../../types';
 
@@ -20,13 +20,6 @@ type PadEditorProps = {
   onBlur: Handler | undefined;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
-
-/*
- * Setup Monaco.
- */
-
-// Ensure Monaco is bundled rather than loaded from the CDN.
-initializeMonaco();
 
 /*
  * Component.
