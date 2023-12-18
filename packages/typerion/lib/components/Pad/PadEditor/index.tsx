@@ -10,6 +10,8 @@ import {type Handler, type IStandaloneCodeEditor} from '../../../types';
  * Types.
  */
 
+type Monaco = typeof monaco;
+
 type PadEditorProps = {
   defaultValue: string;
   onChange: (value?: string) => void;
@@ -62,7 +64,13 @@ export const PadEditor: FC<PadEditorProps> = ({
     onCmdDownRef.current = onCmdDown;
   }, [onCmdDown, onCmdEnter, onCmdUp, onShiftEnter]);
 
-  const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
+  const onEditorDidMount = (editor: IStandaloneCodeEditor, monaco: Monaco) => {
+    // Monaco must be setup immediately after mounting.
+    // monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+    //   // noSemanticValidation: true
+    //   // noSyntaxValidation: true
+    // });
+
     // New pads should always have immediate focus.
     hasFocusRef.current = true;
     editor.focus();
