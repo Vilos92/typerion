@@ -76,10 +76,12 @@
 ## About The Project
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/screenshotDark.png">
-    <img src="https://github.com/Vilos92/typerion/raw/main/images/screenshot.png" alt="Typerion Screen Shot" height="480">
-  </picture>
+  <a href="https://github.com/Vilos92/typerion">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/screencapDark.gif">
+      <img src="https://github.com/Vilos92/typerion/raw/main/images/screencap.gif" alt="Typerion Screen Capture" height="480">
+    </picture>
+  </a>
 </p>
 
 This is an interactive TypeScript notebook that can be used to develop, prototype, and share software. Typerion is entirely open-source, with a focus on low-barrier-to-use and ease-of-sharing results with other developers.

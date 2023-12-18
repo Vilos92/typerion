@@ -19,8 +19,8 @@
 <p align="center">
   <a href="https://github.com/Vilos92/typerion">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/typerionLogoMarkDark.svg">
-      <img src="https://github.com/Vilos92/typerion/raw/main/images/typerionLogoMark.svg" alt="Logo" height="100">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Vilos92/typerion/raw/main/images/screencapDark.gif">
+      <img src="https://github.com/Vilos92/typerion/raw/main/images/screencap.gif" alt="Typerion Screen Capture" height="480">
     </picture>
   </a>
 </p>
