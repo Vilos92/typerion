@@ -1,6 +1,6 @@
 {
   "name": "typerion-cli",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Typerion client",
   "keywords": [
     "notebook",
