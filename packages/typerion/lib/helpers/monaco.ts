@@ -12,7 +12,7 @@ import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
 export {KeyCode} from 'monaco-editor';
 
-type Monaco = typeof monaco;
+export type Monaco = typeof monaco;
 
 /*
  * Language workers.
