@@ -30,6 +30,7 @@ type PadProps = {
 
 type StyledMainProps = {
   $runStatus: AsyncStatusesEnum;
+  $isClean: boolean;
   $hasFocus?: boolean;
 };
 
@@ -40,8 +41,8 @@ type StyledMainProps = {
 const StyledMain = styled.main<StyledMainProps>`
   ${tw`flex flex-col rounded-md border-2 border-l-8 bg-stone-300 dark:bg-stone-700 pt-1 text-black dark:text-white`}
 
-  ${({$runStatus, $hasFocus}) => {
-    if ($hasFocus) {
+  ${({$runStatus, $isClean, $hasFocus}) => {
+    if (!$isClean && $hasFocus) {
       return tw`border-blue-500`;
     }
 
@@ -93,8 +94,14 @@ export const Pad: FC<PadProps> = ({
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
 
+  // If the editor has not been modified since the last run, it is clean.
+  const [isClean, setIsClean] = useState<boolean>(true);
+
   const onEditorChange = (value?: string) => {
     if (!value) return;
+
+    setIsClean(false);
+
     setCode(value);
     setRunStatus(AsyncStatusesEnum.IDLE);
 
@@ -109,6 +116,8 @@ export const Pad: FC<PadProps> = ({
     if (!esbuild) {
       throw new Error('Cannot run code without esbuild');
     }
+
+    setIsClean(true);
 
     try {
       setRunStatus(AsyncStatusesEnum.LOADING);
@@ -150,7 +159,7 @@ export const Pad: FC<PadProps> = ({
   const output = useMemo(() => lines.join('\n'), [lines]);
 
   return (
-    <StyledMain $runStatus={runStatus} $hasFocus={hasFocus}>
+    <StyledMain $runStatus={runStatus} $isClean={isClean} $hasFocus={hasFocus}>
       <StyledHeaderMenu>
         <li>
           <StyledPlayButton onClick={onRunClick}>
