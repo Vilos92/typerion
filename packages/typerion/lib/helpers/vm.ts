@@ -1,3 +1,4 @@
+import {format as prettyFormat} from 'pretty-format';
 import {runInNewContext} from 'vm';
 
 import {type VmContext} from '../types';
@@ -6,7 +7,7 @@ import {type VmContext} from '../types';
  * Helpers.
  */
 
-export function runVm(code: string, logCb: (line: string) => void, context?: VmContext): VmContext {
+export function runVm(code: string, logCb: (log: string) => void, context?: VmContext): VmContext {
   const logContext = makeLogContext(logCb);
 
   const baseContext: VmContext = {
@@ -20,37 +21,29 @@ export function runVm(code: string, logCb: (line: string) => void, context?: VmC
   return runContext;
 }
 
-function makeLogContext(logCb: (line: string) => void) {
-  const logLine = (...values: ReadonlyArray<unknown>) => {
-    const line = values
-      .map(value => {
-        if (typeof value === 'string') {
-          return value;
-        }
+function makeLogContext(logCb: (log: string) => void) {
+  const logLines = (...values: ReadonlyArray<unknown>) => {
+    const lines = values.map(value => prettyFormat(value)).join('\n');
 
-        return JSON.stringify(value);
-      })
-      .join(' ');
-
-    logCb(line);
+    logCb(lines);
   };
 
   return {
     console: {
-      log: makeLog(logLine, console.log),
-      info: makeLog(logLine, console.info),
-      warn: makeLog(logLine, console.warn),
-      error: makeLog(logLine, console.error)
+      log: makeLogger(logLines, console.log),
+      info: makeLogger(logLines, console.info),
+      warn: makeLogger(logLines, console.warn),
+      error: makeLogger(logLines, console.error)
     }
   };
 }
 
-function makeLog(
-  logLine: (...values: ReadonlyArray<unknown>) => void,
-  log: (...values: ReadonlyArray<unknown>) => void
+function makeLogger(
+  logLines: (...values: ReadonlyArray<unknown>) => void,
+  consoleLog: (...values: ReadonlyArray<unknown>) => void
 ) {
   return (...values: ReadonlyArray<unknown>) => {
-    log(...values);
-    logLine(...values);
+    consoleLog(...values);
+    logLines(...values);
   };
 }

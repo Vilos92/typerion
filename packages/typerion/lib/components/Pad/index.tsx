@@ -65,7 +65,7 @@ const StyledPlayButton = tw.button`rounded bg-green-500 py-2 px-4 font-bold text
 
 const StyledResetButton = tw.button`rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700`;
 
-const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-stone-700 text-white`;
+const StyledOutputPre = tw.pre`container justify-start px-4 text-sm bg-stone-200 text-black dark:bg-stone-700 dark:text-white`;
 
 /*
  * Component
@@ -90,7 +90,7 @@ export const Pad: FC<PadProps> = ({
 
   const [code, setCode] = useState<string>(defaultCode ?? '');
 
-  const [lines, setLines] = useState<readonly string[]>([]);
+  const [logs, setLogs] = useState<readonly string[]>([]);
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
 
@@ -108,8 +108,8 @@ export const Pad: FC<PadProps> = ({
     onChange?.(value);
   };
 
-  const logCb = (line: string) => {
-    setLines(prevLines => [...prevLines, line]);
+  const logCb = (log: string) => {
+    setLogs(prevLines => [...prevLines, log]);
   };
 
   const run = useCallback(async () => {
@@ -121,7 +121,7 @@ export const Pad: FC<PadProps> = ({
 
     try {
       setRunStatus(AsyncStatusesEnum.LOADING);
-      setLines([]);
+      setLogs([]);
 
       const builtCode = await esbuild(code);
 
@@ -145,7 +145,7 @@ export const Pad: FC<PadProps> = ({
 
   const onResetClick = () => {
     setRunStatus(AsyncStatusesEnum.IDLE);
-    setLines([]);
+    setLogs([]);
   };
 
   useEffect(() => {
@@ -156,7 +156,12 @@ export const Pad: FC<PadProps> = ({
     })().catch(console.error);
   }, [code, run, runStatus, shouldAutoRun]);
 
-  const output = useMemo(() => lines.join('\n'), [lines]);
+  const indentLog = (log: string) => log.split('\n').join('\n\t');
+
+  const output = useMemo(
+    () => logs.map((log, index) => `${index + 1}\t${indentLog(log)}`).join('\n'),
+    [logs]
+  );
 
   return (
     <StyledMain $runStatus={runStatus} $isClean={isClean} $hasFocus={hasFocus}>
@@ -184,7 +189,7 @@ export const Pad: FC<PadProps> = ({
         onBlur={onBlur}
         setEditor={setEditor}
       />
-      {output && <StyledOutputDiv>{output}</StyledOutputDiv>}
+      {output && <StyledOutputPre>{output}</StyledOutputPre>}
     </StyledMain>
   );
 };
