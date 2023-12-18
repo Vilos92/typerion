@@ -14,7 +14,11 @@ export const useNotebookStore = create<NotebookState>(set => ({
   pads: [
     {
       id: uuidv4(),
-      code: "import { zip } from 'lodash';\nconsole.log(zip([1, 2], ['a', 'b']));"
+      code: "import { zip, flatten } from 'lodash';\n\nwindow.zip = zip;\nwindow.flatten = flatten;"
+    },
+    {
+      id: uuidv4(),
+      code: "const zipped = window.zip(['Hello', 'this is'], ['world,', 'Typerion!']);\nconst flat = window.flatten(zipped);\nconsole.log(flat.join(' '));"
     }
   ],
   load: typnb => {

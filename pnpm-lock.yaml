@@ -111,6 +111,9 @@ importers:
       phosphor-react:
         specifier: ^1.4.1
         version: 1.4.1(react@18.2.0)
+      pretty-format:
+        specifier: ^29.7.0
+        version: 29.7.0
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -2046,6 +2049,16 @@ packages:
       wrap-ansi-cjs: /wrap-ansi@7.0.0
     dev: true
 
+  /@jest/schemas@29.6.3:
+    resolution:
+      {
+        integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA==,
+      }
+    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
+    dependencies:
+      "@sinclair/typebox": 0.27.8
+    dev: false
+
   /@jridgewell/gen-mapping@0.3.3:
     resolution:
       {
@@ -2712,6 +2725,13 @@ packages:
       colors: 1.2.5
       string-argv: 0.3.2
     dev: true
+
+  /@sinclair/typebox@0.27.8:
+    resolution:
+      {
+        integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==,
+      }
+    dev: false
 
   /@swc/core-darwin-arm64@1.3.100:
     resolution:
@@ -3832,7 +3852,6 @@ packages:
         integrity: sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==,
       }
     engines: { node: ">=10" }
-    dev: true
 
   /ansi-styles@6.2.1:
     resolution:
@@ -10126,6 +10145,18 @@ packages:
       react-is: 17.0.2
     dev: true
 
+  /pretty-format@29.7.0:
+    resolution:
+      {
+        integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==,
+      }
+    engines: { node: ^14.15.0 || ^16.10.0 || >=18.0.0 }
+    dependencies:
+      "@jest/schemas": 29.6.3
+      ansi-styles: 5.2.0
+      react-is: 18.2.0
+    dev: false
+
   /pretty-ms@7.0.1:
     resolution:
       {
@@ -10387,6 +10418,13 @@ packages:
         integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==,
       }
     dev: true
+
+  /react-is@18.2.0:
+    resolution:
+      {
+        integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==,
+      }
+    dev: false
 
   /react-refresh@0.14.0:
     resolution:

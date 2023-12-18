@@ -30,6 +30,7 @@ type PadProps = {
 
 type StyledMainProps = {
   $runStatus: AsyncStatusesEnum;
+  $isClean: boolean;
   $hasFocus?: boolean;
 };
 
@@ -40,8 +41,8 @@ type StyledMainProps = {
 const StyledMain = styled.main<StyledMainProps>`
   ${tw`flex flex-col rounded-md border-2 border-l-8 bg-stone-300 dark:bg-stone-700 pt-1 text-black dark:text-white`}
 
-  ${({$runStatus, $hasFocus}) => {
-    if ($hasFocus) {
+  ${({$runStatus, $isClean, $hasFocus}) => {
+    if (!$isClean && $hasFocus) {
       return tw`border-blue-500`;
     }
 
@@ -64,7 +65,7 @@ const StyledPlayButton = tw.button`rounded bg-green-500 py-2 px-4 font-bold text
 
 const StyledResetButton = tw.button`rounded bg-gray-500 py-2 px-4 font-bold text-white hover:bg-gray-700`;
 
-const StyledOutputDiv = tw.div`container justify-start whitespace-pre-line bg-stone-700 text-white`;
+const StyledOutputPre = tw.pre`container justify-start px-4 text-sm bg-stone-200 text-black dark:bg-stone-700 dark:text-white`;
 
 /*
  * Component
@@ -89,20 +90,26 @@ export const Pad: FC<PadProps> = ({
 
   const [code, setCode] = useState<string>(defaultCode ?? '');
 
-  const [lines, setLines] = useState<readonly string[]>([]);
+  const [logs, setLogs] = useState<readonly string[]>([]);
 
   const [runStatus, setRunStatus] = useState<AsyncStatusesEnum>(AsyncStatusesEnum.IDLE);
 
+  // If the editor has not been modified since the last run, it is clean.
+  const [isClean, setIsClean] = useState<boolean>(true);
+
   const onEditorChange = (value?: string) => {
     if (!value) return;
+
+    setIsClean(false);
+
     setCode(value);
     setRunStatus(AsyncStatusesEnum.IDLE);
 
     onChange?.(value);
   };
 
-  const logCb = (line: string) => {
-    setLines(prevLines => [...prevLines, line]);
+  const logCb = (log: string) => {
+    setLogs(prevLines => [...prevLines, log]);
   };
 
   const run = useCallback(async () => {
@@ -110,9 +117,11 @@ export const Pad: FC<PadProps> = ({
       throw new Error('Cannot run code without esbuild');
     }
 
+    setIsClean(true);
+
     try {
       setRunStatus(AsyncStatusesEnum.LOADING);
-      setLines([]);
+      setLogs([]);
 
       const builtCode = await esbuild(code);
 
@@ -136,7 +145,7 @@ export const Pad: FC<PadProps> = ({
 
   const onResetClick = () => {
     setRunStatus(AsyncStatusesEnum.IDLE);
-    setLines([]);
+    setLogs([]);
   };
 
   useEffect(() => {
@@ -147,10 +156,15 @@ export const Pad: FC<PadProps> = ({
     })().catch(console.error);
   }, [code, run, runStatus, shouldAutoRun]);
 
-  const output = useMemo(() => lines.join('\n'), [lines]);
+  const indentLog = (log: string) => log.split('\n').join('\n\t');
+
+  const output = useMemo(
+    () => logs.map((log, index) => `${index + 1}\t${indentLog(log)}`).join('\n'),
+    [logs]
+  );
 
   return (
-    <StyledMain $runStatus={runStatus} $hasFocus={hasFocus}>
+    <StyledMain $runStatus={runStatus} $isClean={isClean} $hasFocus={hasFocus}>
       <StyledHeaderMenu>
         <li>
           <StyledPlayButton onClick={onRunClick}>
@@ -175,7 +189,7 @@ export const Pad: FC<PadProps> = ({
         onBlur={onBlur}
         setEditor={setEditor}
       />
-      {output && <StyledOutputDiv>{output}</StyledOutputDiv>}
+      {output && <StyledOutputPre>{output}</StyledOutputPre>}
     </StyledMain>
   );
 };

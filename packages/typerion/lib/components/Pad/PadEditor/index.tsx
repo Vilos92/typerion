@@ -1,7 +1,7 @@
 import Editor from '@monaco-editor/react';
-import {KeyCode} from 'monaco-editor';
 import {type FC, useEffect, useRef} from 'react';
 
+import {KeyCode, type Monaco, initializeMonaco} from '../../../helpers/monaco';
 import {ColorSchemesEnum, usePrefersColorScheme} from '../../../hooks';
 import {type Handler, type IStandaloneCodeEditor} from '../../../types';
 
@@ -20,6 +20,13 @@ type PadEditorProps = {
   onBlur: Handler | undefined;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
+
+/*
+ * Setup Monaco.
+ */
+
+// Ensure Monaco is bundled rather than loaded from the CDN.
+initializeMonaco();
 
 /*
  * Component.
@@ -54,7 +61,21 @@ export const PadEditor: FC<PadEditorProps> = ({
     onCmdDownRef.current = onCmdDown;
   }, [onCmdDown, onCmdEnter, onCmdUp, onShiftEnter]);
 
-  const onEditorDidMount = (editor: IStandaloneCodeEditor) => {
+  const onEditorDidMount = (editor: IStandaloneCodeEditor, monaco: Monaco) => {
+    // Remove type errors when assigning to or reading from window.
+    monaco.languages.typescript.typescriptDefaults.addExtraLib(
+      `
+      interface Window {
+        [key: string]: any;
+      }
+    `
+    );
+    monaco.languages.typescript.typescriptDefaults.setDiagnosticsOptions({
+      diagnosticCodesToIgnore: [
+        2792 // Disable import errors, as all imports are from external packages.
+      ]
+    });
+
     // New pads should always have immediate focus.
     hasFocusRef.current = true;
     editor.focus();
