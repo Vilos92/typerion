@@ -47,6 +47,8 @@ export const PadEditor: FC<PadEditorProps> = ({
 
   const theme = colorScheme === ColorSchemesEnum.DARK ? 'vs-dark' : 'vs-light';
 
+  const monacoRef = useRef<Monaco>();
+
   const hasFocusRef = useRef(false);
 
   // Need to use a ref to ensure that onKeyDown has access to the latest handlers.
@@ -62,6 +64,8 @@ export const PadEditor: FC<PadEditorProps> = ({
   }, [onCmdDown, onCmdEnter, onCmdUp, onShiftEnter]);
 
   const onEditorDidMount = (editor: IStandaloneCodeEditor, monaco: Monaco) => {
+    monacoRef.current = monaco;
+
     // Remove type errors when assigning to or reading from window.
     monaco.languages.typescript.typescriptDefaults.addExtraLib(
       `
@@ -118,12 +122,18 @@ export const PadEditor: FC<PadEditorProps> = ({
       }
 
       if (event.metaKey && event.keyCode === KeyCode.UpArrow) {
-        onCmdUpRef.current?.();
+        // Wait until after render cycle to focus another pad.
+        setTimeout(() => {
+          onCmdUpRef.current?.();
+        });
         return;
       }
 
       if (event.metaKey && event.keyCode === KeyCode.DownArrow) {
-        onCmdDownRef.current?.();
+        // Wait until after render cycle to focus another pad.
+        setTimeout(() => {
+          onCmdDownRef.current?.();
+        });
         return;
       }
     });
