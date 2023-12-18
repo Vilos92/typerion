@@ -113,6 +113,9 @@ export const PadEditor: FC<PadEditorProps> = ({
       theme={theme}
       height="300px"
       defaultLanguage="typescript"
+      options={{
+        minimap: {enabled: false}
+      }}
       defaultValue={defaultValue}
       onMount={onEditorDidMount}
       onChange={onChange}
