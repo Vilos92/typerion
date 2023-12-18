@@ -1,4 +1,5 @@
-import Editor from '@monaco-editor/react';
+import Editor, {loader} from '@monaco-editor/react';
+import * as monaco from 'monaco-editor';
 import {KeyCode} from 'monaco-editor';
 import {type FC, useEffect, useRef} from 'react';
 
@@ -20,6 +21,13 @@ type PadEditorProps = {
   onBlur: Handler | undefined;
   setEditor?: (editor: IStandaloneCodeEditor) => void;
 };
+
+/*
+ * Load Monaco.
+ */
+
+// Without doing this, Monaco will be retrieved from a CDN.
+loader.config({monaco});
 
 /*
  * Component.
