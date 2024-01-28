@@ -1,4 +1,4 @@
-import {Form, useNavigation} from '@remix-run/react';
+import {useFormAction, useSubmit} from '@remix-run/react';
 import {type ActionFunctionArgs, type MetaFunction} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
 import {db} from '~/../db/db';
@@ -17,26 +17,36 @@ export const meta: MetaFunction = () => {
 };
 
 export async function action({request}: ActionFunctionArgs) {
-  await db.insert(notebookTable).values({typnb: {}}).returning();
+  const form = await request.formData();
+  const body = form.get('body');
+  if (!body || typeof body !== 'string') {
+    throw new Response('Missing typnb body', {status: 400, statusText: 'Bad Request'});
+  }
 
-  return {
-    success: true
-  };
+  try {
+    const typnb = JSON.parse(body);
+
+    await db.insert(notebookTable).values({typnb}).returning();
+
+    return {
+      success: true
+    };
+  } catch {
+    throw new Response('Malformed typnb body', {status: 400, statusText: 'Bad Request'});
+  }
 }
 
 export default function IndexRoute() {
-  const navigation = useNavigation();
+  const submit = useSubmit();
+  const action = useFormAction();
 
-  console.log('navigation', navigation, navigation.state);
+  const onSave = (typnb: unknown) => {
+    submit({body: JSON.stringify(typnb)}, {method: 'post', action});
+  };
 
   return (
     <main className={mainStyle}>
-      <Form method="POST">
-        <fieldset disabled={navigation.state === 'submitting'}>
-          <button type="submit">{navigation.state === 'submitting' ? 'Save' : 'Saving'}</button>
-        </fieldset>
-      </Form>
-      <NotebookPage />
+      <NotebookPage onSave={onSave} />
     </main>
   );
 }

@@ -8,12 +8,20 @@ import {useIsMounted} from '~/hooks/hooks';
 
 import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from '../routes/index.css';
 
-export const NotebookPage: FC = () => {
+/*
+ * Types.
+ */
+
+type NotebookPageProps = {
+  onSave: (typnb: unknown) => void;
+};
+
+export const NotebookPage: FC<NotebookPageProps> = ({onSave}) => {
   const isMounted = useIsMounted();
 
   return (
     <>
-      {isMounted ? <Notebook /> : null}
+      {isMounted ? <Notebook onSave={onSave} /> : null}
       <nav className={bottomNavStyle}>
         <Link to="https://github.com/Vilos92/typerion">
           <button className={bottomNavButtonStyle}>

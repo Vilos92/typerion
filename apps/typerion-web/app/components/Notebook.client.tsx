@@ -1,4 +1,16 @@
 import type {FC} from 'react';
 import {Notebook as NotebookComponent} from 'typerion';
 
-export const Notebook: FC = () => <NotebookComponent />;
+/*
+ * Types.
+ */
+
+type NotebookProps = {
+  onSave: (typnb: unknown) => void;
+};
+
+/*
+ * Component.
+ */
+
+export const Notebook: FC<NotebookProps> = ({onSave}) => <NotebookComponent onSave={onSave} />;

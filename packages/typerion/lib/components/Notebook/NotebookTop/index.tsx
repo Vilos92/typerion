@@ -19,6 +19,10 @@ import {TypnbOpenButton} from '../TypnbOpenButton';
  * Types.
  */
 
+type NotebookTopProps = {
+  onSave: ((state: TypnbState) => void) | undefined;
+};
+
 type StyledButtonGroupProps = {
   $isDisabled?: boolean;
 };
@@ -61,7 +65,7 @@ const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchs
  * Component.
  */
 
-export const NotebookTop: FC = () => {
+export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
   const state = useNotebookStore();
   const {runStatus, focusedPadId, load, run, stop, insertPadBefore, insertPadAfter} = state;
 
@@ -102,6 +106,12 @@ export const NotebookTop: FC = () => {
 
   const onSaveClick = () => {
     const typnb = getTypnb(state);
+
+    if (onSave) {
+      onSave(typnb);
+      return;
+    }
+
     saveTypnbFile(typnb);
   };
 
