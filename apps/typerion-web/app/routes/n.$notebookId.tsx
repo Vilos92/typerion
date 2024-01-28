@@ -1,6 +1,7 @@
-import {Form, useNavigation} from '@remix-run/react';
-import {type ActionFunctionArgs, type MetaFunction} from '@vercel/remix';
+import {Form, useLoaderData, useNavigation} from '@remix-run/react';
+import {type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction, json} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
+import {eq} from 'drizzle-orm';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
 
@@ -16,6 +17,22 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader({request, params}: LoaderFunctionArgs) {
+  const notebookId = params.notebookId && parseInt(params.notebookId, 10);
+  if (!notebookId) {
+    throw new Response(`Notebook not found: ${notebookId}`, {status: 404, statusText: 'Not Found'});
+  }
+
+  const notebooks = await db.select().from(notebookTable).where(eq(notebookTable.id, notebookId));
+  if (!notebooks[0]) {
+    throw new Response(`Notebook not found: ${notebookId}`, {status: 404, statusText: 'Not Found'});
+  }
+
+  return json({
+    notebook: notebooks[0]
+  });
+}
+
 export async function action({request}: ActionFunctionArgs) {
   await db.insert(notebookTable).values({typnb: {}}).returning();
 
@@ -24,10 +41,12 @@ export async function action({request}: ActionFunctionArgs) {
   };
 }
 
-export default function IndexRoute() {
+export default function NotebookRoute() {
   const navigation = useNavigation();
 
-  console.log('navigation', navigation, navigation.state);
+  const {notebook} = useLoaderData<typeof loader>();
+
+  console.log('notebook items', notebook);
 
   return (
     <main className={mainStyle}>

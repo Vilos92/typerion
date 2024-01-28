@@ -13,6 +13,8 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev --manual",
+    "db:generate": "drizzle-kit generate:pg --config ./db/drizzle.config.ts",
+    "db:migrate": "tsx ./scripts/dbMigrate.ts",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
     "prettier:check": "prettier --check --ignore-unknown '**/*'",
@@ -30,7 +32,9 @@
     "@remix-run/serve": "^2.0.0",
     "@vercel/analytics": "^1.0.2",
     "@vercel/remix": "^2.0.0",
+    "drizzle-orm": "^0.29.3",
     "isbot": "^3.6.8",
+    "postgres": "^3.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typerion": "workspace:*"
@@ -42,11 +46,13 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@vanilla-extract/css": "^1.14.0",
+    "drizzle-kit": "^0.20.13",
     "eslint": "^8.38.0",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "3.0.3",
     "sort-package-json": "^2.6.0",
     "ts-unused-exports": "^10.0.1",
+    "tsx": "^4.7.0",
     "typescript": "^5.1.6"
   },
   "packageManager": "pnpm@8.10.2",
