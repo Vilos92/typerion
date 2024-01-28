@@ -6,6 +6,7 @@ import {Notebook as NotebookComponent} from 'typerion';
  */
 
 type NotebookProps = {
+  typnb: unknown | undefined;
   onSave: (typnb: unknown) => void;
 };
 
@@ -13,4 +14,6 @@ type NotebookProps = {
  * Component.
  */
 
-export const Notebook: FC<NotebookProps> = ({onSave}) => <NotebookComponent onSave={onSave} />;
+export const Notebook: FC<NotebookProps> = ({typnb, onSave}) => (
+  <NotebookComponent typnb={typnb} onSave={onSave} />
+);

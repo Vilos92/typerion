@@ -37,8 +37,8 @@ export async function action({request}: ActionFunctionArgs) {
 }
 
 export default function IndexRoute() {
-  const submit = useSubmit();
   const action = useFormAction();
+  const submit = useSubmit();
 
   const onSave = (typnb: unknown) => {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});

@@ -1,4 +1,4 @@
-import type {FC} from 'react';
+import {type FC, useEffect} from 'react';
 import tw from 'twin.macro';
 
 import {useNotebookStore} from '../../store/store';
@@ -11,6 +11,7 @@ import {NotebookTop} from './NotebookTop';
  */
 
 type NotebookProps = {
+  typnb?: TypnbState;
   onSave?: (state: TypnbState) => void;
 };
 
@@ -26,9 +27,15 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
  * Component.
  */
 
-export const Notebook: FC<NotebookProps> = ({onSave}) => {
+export const Notebook: FC<NotebookProps> = ({typnb, onSave}) => {
   const state = useNotebookStore();
-  const {pads} = state;
+  const {pads, load} = state;
+
+  useEffect(() => {
+    if (typnb) {
+      load(typnb);
+    }
+  }, [load, typnb]);
 
   return (
     <StyledMain>

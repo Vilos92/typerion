@@ -13,15 +13,16 @@ import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from '../routes/inde
  */
 
 type NotebookPageProps = {
+  typnb?: unknown;
   onSave: (typnb: unknown) => void;
 };
 
-export const NotebookPage: FC<NotebookPageProps> = ({onSave}) => {
+export const NotebookPage: FC<NotebookPageProps> = ({typnb, onSave}) => {
   const isMounted = useIsMounted();
 
   return (
     <>
-      {isMounted ? <Notebook onSave={onSave} /> : null}
+      {isMounted ? <Notebook typnb={typnb} onSave={onSave} /> : null}
       <nav className={bottomNavStyle}>
         <Link to="https://github.com/Vilos92/typerion">
           <button className={bottomNavButtonStyle}>
