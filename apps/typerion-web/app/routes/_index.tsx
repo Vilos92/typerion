@@ -1,5 +1,5 @@
 import {useFormAction, useSubmit} from '@remix-run/react';
-import {type ActionFunctionArgs, type MetaFunction} from '@vercel/remix';
+import {redirect, type ActionFunctionArgs, type MetaFunction} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
@@ -26,11 +26,10 @@ export async function action({request}: ActionFunctionArgs) {
   try {
     const typnb = JSON.parse(body);
 
-    await db.insert(notebookTable).values({typnb}).returning();
+    const notebooks = await db.insert(notebookTable).values({typnb}).returning();
+    const notebook = notebooks[0];
 
-    return {
-      success: true
-    };
+    return redirect(`/nb/${notebook.id}`);
   } catch {
     throw new Response('Malformed typnb body', {status: 400, statusText: 'Bad Request'});
   }

@@ -104,22 +104,24 @@ export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
     stop();
   };
 
-  const onSaveClick = () => {
+  const onDownloadClick = () => {
     const typnb = getTypnb(state);
-
-    if (onSave) {
-      onSave(typnb);
-      return;
-    }
 
     saveTypnbFile(typnb);
   };
 
-  function onTypnbFileLoad(fileString: string) {
+  const onTypnbFileLoad = (fileString: string) => {
     const typnbJson = JSON.parse(fileString);
     const typnbState = decodeTypnbState(typnbJson);
     load(typnbState);
-  }
+  };
+
+  const onSaveClick =
+    onSave &&
+    (() => {
+      const typnb = getTypnb(state);
+      onSave(typnb);
+    });
 
   const isAddButtonsDisabled = !focusedPadId;
 
@@ -134,7 +136,7 @@ export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
         <source srcSet={typerionLogoMarkDark} media="(prefers-color-scheme: dark) and (min-width: 1024px)" />
         <StyledLogoImg src={typerionIcon} />
       </picture>
-      {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
+      {renderRightButtonGroup(runStatus, onRunPauseClick, onDownloadClick, onTypnbFileLoad, onSaveClick)}
     </StyledTopDiv>
   );
 };
@@ -164,13 +166,19 @@ function renderAddButtons(
 function renderRightButtonGroup(
   runStatus: AsyncStatusesEnum,
   onPlayPauseClick: Handler,
-  onSaveClick: Handler,
-  onTypnbFileLoad: (fileString: string) => void
+  onDownloadClick: Handler,
+  onTypnbFileLoad: (fileString: string) => void,
+  onSaveClick: Handler | undefined
 ) {
   return (
     <StyledButtonGroup>
+      {onSaveClick && (
+        <StyledIconButton onClick={onSaveClick}>
+          <Icon type={IconTypesEnum.SHARE} size={32} />
+        </StyledIconButton>
+      )}
       <TypnbOpenButton onTypnbFileLoad={onTypnbFileLoad} />
-      <StyledIconButton onClick={onSaveClick}>
+      <StyledIconButton onClick={onDownloadClick}>
         <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
       </StyledIconButton>
       {renderPlayPauseButton(runStatus, onPlayPauseClick)}

@@ -62,8 +62,6 @@ export default function NotebookRoute() {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});
   };
 
-  console.log('notebook items', notebook);
-
   return (
     <main className={mainStyle}>
       <NotebookPage typnb={notebook.typnb} onSave={onSave} />

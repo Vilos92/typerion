@@ -8,7 +8,8 @@ import {
   type Icon as PhosphorIcon,
   Play,
   PlayCircle,
-  Plus
+  Plus,
+  Share
 } from 'phosphor-react';
 import {type FC} from 'react';
 
@@ -57,6 +58,8 @@ function computePhosphorIcon(type: IconTypesEnum): PhosphorIcon {
       return PlayCircle;
     case IconTypesEnum.PLUS:
       return Plus;
+    case IconTypesEnum.SHARE:
+      return Share;
 
     default:
       throw new Error(`Unknown icon type: ${type}`);
