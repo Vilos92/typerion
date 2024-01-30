@@ -1,6 +1,7 @@
 import {useFormAction, useSubmit} from '@remix-run/react';
 import {type ActionFunctionArgs, type MetaFunction, redirect} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
+import {decodeTypnb} from 'db/typnb';
 import {type Typnb} from 'typerion';
 // import {z} from 'zod';
 import {db} from '~/../db/db';
@@ -26,7 +27,8 @@ export async function action({request}: ActionFunctionArgs) {
   }
 
   try {
-    const typnb = JSON.parse(body);
+    const typnbRaw = JSON.parse(body);
+    const typnb = decodeTypnb(typnbRaw);
 
     const notebooks = await db.insert(notebookTable).values({typnb}).returning();
     const notebook = notebooks[0];

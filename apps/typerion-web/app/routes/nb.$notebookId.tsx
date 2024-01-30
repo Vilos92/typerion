@@ -6,7 +6,8 @@ import {
   json,
   redirect
 } from '@vercel/remix';
-import {notebookTable} from 'db/schema';
+import {decodeNotebook, notebookTable} from 'db/schema';
+import {decodeTypnb} from 'db/typnb';
 import {eq} from 'drizzle-orm';
 import {type Typnb} from 'typerion';
 import {db} from '~/../db/db';
@@ -37,14 +38,15 @@ export async function action({request, params}: ActionFunctionArgs) {
   }
 
   try {
-    const typnb = JSON.parse(body);
+    const typnbRaw = JSON.parse(body);
+    const typnb = decodeTypnb(typnbRaw);
 
     const notebooks = await db
       .update(notebookTable)
       .set({typnb})
       .where(eq(notebookTable.id, notebookId))
       .returning();
-    const notebook = notebooks[0];
+    const notebook = decodeNotebook(notebooks[0]);
 
     return redirect(`/nb/${notebook.id}`);
   } catch {
@@ -64,7 +66,7 @@ export async function loader({params}: LoaderFunctionArgs) {
   }
 
   return json({
-    notebook: notebooks[0]
+    notebook: decodeNotebook(notebooks[0])
   });
 }
 

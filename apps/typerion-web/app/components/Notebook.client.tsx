@@ -1,6 +1,5 @@
 import type {FC} from 'react';
-import {type Typnb, decodeTypnb} from 'typerion';
-import {Notebook as NotebookComponent} from 'typerion';
+import {Notebook as NotebookComponent, type Typnb} from 'typerion';
 
 /*
  * Types.
@@ -15,10 +14,6 @@ type NotebookProps = {
  * Component.
  */
 
-export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => {
-  const onShareWrapped = (typnb: Typnb) => {
-    return onShare(decodeTypnb(typnb));
-  };
-
-  return <NotebookComponent typnb={typnb} onShare={onShareWrapped} />;
-};
+export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => (
+  <NotebookComponent typnb={typnb} onShare={onShare} />
+);

@@ -1,10 +1,11 @@
+import {type Typnb} from 'typerion';
 import {z} from 'zod';
 
 /*
  * Enums.
  */
 
-export enum TypnbCellTypesEnum {
+enum TypnbCellTypesEnum {
   CODE = 'code'
 }
 
@@ -22,14 +23,6 @@ const TypnbCellSchema = z.discriminatedUnion('cell_type', [TypnbCodeCellSchema])
 const TypnbSchema = z.object({
   cells: z.array(TypnbCellSchema).readonly()
 });
-
-/*
- * Types.
- */
-
-export type TypnbCellSchema = z.infer<typeof TypnbCellSchema>;
-
-export type Typnb = z.infer<typeof TypnbSchema>;
 
 /*
  * Decoders.
