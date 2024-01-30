@@ -1,5 +1,11 @@
 import {useFormAction, useLoaderData, useSubmit} from '@remix-run/react';
-import {type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction, json} from '@vercel/remix';
+import {
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+  json,
+  redirect
+} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
 import {eq} from 'drizzle-orm';
 import {db} from '~/../db/db';
@@ -17,7 +23,12 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export async function action({request}: ActionFunctionArgs) {
+export async function action({request, params}: ActionFunctionArgs) {
+  const notebookId = params.notebookId && parseInt(params.notebookId, 10);
+  if (!notebookId) {
+    throw new Response(`Notebook not found: ${notebookId}`, {status: 404, statusText: 'Not Found'});
+  }
+
   const form = await request.formData();
   const body = form.get('body');
   if (!body || typeof body !== 'string') {
@@ -27,11 +38,14 @@ export async function action({request}: ActionFunctionArgs) {
   try {
     const typnb = JSON.parse(body);
 
-    await db.insert(notebookTable).values({typnb}).returning();
+    const notebooks = await db
+      .update(notebookTable)
+      .set({typnb})
+      .where(eq(notebookTable.id, notebookId))
+      .returning();
+    const notebook = notebooks[0];
 
-    return {
-      success: true
-    };
+    return redirect(`/nb/${notebook.id}`);
   } catch {
     throw new Response('Malformed typnb body', {status: 400, statusText: 'Bad Request'});
   }
