@@ -1,7 +1,7 @@
-import {type FC, useEffect} from 'react';
+import {type FC, useRef} from 'react';
 import tw from 'twin.macro';
 
-import {useNotebookStore} from '../../store/store';
+import {NotebookContext, createNotebookStore, useNotebookStore} from '../../store/store';
 import type {Typnb} from '../../typnb';
 import {NotebookPad} from './NotebookPad';
 import {NotebookTop} from './NotebookTop';
@@ -12,6 +12,10 @@ import {NotebookTop} from './NotebookTop';
 
 type NotebookProps = {
   typnb?: Typnb;
+  onShare?: (state: Typnb) => void;
+};
+
+type NotebookContentProps = {
   onShare?: (state: Typnb) => void;
 };
 
@@ -28,14 +32,18 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
  */
 
 export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => {
-  const state = useNotebookStore();
-  const {pads, load} = state;
+  const store = useRef(createNotebookStore({typnb})).current;
 
-  useEffect(() => {
-    if (typnb) {
-      load(typnb);
-    }
-  }, [load, typnb]);
+  return (
+    <NotebookContext.Provider value={store}>
+      <NotebookContent onShare={onShare} />
+    </NotebookContext.Provider>
+  );
+};
+
+const NotebookContent: FC<NotebookContentProps> = ({onShare}) => {
+  const state = useNotebookStore();
+  const {pads} = state;
 
   return (
     <StyledMain>
