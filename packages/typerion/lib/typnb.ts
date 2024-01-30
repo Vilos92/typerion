@@ -19,7 +19,7 @@ const TypnbCodeCellSchema = z.object({
 
 const TypnbCellSchema = z.discriminatedUnion('cell_type', [TypnbCodeCellSchema]);
 
-const TypnbStateSchema = z.object({
+const TypnbSchema = z.object({
   cells: z.array(TypnbCellSchema).readonly()
 });
 
@@ -29,12 +29,12 @@ const TypnbStateSchema = z.object({
 
 export type TypnbCellSchema = z.infer<typeof TypnbCellSchema>;
 
-export type TypnbState = z.infer<typeof TypnbStateSchema>;
+export type Typnb = z.infer<typeof TypnbSchema>;
 
 /*
  * Decoders.
  */
 
-export const decodeTypnbState = (data: unknown): TypnbState => {
-  return TypnbStateSchema.parse(data);
+export const decodeTypnb = (data: unknown): Typnb => {
+  return TypnbSchema.parse(data);
 };

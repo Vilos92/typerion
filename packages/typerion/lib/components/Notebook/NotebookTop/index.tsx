@@ -10,7 +10,7 @@ import typerionLogoMarkDark from '../../../assets/typerionLogoMarkDark.svg';
 import {getTypnb} from '../../../store/selectors';
 import {useNotebookStore} from '../../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../../types';
-import {type TypnbState, decodeTypnbState} from '../../../typnb';
+import {type Typnb, decodeTypnb} from '../../../typnb';
 import {Icon} from '../../Icon';
 import {IconTypesEnum} from '../../Icon/types';
 import {TypnbOpenButton} from '../TypnbOpenButton';
@@ -20,7 +20,7 @@ import {TypnbOpenButton} from '../TypnbOpenButton';
  */
 
 type NotebookTopProps = {
-  onShare: ((state: TypnbState) => void) | undefined;
+  onShare: ((state: Typnb) => void) | undefined;
 };
 
 type StyledButtonGroupProps = {
@@ -122,8 +122,8 @@ export const NotebookTop: FC<NotebookTopProps> = ({onShare}) => {
 
   const onTypnbFileLoad = (fileString: string) => {
     const typnbJson = JSON.parse(fileString);
-    const typnbState = decodeTypnbState(typnbJson);
-    load(typnbState);
+    const typnb = decodeTypnb(typnbJson);
+    load(typnb);
   };
 
   const onShareClick =
@@ -216,7 +216,7 @@ function renderPlayPauseButton(runStatus: AsyncStatusesEnum, onClick: Handler) {
   }
 }
 
-function saveTypnbFile(typnb: TypnbState) {
+function saveTypnbFile(typnb: Typnb) {
   const json = JSON.stringify(typnb);
   const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
   saveAs(blob, 'typnb.json');

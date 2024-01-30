@@ -1,5 +1,6 @@
 import {Link} from '@remix-run/react';
 import type {FC} from 'react';
+import {type Typnb} from 'typerion';
 import githubLogo from '~/assets/githubLogo.svg';
 import githubLogoDark from '~/assets/githubLogoDark.svg';
 import npmLogo from '~/assets/npmLogo.svg';
@@ -13,8 +14,8 @@ import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from './notebookPage
  */
 
 type NotebookPageProps = {
-  typnb?: unknown;
-  onShare: (typnb: unknown) => void;
+  typnb?: Typnb;
+  onShare: (typnb: Typnb) => void;
 };
 
 export const NotebookPage: FC<NotebookPageProps> = ({typnb, onShare}) => {

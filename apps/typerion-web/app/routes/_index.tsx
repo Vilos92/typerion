@@ -1,6 +1,8 @@
 import {useFormAction, useSubmit} from '@remix-run/react';
 import {type ActionFunctionArgs, type MetaFunction, redirect} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
+import {type Typnb} from 'typerion';
+// import {z} from 'zod';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
 
@@ -39,7 +41,7 @@ export default function IndexRoute() {
   const action = useFormAction();
   const submit = useSubmit();
 
-  const onShare = (typnb: unknown) => {
+  const onShare = (typnb: Typnb) => {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});
   };
 

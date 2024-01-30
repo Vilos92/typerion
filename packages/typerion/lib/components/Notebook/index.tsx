@@ -2,7 +2,7 @@ import {type FC, useEffect} from 'react';
 import tw from 'twin.macro';
 
 import {useNotebookStore} from '../../store/store';
-import type {TypnbState} from '../../typnb';
+import type {Typnb} from '../../typnb';
 import {NotebookPad} from './NotebookPad';
 import {NotebookTop} from './NotebookTop';
 
@@ -11,8 +11,8 @@ import {NotebookTop} from './NotebookTop';
  */
 
 type NotebookProps = {
-  typnb?: TypnbState;
-  onShare?: (state: TypnbState) => void;
+  typnb?: Typnb;
+  onShare?: (state: Typnb) => void;
 };
 
 /*

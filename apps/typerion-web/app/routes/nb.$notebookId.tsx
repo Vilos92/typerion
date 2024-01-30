@@ -8,6 +8,7 @@ import {
 } from '@vercel/remix';
 import {notebookTable} from 'db/schema';
 import {eq} from 'drizzle-orm';
+import {type Typnb} from 'typerion';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
 
@@ -72,7 +73,7 @@ export default function NotebookRoute() {
   const submit = useSubmit();
   const {notebook} = useLoaderData<typeof loader>();
 
-  const onShare = (typnb: unknown) => {
+  const onShare = (typnb: Typnb) => {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});
   };
 
