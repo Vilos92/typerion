@@ -28,7 +28,7 @@ const StyledMain = tw.main`relative max-w-screen-lg text-left w-[50%] min-w-[320
 const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
 
 /*
- * Component.
+ * Components.
  */
 
 export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => {

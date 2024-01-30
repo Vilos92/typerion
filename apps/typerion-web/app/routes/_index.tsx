@@ -1,6 +1,6 @@
 import {useFormAction, useSubmit} from '@remix-run/react';
 import {type ActionFunctionArgs, type MetaFunction, redirect} from '@vercel/remix';
-import {notebookTable} from 'db/schema';
+import {decodeNotebook, hashTypnb, notebookTable, serializeNotebook} from 'db/schema';
 import {decodeTypnb} from 'db/typnb';
 import {type Typnb} from 'typerion';
 // import {z} from 'zod';
@@ -29,9 +29,11 @@ export async function action({request}: ActionFunctionArgs) {
   try {
     const typnbRaw = JSON.parse(body);
     const typnb = decodeTypnb(typnbRaw);
+    const hash = await hashTypnb(typnb);
+    const notebookInsert = serializeNotebook({typnb, hash, parentId: null});
 
-    const notebooks = await db.insert(notebookTable).values({typnb}).returning();
-    const notebook = notebooks[0];
+    const notebooks = await db.insert(notebookTable).values(notebookInsert).returning();
+    const notebook = decodeNotebook(notebooks[0]);
 
     return redirect(`/nb/${notebook.id}`);
   } catch {

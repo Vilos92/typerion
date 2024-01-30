@@ -20,7 +20,7 @@ const TypnbCodeCellSchema = z.object({
 
 const TypnbCellSchema = z.discriminatedUnion('cell_type', [TypnbCodeCellSchema]);
 
-const TypnbSchema = z.object({
+export const TypnbSchema = z.object({
   cells: z.array(TypnbCellSchema).readonly()
 });
 

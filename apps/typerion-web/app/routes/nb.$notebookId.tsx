@@ -6,7 +6,7 @@ import {
   json,
   redirect
 } from '@vercel/remix';
-import {decodeNotebook, notebookTable} from 'db/schema';
+import {decodeNotebook, hashTypnb, notebookTable, serializeNotebook} from 'db/schema';
 import {decodeTypnb} from 'db/typnb';
 import {eq} from 'drizzle-orm';
 import {type Typnb} from 'typerion';
@@ -37,16 +37,33 @@ export async function action({request, params}: ActionFunctionArgs) {
     throw new Response('Missing typnb body', {status: 400, statusText: 'Bad Request'});
   }
 
+  const previousHash = form.get('previous_hash');
+  if (!previousHash || typeof previousHash !== 'string') {
+    throw new Response('Missing typnb hash', {status: 400, statusText: 'Bad Request'});
+  }
+
   try {
     const typnbRaw = JSON.parse(body);
     const typnb = decodeTypnb(typnbRaw);
 
-    const notebooks = await db
-      .update(notebookTable)
-      .set({typnb})
-      .where(eq(notebookTable.id, notebookId))
-      .returning();
-    const notebook = decodeNotebook(notebooks[0]);
+    const hash = await hashTypnb(typnb);
+
+    // If the hash has not changed, set the typnb and return.
+    if (hash === previousHash) {
+      const notebooks = await db
+        .update(notebookTable)
+        .set({typnb})
+        .where(eq(notebookTable.id, notebookId))
+        .returning();
+      const notebook = decodeNotebook(notebooks[0]);
+
+      return redirect(`/nb/${notebook.id}`);
+    }
+
+    // If the hash has changed, insert a new notebook with a new parent.
+    const notebookInsert = serializeNotebook({typnb, hash, parentId: notebookId});
+    const notebooks = await db.insert(notebookTable).values(notebookInsert).returning();
+    const notebook = notebooks[0];
 
     return redirect(`/nb/${notebook.id}`);
   } catch {
@@ -80,7 +97,7 @@ export default function NotebookRoute() {
   const {notebook} = useLoaderData<typeof loader>();
 
   const onShare = (typnb: Typnb) => {
-    submit({body: JSON.stringify(typnb)}, {method: 'post', action});
+    submit({body: JSON.stringify(typnb), previous_hash: notebook.hash}, {method: 'post', action});
   };
 
   return (
