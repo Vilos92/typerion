@@ -7,13 +7,13 @@ import {Notebook as NotebookComponent} from 'typerion';
 
 type NotebookProps = {
   typnb: unknown | undefined;
-  onSave: (typnb: unknown) => void;
+  onShare: (typnb: unknown) => void;
 };
 
 /*
  * Component.
  */
 
-export const Notebook: FC<NotebookProps> = ({typnb, onSave}) => (
-  <NotebookComponent typnb={typnb} onSave={onSave} />
+export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => (
+  <NotebookComponent typnb={typnb} onShare={onShare} />
 );

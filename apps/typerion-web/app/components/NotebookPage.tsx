@@ -22,7 +22,7 @@ export const NotebookPage: FC<NotebookPageProps> = ({typnb, onSave}) => {
 
   return (
     <>
-      {isMounted ? <Notebook typnb={typnb} onSave={onSave} /> : null}
+      {isMounted ? <Notebook typnb={typnb} onShare={onSave} /> : null}
       <nav className={bottomNavStyle}>
         <Link to="https://github.com/Vilos92/typerion">
           <button className={bottomNavButtonStyle}>

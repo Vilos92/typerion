@@ -37,7 +37,7 @@ export async function action({request}: ActionFunctionArgs) {
   }
 }
 
-export async function loader({request, params}: LoaderFunctionArgs) {
+export async function loader({params}: LoaderFunctionArgs) {
   const notebookId = params.notebookId && parseInt(params.notebookId, 10);
   if (!notebookId) {
     throw new Response(`Notebook not found: ${notebookId}`, {status: 404, statusText: 'Not Found'});

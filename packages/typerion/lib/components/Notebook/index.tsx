@@ -12,7 +12,7 @@ import {NotebookTop} from './NotebookTop';
 
 type NotebookProps = {
   typnb?: TypnbState;
-  onSave?: (state: TypnbState) => void;
+  onShare?: (state: TypnbState) => void;
 };
 
 /*
@@ -27,7 +27,7 @@ const StyledNotebookDiv = tw.div`mt-4 flex flex-col gap-4`;
  * Component.
  */
 
-export const Notebook: FC<NotebookProps> = ({typnb, onSave}) => {
+export const Notebook: FC<NotebookProps> = ({typnb, onShare}) => {
   const state = useNotebookStore();
   const {pads, load} = state;
 
@@ -39,7 +39,7 @@ export const Notebook: FC<NotebookProps> = ({typnb, onSave}) => {
 
   return (
     <StyledMain>
-      <NotebookTop onSave={onSave} />
+      <NotebookTop onShare={onShare} />
       <StyledNotebookDiv>
         {pads.map((pad, index) => (
           <NotebookPad key={pad.id} index={index} />

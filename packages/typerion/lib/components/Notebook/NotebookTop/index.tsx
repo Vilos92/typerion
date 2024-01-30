@@ -20,7 +20,7 @@ import {TypnbOpenButton} from '../TypnbOpenButton';
  */
 
 type NotebookTopProps = {
-  onSave: ((state: TypnbState) => void) | undefined;
+  onShare: ((state: TypnbState) => void) | undefined;
 };
 
 type StyledButtonGroupProps = {
@@ -43,14 +43,24 @@ const StyledLogoImg = styled.img`
   ${tw`h-10`};
 `;
 
-const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
+const StyledLeftButtonGroup = styled.div<StyledButtonGroupProps>`
   ${({$isDisabled}) => {
     if ($isDisabled) {
       return tw`opacity-50`;
     }
   }}
 
-  ${tw`flex flex-row items-center`}
+  ${tw`flex flex-row items-center w-1/3`}
+`;
+
+const StyledRightButtonGroup = styled.div<StyledButtonGroupProps>`
+  ${({$isDisabled}) => {
+    if ($isDisabled) {
+      return tw`opacity-50`;
+    }
+  }}
+
+  ${tw`flex flex-row items-center justify-end w-1/3`}
 `;
 
 const StyledIconButton = tw.button`flex items-center justify-center rounded p-2  text-black hover:text-white dark:text-white hover:bg-stone-500`;
@@ -65,7 +75,7 @@ const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchs
  * Component.
  */
 
-export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
+export const NotebookTop: FC<NotebookTopProps> = ({onShare}) => {
   const state = useNotebookStore();
   const {runStatus, focusedPadId, load, run, stop, insertPadBefore, insertPadAfter} = state;
 
@@ -116,11 +126,11 @@ export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
     load(typnbState);
   };
 
-  const onSaveClick =
-    onSave &&
+  const onShareClick =
+    onShare &&
     (() => {
       const typnb = getTypnb(state);
-      onSave(typnb);
+      onShare(typnb);
     });
 
   const isAddButtonsDisabled = !focusedPadId;
@@ -136,7 +146,8 @@ export const NotebookTop: FC<NotebookTopProps> = ({onSave}) => {
         <source srcSet={typerionLogoMarkDark} media="(prefers-color-scheme: dark) and (min-width: 1024px)" />
         <StyledLogoImg src={typerionIcon} />
       </picture>
-      {renderRightButtonGroup(runStatus, onRunPauseClick, onDownloadClick, onTypnbFileLoad, onSaveClick)}
+
+      {renderRightButtonGroup(runStatus, onRunPauseClick, onDownloadClick, onTypnbFileLoad, onShareClick)}
     </StyledTopDiv>
   );
 };
@@ -151,7 +162,7 @@ function renderAddButtons(
   onInsertPadAfterMouseDown: MouseEventHandler<HTMLButtonElement>
 ) {
   return (
-    <StyledButtonGroup $isDisabled={isDisabled}>
+    <StyledLeftButtonGroup $isDisabled={isDisabled}>
       <StyledIconButton onMouseDown={onInsertPadBeforeMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_LEFT_UP} size={32} />
       </StyledIconButton>
@@ -159,7 +170,7 @@ function renderAddButtons(
       <StyledIconButton onMouseDown={onInsertPadAfterMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_RIGHT_DOWN} size={32} />
       </StyledIconButton>
-    </StyledButtonGroup>
+    </StyledLeftButtonGroup>
   );
 }
 
@@ -168,12 +179,12 @@ function renderRightButtonGroup(
   onPlayPauseClick: Handler,
   onDownloadClick: Handler,
   onTypnbFileLoad: (fileString: string) => void,
-  onSaveClick: Handler | undefined
+  onShareClick: Handler | undefined
 ) {
   return (
-    <StyledButtonGroup>
-      {onSaveClick && (
-        <StyledIconButton onClick={onSaveClick}>
+    <StyledRightButtonGroup>
+      {onShareClick && (
+        <StyledIconButton onClick={onShareClick}>
           <Icon type={IconTypesEnum.SHARE} size={32} />
         </StyledIconButton>
       )}
@@ -182,7 +193,7 @@ function renderRightButtonGroup(
         <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
       </StyledIconButton>
       {renderPlayPauseButton(runStatus, onPlayPauseClick)}
-    </StyledButtonGroup>
+    </StyledRightButtonGroup>
   );
 }
 
