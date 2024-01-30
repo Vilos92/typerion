@@ -1,5 +1,5 @@
 import {useFormAction, useSubmit} from '@remix-run/react';
-import {redirect, type ActionFunctionArgs, type MetaFunction} from '@vercel/remix';
+import {type ActionFunctionArgs, type MetaFunction, redirect} from '@vercel/remix';
 import {notebookTable} from 'db/schema';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
@@ -39,13 +39,13 @@ export default function IndexRoute() {
   const action = useFormAction();
   const submit = useSubmit();
 
-  const onSave = (typnb: unknown) => {
+  const onShare = (typnb: unknown) => {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});
   };
 
   return (
     <main className={mainStyle}>
-      <NotebookPage onSave={onSave} />
+      <NotebookPage onShare={onShare} />
     </main>
   );
 }

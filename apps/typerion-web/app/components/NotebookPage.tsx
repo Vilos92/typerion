@@ -6,7 +6,7 @@ import npmLogo from '~/assets/npmLogo.svg';
 import {Notebook} from '~/components/Notebook.client';
 import {useIsMounted} from '~/hooks/hooks';
 
-import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from '../routes/index.css';
+import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from './notebookPage.css';
 
 /*
  * Types.
@@ -14,15 +14,15 @@ import {bottomNavButtonStyle, bottomNavStyle, logoImgStyle} from '../routes/inde
 
 type NotebookPageProps = {
   typnb?: unknown;
-  onSave: (typnb: unknown) => void;
+  onShare: (typnb: unknown) => void;
 };
 
-export const NotebookPage: FC<NotebookPageProps> = ({typnb, onSave}) => {
+export const NotebookPage: FC<NotebookPageProps> = ({typnb, onShare}) => {
   const isMounted = useIsMounted();
 
   return (
     <>
-      {isMounted ? <Notebook typnb={typnb} onShare={onSave} /> : null}
+      {isMounted ? <Notebook typnb={typnb} onShare={onShare} /> : null}
       <nav className={bottomNavStyle}>
         <Link to="https://github.com/Vilos92/typerion">
           <button className={bottomNavButtonStyle}>

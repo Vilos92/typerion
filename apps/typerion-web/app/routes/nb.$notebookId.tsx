@@ -58,13 +58,13 @@ export default function NotebookRoute() {
   const submit = useSubmit();
   const {notebook} = useLoaderData<typeof loader>();
 
-  const onSave = (typnb: unknown) => {
+  const onShare = (typnb: unknown) => {
     submit({body: JSON.stringify(typnb)}, {method: 'post', action});
   };
 
   return (
     <main className={mainStyle}>
-      <NotebookPage typnb={notebook.typnb} onSave={onSave} />
+      <NotebookPage typnb={notebook.typnb} onShare={onShare} />
     </main>
   );
 }
