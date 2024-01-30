@@ -65,9 +65,13 @@ export async function loader({params}: LoaderFunctionArgs) {
     throw new Response(`Notebook not found: ${notebookId}`, {status: 404, statusText: 'Not Found'});
   }
 
-  return json({
-    notebook: decodeNotebook(notebooks[0])
-  });
+  try {
+    return json({
+      notebook: decodeNotebook(notebooks[0])
+    });
+  } catch {
+    throw new Response('Could not load typnb notebook', {status: 500, statusText: 'Internal Server Error'});
+  }
 }
 
 export default function NotebookRoute() {
