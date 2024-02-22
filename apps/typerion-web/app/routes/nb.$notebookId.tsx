@@ -13,7 +13,7 @@ import {type Typnb} from 'typerion';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
 
-import {mainStyle} from './index.css';
+import {mainStyle} from './nb.$notebookId.css';
 
 export const meta: MetaFunction = () => {
   return [
@@ -95,6 +95,11 @@ export default function NotebookRoute() {
   const action = useFormAction();
   const submit = useSubmit();
   const {notebook} = useLoaderData<typeof loader>();
+  const notebookAsRightType = {
+    ...notebook,
+    createdAt: new Date(notebook.createdAt),
+    updatedAt: new Date(notebook.updatedAt)
+  };
 
   const onShare = (typnb: Typnb) => {
     submit({body: JSON.stringify(typnb), previous_hash: notebook.hash}, {method: 'post', action});
@@ -102,7 +107,7 @@ export default function NotebookRoute() {
 
   return (
     <main className={mainStyle}>
-      <NotebookPage typnb={notebook.typnb} onShare={onShare} />
+      <NotebookPage notebook={notebookAsRightType} onShare={onShare} />
     </main>
   );
 }

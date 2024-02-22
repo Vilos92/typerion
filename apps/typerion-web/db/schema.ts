@@ -41,7 +41,7 @@ type NotebookInsert = typeof notebookTable.$inferInsert;
  * Types.
  */
 
-type Notebook = z.infer<typeof NotebookSchema>;
+export type Notebook = z.infer<typeof NotebookSchema>;
 
 /*
  * Decoders.

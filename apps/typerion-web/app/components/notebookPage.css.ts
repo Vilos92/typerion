@@ -4,6 +4,41 @@ import {style} from '@vanilla-extract/css';
  * Styles.
  */
 
+export const notebookPageDivStyle = style({
+  width: '100%'
+});
+
+export const notebookDetailsSidebarDivStyle = style({
+  position: 'absolute'
+});
+
+export const notebookDetailsDivStyle = style({
+  background: '#44403c',
+  color: '#ffffff',
+
+  padding: '12px 0 12px 0',
+
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px'
+});
+
+export const notebookDetailsItemDivStyle = style({
+  padding: '0 12px 0 12px',
+
+  ':hover': {
+    backgroundColor: '#666666'
+  }
+});
+
+export const notebookDivStyle = style({
+  width: '100%',
+
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center'
+});
+
 export const bottomNavStyle = style({
   position: 'fixed',
   bottom: 0,
