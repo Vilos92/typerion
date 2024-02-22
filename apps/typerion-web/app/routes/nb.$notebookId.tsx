@@ -13,7 +13,7 @@ import {type Typnb} from 'typerion';
 import {db} from '~/../db/db';
 import {NotebookPage} from '~/components/NotebookPage';
 
-import {mainStyle} from './nb.$notebookId.css';
+import {mainStyle} from './index.css';
 
 export const meta: MetaFunction = () => {
   return [
