@@ -11,5 +11,6 @@ export enum IconTypesEnum {
   PAUSE_CIRCLE = 'pause-circle',
   PLAY = 'play',
   PLAY_CIRCLE = 'play-circle',
-  PLUS = 'plus'
+  PLUS = 'plus',
+  SHARE = 'share-fat'
 }

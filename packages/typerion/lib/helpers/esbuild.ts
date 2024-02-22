@@ -112,14 +112,18 @@ function makeGetEsModule() {
   return async () => {
     if (!esModule) {
       esModule = esbuildModule;
+
+      const host = location.protocol + '//' + location.host;
+      const wasmURL = new URL('./esbuild.wasm', host).toString();
+
       try {
         await esbuildModule.initialize({
-          wasmURL: './esbuild.wasm'
+          wasmURL
         });
 
         return esModule;
       } catch {
-        console.error('Failed to load esbuild.wasm from ./esbuild.wasm - falling back to unpkg.com');
+        console.error(`Failed to load esbuild.wasm from ${host} - falling back to unpkg.com`);
       }
 
       try {

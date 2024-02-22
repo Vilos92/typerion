@@ -1,7 +1,7 @@
 import {type Context as VmContext} from 'vm';
 
 import {type AsyncStatusesEnum, type Handler, type IStandaloneCodeEditor} from '../types';
-import {type TypnbState} from '../typnb';
+import {type Typnb} from '../typnb';
 
 /*
  * Types.
@@ -21,7 +21,7 @@ type NotebookStateAttributes = {
 };
 
 type NotebookStateHandlers = {
-  load: (typnb: TypnbState) => void;
+  load: (typnb: Typnb) => void;
   run: Handler;
   stop: Handler;
   updatePad: (id: string, pad: PadState) => void;

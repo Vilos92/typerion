@@ -10,7 +10,7 @@ import typerionLogoMarkDark from '../../../assets/typerionLogoMarkDark.svg';
 import {getTypnb} from '../../../store/selectors';
 import {useNotebookStore} from '../../../store/store';
 import {AsyncStatusesEnum, type Handler} from '../../../types';
-import {type TypnbState, decodeTypnbState} from '../../../typnb';
+import {type Typnb, decodeTypnb} from '../../../typnb';
 import {Icon} from '../../Icon';
 import {IconTypesEnum} from '../../Icon/types';
 import {TypnbOpenButton} from '../TypnbOpenButton';
@@ -18,6 +18,10 @@ import {TypnbOpenButton} from '../TypnbOpenButton';
 /*
  * Types.
  */
+
+type NotebookTopProps = {
+  onShare: ((state: Typnb) => void) | undefined;
+};
 
 type StyledButtonGroupProps = {
   $isDisabled?: boolean;
@@ -39,14 +43,24 @@ const StyledLogoImg = styled.img`
   ${tw`h-10`};
 `;
 
-const StyledButtonGroup = styled.div<StyledButtonGroupProps>`
+const StyledLeftButtonGroup = styled.div<StyledButtonGroupProps>`
   ${({$isDisabled}) => {
     if ($isDisabled) {
       return tw`opacity-50`;
     }
   }}
 
-  ${tw`flex flex-row items-center`}
+  ${tw`flex flex-row items-center w-1/3`}
+`;
+
+const StyledRightButtonGroup = styled.div<StyledButtonGroupProps>`
+  ${({$isDisabled}) => {
+    if ($isDisabled) {
+      return tw`opacity-50`;
+    }
+  }}
+
+  ${tw`flex flex-row items-center justify-end w-1/3`}
 `;
 
 const StyledIconButton = tw.button`flex items-center justify-center rounded p-2  text-black hover:text-white dark:text-white hover:bg-stone-500`;
@@ -61,7 +75,7 @@ const StyledPauseButton = tw(StyledIconButton)`text-emerald-600 hover:text-fuchs
  * Component.
  */
 
-export const NotebookTop: FC = () => {
+export const NotebookTop: FC<NotebookTopProps> = ({onShare}) => {
   const state = useNotebookStore();
   const {runStatus, focusedPadId, load, run, stop, insertPadBefore, insertPadAfter} = state;
 
@@ -100,16 +114,24 @@ export const NotebookTop: FC = () => {
     stop();
   };
 
-  const onSaveClick = () => {
+  const onDownloadClick = () => {
     const typnb = getTypnb(state);
+
     saveTypnbFile(typnb);
   };
 
-  function onTypnbFileLoad(fileString: string) {
+  const onTypnbFileLoad = (fileString: string) => {
     const typnbJson = JSON.parse(fileString);
-    const typnbState = decodeTypnbState(typnbJson);
-    load(typnbState);
-  }
+    const typnb = decodeTypnb(typnbJson);
+    load(typnb);
+  };
+
+  const onShareClick =
+    onShare &&
+    (() => {
+      const typnb = getTypnb(state);
+      onShare(typnb);
+    });
 
   const isAddButtonsDisabled = !focusedPadId;
 
@@ -124,7 +146,8 @@ export const NotebookTop: FC = () => {
         <source srcSet={typerionLogoMarkDark} media="(prefers-color-scheme: dark) and (min-width: 1024px)" />
         <StyledLogoImg src={typerionIcon} />
       </picture>
-      {renderRightButtonGroup(runStatus, onRunPauseClick, onSaveClick, onTypnbFileLoad)}
+
+      {renderRightButtonGroup(runStatus, onRunPauseClick, onDownloadClick, onTypnbFileLoad, onShareClick)}
     </StyledTopDiv>
   );
 };
@@ -139,7 +162,7 @@ function renderAddButtons(
   onInsertPadAfterMouseDown: MouseEventHandler<HTMLButtonElement>
 ) {
   return (
-    <StyledButtonGroup $isDisabled={isDisabled}>
+    <StyledLeftButtonGroup $isDisabled={isDisabled}>
       <StyledIconButton onMouseDown={onInsertPadBeforeMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_LEFT_UP} size={32} />
       </StyledIconButton>
@@ -147,24 +170,30 @@ function renderAddButtons(
       <StyledIconButton onMouseDown={onInsertPadAfterMouseDown}>
         <Icon type={IconTypesEnum.ARROW_ELBOW_RIGHT_DOWN} size={32} />
       </StyledIconButton>
-    </StyledButtonGroup>
+    </StyledLeftButtonGroup>
   );
 }
 
 function renderRightButtonGroup(
   runStatus: AsyncStatusesEnum,
   onPlayPauseClick: Handler,
-  onSaveClick: Handler,
-  onTypnbFileLoad: (fileString: string) => void
+  onDownloadClick: Handler,
+  onTypnbFileLoad: (fileString: string) => void,
+  onShareClick: Handler | undefined
 ) {
   return (
-    <StyledButtonGroup>
+    <StyledRightButtonGroup>
+      {onShareClick && (
+        <StyledIconButton onClick={onShareClick}>
+          <Icon type={IconTypesEnum.SHARE} size={32} />
+        </StyledIconButton>
+      )}
       <TypnbOpenButton onTypnbFileLoad={onTypnbFileLoad} />
-      <StyledIconButton onClick={onSaveClick}>
+      <StyledIconButton onClick={onDownloadClick}>
         <Icon type={IconTypesEnum.FLOPPY_DISK} size={32} />
       </StyledIconButton>
       {renderPlayPauseButton(runStatus, onPlayPauseClick)}
-    </StyledButtonGroup>
+    </StyledRightButtonGroup>
   );
 }
 
@@ -187,7 +216,7 @@ function renderPlayPauseButton(runStatus: AsyncStatusesEnum, onClick: Handler) {
   }
 }
 
-function saveTypnbFile(typnb: TypnbState) {
+function saveTypnbFile(typnb: Typnb) {
   const json = JSON.stringify(typnb);
   const blob = new Blob([json], {type: 'application/json;charset=utf-8'});
   saveAs(blob, 'typnb.json');
