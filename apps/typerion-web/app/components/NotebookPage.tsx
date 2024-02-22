@@ -42,7 +42,7 @@ export const NotebookPage: FC<NotebookPageProps> = ({notebook, onShare}) => {
               </Link>
               {notebook.parentId && (
                 <Link to={formatNotebookUrl(notebook.parentId)} reloadDocument>
-                  <div className={notebookDetailsItemDivStyle}>Forked Notebook</div>
+                  <div className={notebookDetailsItemDivStyle}>Forked: nb/{notebook.parentId}</div>
                 </Link>
               )}
             </div>
