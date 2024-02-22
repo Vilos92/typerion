@@ -95,7 +95,8 @@ export default function NotebookRoute() {
   const action = useFormAction();
   const submit = useSubmit();
   const {notebook} = useLoaderData<typeof loader>();
-  const notebookAsRightType = {
+
+  const pageNotebook = {
     ...notebook,
     createdAt: new Date(notebook.createdAt),
     updatedAt: new Date(notebook.updatedAt)
@@ -107,7 +108,7 @@ export default function NotebookRoute() {
 
   return (
     <main className={mainStyle}>
-      <NotebookPage notebook={notebookAsRightType} onShare={onShare} />
+      <NotebookPage key={notebook.id} notebook={pageNotebook} onShare={onShare} />
     </main>
   );
 }

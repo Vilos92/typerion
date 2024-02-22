@@ -38,13 +38,16 @@ export const NotebookPage: FC<NotebookPageProps> = ({notebook, onShare}) => {
           {isMounted && notebook && (
             <div className={notebookDetailsDivStyle}>
               <Link to={formatNotebookUrl(notebook.id)} reloadDocument>
-                <div className={notebookDetailsItemDivStyle}>Editing: nb/{notebook.id}</div>
+                <div className={notebookDetailsItemDivStyle}>📓 Editing: nb/{notebook.id}</div>
               </Link>
               {notebook.parentId && (
-                <Link to={formatNotebookUrl(notebook.parentId)} reloadDocument>
-                  <div className={notebookDetailsItemDivStyle}>Forked: nb/{notebook.parentId}</div>
+                <Link to={formatNotebookUrl(notebook.parentId)}>
+                  <div className={notebookDetailsItemDivStyle}>📔 Forked: nb/{notebook.parentId}</div>
                 </Link>
               )}
+              <Link to="/">
+                <div className={notebookDetailsItemDivStyle}>📝 Create New️</div>
+              </Link>
             </div>
           )}
         </div>
